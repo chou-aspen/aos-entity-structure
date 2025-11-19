@@ -16,7 +16,7 @@ import type { Node, Edge, NodeTypes } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import EntityNode from './EntityNode';
 import { useGraphData } from '../hooks/useGraphData';
-import { getHierarchyLayout } from '../utils/layoutHelpers';
+import { getHierarchyLayout, getRadialLayout } from '../utils/layoutHelpers';
 import type { Entity, Relationship } from '../types';
 
 const nodeTypes: NodeTypes = {
@@ -29,6 +29,11 @@ const EntityGraph = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [layoutDirection, setLayoutDirection] = useState<'TB' | 'LR'>('TB');
+  const [_isFocusedView, setIsFocusedView] = useState<boolean>(false);
+
+  // Store full dataset for switching between views
+  const [fullNodes, setFullNodes] = useState<Node[]>([]);
+  const [fullEdges, setFullEdges] = useState<Edge[]>([]);
 
   // Build adjacency map for quick relationship lookup
   const adjacencyMap = useMemo(() => {
@@ -65,6 +70,7 @@ const EntityGraph = () => {
         isGrayedOut: false,
       },
       position: { x: 0, y: 0 }, // Will be calculated by layout
+      style: { opacity: 1, transition: 'opacity 0.3s ease-in-out' }, // Smooth fade animation
     }));
 
     // Create edges from relationships
@@ -75,7 +81,7 @@ const EntityGraph = () => {
       type: rel.type === 'ManyToMany' ? 'default' : 'default',
       animated: false,
       label: rel.type === 'ManyToMany' ? 'M:M' : '1:M',
-      style: { stroke: '#94a3b8', strokeWidth: 2 },
+      style: { stroke: '#94a3b8', strokeWidth: 2, opacity: 1, transition: 'opacity 0.3s ease-in-out' },
       markerEnd: {
         type: MarkerType.ArrowClosed,
         color: '#94a3b8',
@@ -89,95 +95,128 @@ const EntityGraph = () => {
       layoutDirection
     );
 
+    // Store full dataset for focused view switching
+    setFullNodes(layoutedNodes);
+    setFullEdges(layoutedEdges);
+
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
   }, [data, layoutDirection, setNodes, setEdges]);
 
-  // Handle node click to highlight related entities
+  // Handle node click - NEW: Show focused view with only selected entity + direct neighbors
   const onNodeClick = useCallback(
     (_event: React.MouseEvent, node: Node) => {
       const entityId = node.id;
 
       if (selectedEntityId === entityId) {
-        // Deselect - show all entities normally
+        // Clicking same entity - deselect and restore full view
         setSelectedEntityId(null);
-        setNodes((nds: Node[]) =>
-          nds.map((n: Node) => ({
-            ...n,
-            data: { ...n.data, isHighlighted: false, isGrayedOut: false },
-          }))
-        );
-        setEdges((eds: Edge[]) =>
-          eds.map((e: Edge) => ({
-            ...e,
-            animated: false,
-            style: { stroke: '#94a3b8', strokeWidth: 2 },
-          }))
-        );
+        setIsFocusedView(false);
+
+        // Restore all nodes and edges with full hierarchy layout
+        setNodes(fullNodes);
+        setEdges(fullEdges);
       } else {
-        // Select - highlight related entities
+        // Clicking new entity - enter focused view
         setSelectedEntityId(entityId);
+        setIsFocusedView(true);
+
+        // Get direct neighbors (1 level deep only - Option A)
         const relatedEntities = adjacencyMap.get(entityId) || new Set();
 
+        // Filter: Show ONLY selected entity + direct neighbors
+        const focusedNodeIds = new Set([entityId, ...Array.from(relatedEntities)]);
+
+        // Phase 1: Fade out unrelated entities (smooth transition)
         setNodes((nds: Node[]) =>
           nds.map((n: Node) => ({
             ...n,
+            style: {
+              ...n.style,
+              opacity: focusedNodeIds.has(n.id) ? 1 : 0, // Fade out unrelated
+            },
             data: {
               ...n.data,
-              isHighlighted: n.id === entityId,
-              isGrayedOut: n.id !== entityId && !relatedEntities.has(n.id),
+              isHighlighted: n.id === entityId, // Highlight selected
             },
           }))
         );
 
         setEdges((eds: Edge[]) =>
           eds.map((e: Edge) => {
-            const isRelated =
-              (e.source === entityId && relatedEntities.has(e.target)) ||
-              (e.target === entityId && relatedEntities.has(e.source));
+            const isRelevant =
+              (e.source === entityId || e.target === entityId) &&
+              focusedNodeIds.has(e.source) &&
+              focusedNodeIds.has(e.target);
 
             return {
               ...e,
-              animated: isRelated,
+              animated: isRelevant,
               style: {
-                stroke: isRelated ? '#3b82f6' : '#e2e8f0',
-                strokeWidth: isRelated ? 3 : 1,
+                ...e.style,
+                opacity: isRelevant ? 1 : 0, // Fade out unrelated edges
+                stroke: isRelevant ? '#3b82f6' : '#94a3b8',
+                strokeWidth: isRelevant ? 3 : 2,
               },
               markerEnd: {
                 type: MarkerType.ArrowClosed,
-                color: isRelated ? '#3b82f6' : '#e2e8f0',
+                color: isRelevant ? '#3b82f6' : '#94a3b8',
               },
             };
           })
         );
+
+        // Phase 2: After fade animation, remove hidden nodes and apply radial layout
+        setTimeout(() => {
+          const focusedNodes = fullNodes.filter(n => focusedNodeIds.has(n.id));
+          const focusedEdges = fullEdges.filter(e =>
+            focusedNodeIds.has(e.source) && focusedNodeIds.has(e.target)
+          );
+
+          // Apply radial layout with selected entity at center
+          const layoutedFocusedNodes = getRadialLayout(focusedNodes, entityId, focusedEdges);
+
+          // Update with radial layout
+          setNodes(layoutedFocusedNodes.map(n => ({
+            ...n,
+            style: { ...n.style, opacity: 1 },
+            data: {
+              ...n.data,
+              isHighlighted: n.id === entityId,
+            },
+          })));
+
+          setEdges(focusedEdges.map(e => ({
+            ...e,
+            animated: true,
+            style: {
+              ...e.style,
+              opacity: 1,
+              stroke: '#3b82f6',
+              strokeWidth: 3,
+            },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              color: '#3b82f6',
+            },
+          })));
+        }, 300); // Match CSS transition duration
       }
     },
-    [selectedEntityId, adjacencyMap, setNodes, setEdges]
+    [selectedEntityId, adjacencyMap, fullNodes, fullEdges, setNodes, setEdges]
   );
 
-  // Handle pane click to deselect
+  // Handle pane click - Restore full view
   const onPaneClick = useCallback(() => {
     if (selectedEntityId) {
       setSelectedEntityId(null);
-      setNodes((nds: Node[]) =>
-        nds.map((n: Node) => ({
-          ...n,
-          data: { ...n.data, isHighlighted: false, isGrayedOut: false },
-        }))
-      );
-      setEdges((eds: Edge[]) =>
-        eds.map((e: Edge) => ({
-          ...e,
-          animated: false,
-          style: { stroke: '#94a3b8', strokeWidth: 2 },
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-            color: '#94a3b8',
-          },
-        }))
-      );
+      setIsFocusedView(false);
+
+      // Restore full hierarchy layout
+      setNodes(fullNodes);
+      setEdges(fullEdges);
     }
-  }, [selectedEntityId, setNodes, setEdges]);
+  }, [selectedEntityId, fullNodes, fullEdges, setNodes, setEdges]);
 
   const toggleLayout = () => {
     setLayoutDirection((prev) => (prev === 'TB' ? 'LR' : 'TB'));

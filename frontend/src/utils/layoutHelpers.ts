@@ -82,6 +82,93 @@ export const getCircularLayout = (nodes: Node[]): Node[] => {
 };
 
 /**
+ * Radial layout for focused entity view
+ *
+ * UX Design: When user clicks an entity, show it at center with direct connections radiating outward
+ * - Selected entity positioned at center
+ * - Connected entities arranged in a circle around it
+ * - Organized by hierarchy level for visual clarity
+ * - Optimal for exploring "what connects to this entity"
+ *
+ * @param nodes - Array of nodes to layout (should be filtered to selected + neighbors)
+ * @param selectedNodeId - ID of the clicked/selected entity
+ * @param edges - Edges to help organize positioning
+ * @returns Nodes with radial positions centered on selected entity
+ */
+export const getRadialLayout = (
+  nodes: Node[],
+  selectedNodeId: string,
+  _edges: Edge[]
+): Node[] => {
+  const centerX = 500; // Center of viewport
+  const centerY = 400;
+
+  // Separate selected node from neighbors
+  const selectedNode = nodes.find(n => n.id === selectedNodeId);
+  const neighborNodes = nodes.filter(n => n.id !== selectedNodeId);
+
+  if (!selectedNode) return nodes;
+
+  // Group neighbors by hierarchy level for organized positioning
+  const level1Neighbors: Node[] = [];
+  const level2Neighbors: Node[] = [];
+  const level3Neighbors: Node[] = [];
+  const otherNeighbors: Node[] = [];
+
+  neighborNodes.forEach(node => {
+    const hierarchyLevel = (node.data as any).hierarchyLevel;
+    switch (hierarchyLevel) {
+      case 1:
+        level1Neighbors.push(node);
+        break;
+      case 2:
+        level2Neighbors.push(node);
+        break;
+      case 3:
+        level3Neighbors.push(node);
+        break;
+      default:
+        otherNeighbors.push(node);
+    }
+  });
+
+  // Calculate radius based on number of neighbors (more nodes = larger circle)
+  const baseRadius = 250;
+  const radiusMultiplier = Math.max(1, Math.ceil(neighborNodes.length / 12));
+  const radius = baseRadius * radiusMultiplier;
+
+  // Position selected entity at center
+  const layoutedNodes: Node[] = [
+    {
+      ...selectedNode,
+      position: { x: centerX, y: centerY },
+    },
+  ];
+
+  // Position neighbors in circular pattern, grouped by hierarchy
+  const allNeighbors = [
+    ...level1Neighbors,
+    ...level2Neighbors,
+    ...level3Neighbors,
+    ...otherNeighbors,
+  ];
+
+  allNeighbors.forEach((node, index) => {
+    // Distribute evenly around circle
+    const angle = (2 * Math.PI * index) / allNeighbors.length - Math.PI / 2; // Start at top
+    layoutedNodes.push({
+      ...node,
+      position: {
+        x: centerX + radius * Math.cos(angle),
+        y: centerY + radius * Math.sin(angle),
+      },
+    });
+  });
+
+  return layoutedNodes;
+};
+
+/**
  * Optimized hierarchy-aware layout for entity relationship visualization
  *
  * UI/UX Design Principles Applied:
