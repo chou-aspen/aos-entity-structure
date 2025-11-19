@@ -1,11 +1,14 @@
+import { ReactFlowProvider } from '@xyflow/react';
 import EntityGraph from './components/EntityGraph';
 import './App.css';
 
 function App() {
   return (
-    <div className="w-screen h-screen">
-      <EntityGraph />
-    </div>
+    <ReactFlowProvider>
+      <div className="w-screen h-screen">
+        <EntityGraph />
+      </div>
+    </ReactFlowProvider>
   );
 }
 

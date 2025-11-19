@@ -9,6 +9,7 @@ import {
   MiniMap,
   useNodesState,
   useEdgesState,
+  useReactFlow,
   MarkerType,
   Panel,
 } from '@xyflow/react';
@@ -16,7 +17,7 @@ import type { Node, Edge, NodeTypes } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import EntityNode from './EntityNode';
 import { useGraphData } from '../hooks/useGraphData';
-import { getHierarchyLayout, getRadialLayout } from '../utils/layoutHelpers';
+import { getRadialLayout, getFullCircularLayout } from '../utils/layoutHelpers';
 import type { Entity, Relationship } from '../types';
 
 const nodeTypes: NodeTypes = {
@@ -25,10 +26,10 @@ const nodeTypes: NodeTypes = {
 
 const EntityGraph = () => {
   const { data, loading, error } = useGraphData();
+  const { fitView } = useReactFlow(); // Get fitView function for auto zoom/pan
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
-  const [layoutDirection, setLayoutDirection] = useState<'TB' | 'LR'>('TB');
   const [_isFocusedView, setIsFocusedView] = useState<boolean>(false);
 
   // Store full dataset for switching between views
@@ -88,11 +89,11 @@ const EntityGraph = () => {
       },
     }));
 
-    // Apply hierarchy-aware layout for better entity organization
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getHierarchyLayout(
+    // Apply CIRCULAR layout for full view - equal space distribution!
+    // No more dragging left to right - entities arranged in concentric circles
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getFullCircularLayout(
       flowNodes,
-      flowEdges,
-      layoutDirection
+      flowEdges
     );
 
     // Store full dataset for focused view switching
@@ -101,7 +102,7 @@ const EntityGraph = () => {
 
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
-  }, [data, layoutDirection, setNodes, setEdges]);
+  }, [data, setNodes, setEdges]);
 
   // Handle node click - NEW: Show focused view with only selected entity + direct neighbors
   const onNodeClick = useCallback(
@@ -200,10 +201,21 @@ const EntityGraph = () => {
               color: '#3b82f6',
             },
           })));
+
+          // AUTO FIT VIEW: Pan and zoom to show all focused entities in viewport
+          // Small delay to allow React Flow to update node positions first
+          setTimeout(() => {
+            fitView({
+              padding: 0.2, // 20% padding around edges for breathing room
+              duration: 800, // Smooth 800ms animation
+              maxZoom: 1.5,  // Don't zoom in too close
+              minZoom: 0.5,  // Don't zoom out too far
+            });
+          }, 50);
         }, 300); // Match CSS transition duration
       }
     },
-    [selectedEntityId, adjacencyMap, fullNodes, fullEdges, setNodes, setEdges]
+    [selectedEntityId, adjacencyMap, fullNodes, fullEdges, setNodes, setEdges, fitView]
   );
 
   // Handle pane click - Restore full view
@@ -217,10 +229,6 @@ const EntityGraph = () => {
       setEdges(fullEdges);
     }
   }, [selectedEntityId, fullNodes, fullEdges, setNodes, setEdges]);
-
-  const toggleLayout = () => {
-    setLayoutDirection((prev) => (prev === 'TB' ? 'LR' : 'TB'));
-  };
 
   if (loading) {
     return (
@@ -294,12 +302,6 @@ const EntityGraph = () => {
               </p>
             )}
           </div>
-          <button
-            onClick={toggleLayout}
-            className="mt-3 px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
-          >
-            Switch to {layoutDirection === 'TB' ? 'Horizontal' : 'Vertical'}
-          </button>
         </Panel>
         <Panel position="top-right" className="bg-white p-3 rounded-lg shadow-lg text-sm text-gray-600">
           <p className="font-semibold mb-2">Instructions:</p>

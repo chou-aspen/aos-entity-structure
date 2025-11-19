@@ -61,24 +61,72 @@ export const getLayoutedElements = (
 };
 
 /**
- * Calculate force-directed layout for better visualization
- * Simple implementation for initial positioning
+ * Hierarchical circular layout for full entity view (all 270+ entities)
+ *
+ * UX Design: Distributes ALL entities in concentric circles by hierarchy
+ * - Equal space distribution - no more dragging left to right!
+ * - Each hierarchy level gets its own ring
+ * - Generous spacing to prevent overlap
+ * - Users can zoom in/out as needed
  */
-export const getCircularLayout = (nodes: Node[]): Node[] => {
-  const centerX = 400;
-  const centerY = 400;
-  const radius = Math.min(300, nodes.length * 20);
+export const getFullCircularLayout = (nodes: Node[], edges: Edge[]): { nodes: Node[]; edges: Edge[] } => {
+  const centerX = 1500; // Larger center for more space
+  const centerY = 1500;
 
-  return nodes.map((node, index) => {
-    const angle = (2 * Math.PI * index) / nodes.length;
-    return {
-      ...node,
-      position: {
-        x: centerX + radius * Math.cos(angle),
-        y: centerY + radius * Math.sin(angle),
-      },
-    };
+  // Group nodes by hierarchy level
+  const level1Nodes: Node[] = [];
+  const level2Nodes: Node[] = [];
+  const level3Nodes: Node[] = [];
+  const otherNodes: Node[] = [];
+
+  nodes.forEach(node => {
+    const hierarchyLevel = (node.data as any).hierarchyLevel;
+    switch (hierarchyLevel) {
+      case 1:
+        level1Nodes.push(node);
+        break;
+      case 2:
+        level2Nodes.push(node);
+        break;
+      case 3:
+        level3Nodes.push(node);
+        break;
+      default:
+        otherNodes.push(node);
+    }
   });
+
+  // GENEROUS radii for full view - plenty of space between entities
+  const innerRadius = 400;    // Level 1 (red) - innermost ring
+  const middleRadius = 800;   // Level 2 (blue)
+  const outerRadius = 1200;   // Level 3 (green)
+  const defaultRadius = 2400; // Other entities (white/purple) - LARGE outermost ring to prevent clustering
+
+  const layoutedNodes: Node[] = [];
+
+  // Helper function to position nodes in a circle
+  const positionNodesInCircle = (nodeList: Node[], radius: number) => {
+    if (nodeList.length === 0) return;
+
+    nodeList.forEach((node, index) => {
+      const angle = (2 * Math.PI * index) / nodeList.length - Math.PI / 2;
+      layoutedNodes.push({
+        ...node,
+        position: {
+          x: centerX + radius * Math.cos(angle),
+          y: centerY + radius * Math.sin(angle),
+        },
+      });
+    });
+  };
+
+  // Position each hierarchy level in concentric circles
+  positionNodesInCircle(level1Nodes, innerRadius);
+  positionNodesInCircle(level2Nodes, middleRadius);
+  positionNodesInCircle(level3Nodes, outerRadius);
+  positionNodesInCircle(otherNodes, defaultRadius);
+
+  return { nodes: layoutedNodes, edges };
 };
 
 /**
@@ -132,10 +180,13 @@ export const getRadialLayout = (
     }
   });
 
-  // Calculate radius based on number of neighbors (more nodes = larger circle)
-  const baseRadius = 250;
-  const radiusMultiplier = Math.max(1, Math.ceil(neighborNodes.length / 12));
-  const radius = baseRadius * radiusMultiplier;
+  // HIERARCHICAL CIRCULAR LAYERS - prevents entity overlap
+  // Each hierarchy level gets its own ring/circle at different radius
+  // INCREASED radii to ensure NO overlap - users can zoom in/out as needed
+  const innerRadius = 300;    // Level 1 (red) - account entities
+  const middleRadius = 550;   // Level 2 (blue) - portfolio/project
+  const outerRadius = 800;    // Level 3 (green) - child entities
+  const defaultRadius = 1500; // Other entities (white/purple) - LARGE outermost ring to prevent clustering
 
   // Position selected entity at center
   const layoutedNodes: Node[] = [
@@ -145,25 +196,28 @@ export const getRadialLayout = (
     },
   ];
 
-  // Position neighbors in circular pattern, grouped by hierarchy
-  const allNeighbors = [
-    ...level1Neighbors,
-    ...level2Neighbors,
-    ...level3Neighbors,
-    ...otherNeighbors,
-  ];
+  // Helper function to position nodes in a circle at given radius
+  const positionNodesInCircle = (nodeList: Node[], radius: number) => {
+    if (nodeList.length === 0) return;
 
-  allNeighbors.forEach((node, index) => {
-    // Distribute evenly around circle
-    const angle = (2 * Math.PI * index) / allNeighbors.length - Math.PI / 2; // Start at top
-    layoutedNodes.push({
-      ...node,
-      position: {
-        x: centerX + radius * Math.cos(angle),
-        y: centerY + radius * Math.sin(angle),
-      },
+    nodeList.forEach((node, index) => {
+      // Distribute evenly around circle, starting at top (-PI/2)
+      const angle = (2 * Math.PI * index) / nodeList.length - Math.PI / 2;
+      layoutedNodes.push({
+        ...node,
+        position: {
+          x: centerX + radius * Math.cos(angle),
+          y: centerY + radius * Math.sin(angle),
+        },
+      });
     });
-  });
+  };
+
+  // Position each hierarchy level in its own circular layer
+  positionNodesInCircle(level1Neighbors, innerRadius);   // Inner ring
+  positionNodesInCircle(level2Neighbors, middleRadius);  // Middle ring
+  positionNodesInCircle(level3Neighbors, outerRadius);   // Outer ring
+  positionNodesInCircle(otherNeighbors, defaultRadius);  // Outermost ring
 
   return layoutedNodes;
 };
