@@ -264,34 +264,35 @@ const EntityGraph = () => {
         </Panel>
         <Panel position="top-right" className="bg-white p-3 rounded-lg shadow-lg text-sm text-gray-600">
           <p className="font-semibold mb-2">Instructions:</p>
-          <ul className="space-y-1">
+          <ul className="space-y-1 mb-3">
             <li>• Click entity to highlight relationships</li>
             <li>• Click background to reset view</li>
             <li>• Scroll to zoom, drag to pan</li>
           </ul>
-        </Panel>
-        <Panel position="bottom-right" className="bg-white p-3 rounded-lg shadow-lg text-sm">
-          <p className="font-semibold mb-2 text-gray-700">Entity Hierarchy:</p>
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-red-500 bg-red-50 rounded"></div>
-              <span className="text-gray-600">Account (Top Level)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-blue-500 bg-blue-50 rounded"></div>
-              <span className="text-gray-600">Portfolio/Project</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-green-500 bg-green-50 rounded"></div>
-              <span className="text-gray-600">Child Entities</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-purple-400 bg-white rounded"></div>
-              <span className="text-gray-600">Other Custom</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-gray-400 bg-white rounded"></div>
-              <span className="text-gray-600">Standard</span>
+
+          <div className="border-t border-gray-200 pt-3 mt-3">
+            <p className="font-semibold mb-2 text-gray-700">Entity Hierarchy:</p>
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-red-500 bg-red-50 rounded"></div>
+                <span className="text-gray-600 text-xs">Account (Top)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-blue-500 bg-blue-50 rounded"></div>
+                <span className="text-gray-600 text-xs">Portfolio/Project</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-green-500 bg-green-50 rounded"></div>
+                <span className="text-gray-600 text-xs">Child Entities</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-purple-400 bg-white rounded"></div>
+                <span className="text-gray-600 text-xs">Other Custom</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-gray-400 bg-white rounded"></div>
+                <span className="text-gray-600 text-xs">Standard</span>
+              </div>
             </div>
           </div>
         </Panel>

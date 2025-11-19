@@ -82,7 +82,15 @@ export const getCircularLayout = (nodes: Node[]): Node[] => {
 };
 
 /**
- * Hierarchy-aware layout that positions entities by their business hierarchy
+ * Optimized hierarchy-aware layout for entity relationship visualization
+ *
+ * UI/UX Design Principles Applied:
+ * 1. Clear visual hierarchy with distinct tier separation
+ * 2. Left-to-right reading pattern within each tier
+ * 3. Connected entities grouped together
+ * 4. Generous spacing to reduce cognitive load
+ * 5. Relationship-based positioning for scannable flow
+ *
  * Level 1 (account) -> Level 2 (portfolio/project) -> Level 3 (child entities)
  * Supports both vertical (TB) and horizontal (LR) layouts
  */
@@ -94,58 +102,75 @@ export const getHierarchyLayout = (
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  // Configure layout with hierarchy in mind
+  // UX-Optimized Dagre Configuration
   dagreGraph.setGraph({
-    rankdir: direction, // TB (top-bottom) or LR (left-right)
-    ranksep: 200,  // Large spacing between hierarchy levels
-    nodesep: 150,  // Spacing between nodes at same level
-    ranker: 'tight-tree', // Better hierarchy visualization
+    rankdir: direction,
+
+    // INCREASED SPACING for better visual hierarchy clarity
+    ranksep: 300,  // Increased from 200 to 300 for clearer tier separation
+    nodesep: 100,  // Reduced from 150 to 100 for tighter horizontal grouping
+    edgesep: 20,   // Space between edges to prevent visual clutter
+
+    // ALIGNMENT for consistent left-to-right reading pattern
+    align: 'UL',   // Up-Left alignment - nodes align to top-left within their rank
+
+    // RANKER for optimal hierarchy positioning
+    ranker: 'network-simplex', // Better than 'tight-tree' for minimizing edge crossings
+
+    // MARGINS for breathing room
+    marginx: 40,
+    marginy: 40,
   });
 
-  // Group nodes by hierarchy level for reference
-  const level1Nodes: Node[] = []; // account
-  const level2Nodes: Node[] = []; // portfolio/project
-  const level3Nodes: Node[] = []; // child entities
-  const otherNodes: Node[] = [];
+  // Build edge weight map for relationship-based positioning
+  const edgeWeightMap = new Map<string, number>();
 
-  nodes.forEach((node) => {
-    const hierarchyLevel = (node.data as any).hierarchyLevel;
-    const nodeWidth = 200;
-    const nodeHeight = 100;
+  edges.forEach((edge) => {
+    const sourceNode = nodes.find(n => n.id === edge.source);
+    const targetNode = nodes.find(n => n.id === edge.target);
 
-    // Set rank (priority) based on hierarchy level to force ordering
-    const rank = hierarchyLevel || 4;
-    dagreGraph.setNode(node.id, {
-      width: nodeWidth,
-      height: nodeHeight,
-      rank
-    });
+    if (sourceNode && targetNode) {
+      const sourceLevel = (sourceNode.data as any).hierarchyLevel || 0;
+      const targetLevel = (targetNode.data as any).hierarchyLevel || 0;
 
-    // Categorize for reference
-    switch (hierarchyLevel) {
-      case 1:
-        level1Nodes.push(node);
-        break;
-      case 2:
-        level2Nodes.push(node);
-        break;
-      case 3:
-        level3Nodes.push(node);
-        break;
-      default:
-        otherNodes.push(node);
+      // Higher weight for hierarchy-following edges (1->2, 2->3)
+      // This encourages dagre to keep hierarchical relationships straight
+      let weight = 1;
+      if (sourceLevel === 1 && targetLevel === 2) weight = 10; // account -> portfolio/project
+      if (sourceLevel === 2 && targetLevel === 3) weight = 10; // portfolio/project -> children
+      if (sourceLevel === 1 && targetLevel === 3) weight = 5;  // account -> children (direct)
+
+      edgeWeightMap.set(`${edge.source}-${edge.target}`, weight);
     }
   });
 
-  // Add edges to define relationships
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
+  // Add nodes with explicit rank assignment based on hierarchy level
+  nodes.forEach((node) => {
+    const hierarchyLevel = (node.data as any).hierarchyLevel || 99;
+    const nodeWidth = 200;
+    const nodeHeight = 100;
+
+    dagreGraph.setNode(node.id, {
+      width: nodeWidth,
+      height: nodeHeight,
+      // Explicitly set rank to force strict hierarchy ordering
+      rank: hierarchyLevel === 0 ? 99 : hierarchyLevel,
+    });
   });
 
-  // Run dagre layout
+  // Add edges with weights for relationship-based positioning
+  edges.forEach((edge) => {
+    const weight = edgeWeightMap.get(`${edge.source}-${edge.target}`) || 1;
+    dagreGraph.setEdge(edge.source, edge.target, {
+      weight: weight,
+      minlen: 1, // Minimum edge length to maintain hierarchy separation
+    });
+  });
+
+  // Run optimized dagre layout
   dagre.layout(dagreGraph);
 
-  // Apply calculated positions
+  // Apply calculated positions with centering adjustment
   const layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     return {
