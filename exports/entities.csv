@@ -1,0 +1,965 @@
+LogicalName,Label,SchemaName,EntitySetName,IsCustomEntity,IsActivity,PrimaryIdAttribute,PrimaryNameAttribute,Description
+aaduser,Microsoft Entra ID,aaduser,aadusers,True,False,aaduserid,displayname,Virtual entity that represents Microsoft Entra ID
+account,Account,Account,accounts,False,False,accountid,name,Business that represents a customer or potential customer. The company that is billed in business transactions.
+aciviewmapper,ACIViewMapper,ACIViewMapper,aciviewmappers,False,False,aciviewmapperid,,Customized messages for an entity that has been renamed.
+actioncard,Action Card,ActionCard,actioncards,False,False,actioncardid,title,Action card entity to show action cards.
+actioncardusersettings,Action Card User Settings,ActionCardUserSettings,actioncardusersettingsset,False,False,actioncardusersettingsid,,Stores user settings for action cards
+actioncarduserstate,ActionCardUserState,ActionCardUserState,actioncarduserstates,False,False,actioncarduserstateid,,
+activityfileattachment,Activity File Attachment,activityfileattachment,activityfileattachments,True,False,activityfileattachmentid,filename,Attachment entity with data stored in file type attribute
+activitymimeattachment,Attachment,ActivityMimeAttachment,activitymimeattachments,False,False,activitymimeattachmentid,filename,MIME attachment for an activity.
+activityparty,Activity Party,ActivityParty,activityparties,False,False,activitypartyid,partyidname,Person or group associated with an activity. An activity can have multiple activity parties.
+activitypointer,Activity,ActivityPointer,activitypointers,False,False,activityid,subject,"Task performed, or to be performed, by a user. An activity is any action for which an entry can be made on a calendar."
+advancedsimilarityrule,Advanced Similarity Rule,AdvancedSimilarityRule,advancedsimilarityrules,False,False,advancedsimilarityruleid,name,A text match rule identifies similar records using keywords and key phrases determined with text analytics
+adx_externalidentity,External Identity,adx_externalidentity,adx_externalidentities,True,False,adx_externalidentityid,adx_username,
+adx_invitation,Invitation,adx_invitation,adx_invitations,True,False,adx_invitationid,adx_name,Send invitations to existing contacts or email addresses and assign them to web roles upon redemption.
+adx_invitation_invitecontacts,adx_invitation_invitecontacts,adx_invitation_invitecontacts,adx_invitation_invitecontactsset,True,False,adx_invitation_invitecontactsid,,
+adx_invitation_mspp_webrole_powerpagecomponent,adx_invitation_mspp_webrole_powerpagecomponent,adx_invitation_mspp_webrole_powerpagecomponent,adx_invitation_mspp_webrole_powerpagecomponentset,True,False,adx_invitation_mspp_webrole_powerpagecomponentid,,
+adx_invitation_redeemedcontacts,adx_invitation_redeemedcontacts,adx_invitation_redeemedcontacts,adx_invitation_redeemedcontactsset,True,False,adx_invitation_redeemedcontactsid,,
+adx_inviteredemption,Invite Redemption,adx_inviteredemption,adx_inviteredemptions,True,True,activityid,subject,Holds information about the redemption of an invite.
+adx_kbarticle_kbarticle,adx_kbarticle_kbarticle,adx_kbarticle_kbarticle,adx_kbarticle_kbarticleset,True,False,adx_kbarticle_kbarticleid,,
+adx_portalcomment,Portal Comment,adx_portalcomment,adx_portalcomments,True,True,activityid,subject,An activity which is used to share information between the user and the customer on the portal.
+adx_setting,Setting,adx_setting,adx_settings,True,False,adx_settingid,adx_name,
+adx_webformsession,Multistep Form Session,adx_webformsession,adx_webformsessions,True,False,adx_webformsessionid,adx_name,Serves as a mechanism to log the occurrence of an incomplete multistep form entry for a given user so they can return and complete it later.
+agentconversationmessage,Agent Conversation Message,agentconversationmessage,agentconversationmessages,True,False,agentconversationmessageid,name,
+agentconversationmessagefile,Agent Conversation Message File,agentconversationmessagefile,agentconversationmessagefiles,True,False,agentconversationmessagefileid,filename,
+aicopilot,AICopilot,AICopilot,aicopilots,True,False,aicopilotid,name,AI Copilot
+aicopilot_aiplugin,aicopilot_aiplugin,AICopilot_AIPlugin,aicopilot_aipluginset,True,False,aicopilot_aipluginid,,
+aiinsightcard,AI Insight Card,aiinsightcard,aiinsightcards,True,False,aiinsightcardid,name,
+aiplugin,AIPlugin,AIPlugin,aiplugins,True,False,aipluginid,name,AIPlugins component
+aipluginauth,AIPluginAuth,AIPluginAuth,aipluginauths,True,False,aipluginauthid,name,Entity to store AIPlugin Auth Information
+aipluginconversationstarter,AI Plugin Conversation Starter,AIPluginConversationStarter,aipluginconversationstarters,True,False,aipluginconversationstarterid,title,Conversation Starters for AI Plugins.
+aipluginconversationstartermapping,AI Plugin Conversation Starter Mapping,AIPluginConversationStarterMapping,aipluginconversationstartermappings,True,False,aipluginconversationstartermappingid,name,AIPlugins component
+aipluginexternalschema,AIPluginExternalSchema,AIPluginExternalSchema,aipluginexternalschemas,True,False,aipluginexternalschemaid,name,AIPluginExternalSchemas component
+aipluginexternalschemaproperty,AIPluginExternalSchemaProperty,AIPluginExternalSchemaProperty,aipluginexternalschemaproperties,True,False,aipluginexternalschemapropertyid,name,AIPluginExternalSchemaProperties component
+aiplugingovernance,AI Plugin Governance,AIPluginGovernance,aiplugingovernances,True,False,aiplugingovernanceid,name,
+aiplugingovernanceext,AI Plugin Governance Extended,AIPluginGovernanceExt,aiplugingovernancesext,True,False,aiplugingovernanceextid,name,
+aiplugininstance,AIPluginInstance,AIPluginInstance,aiplugininstances,True,False,aiplugininstanceid,name,AI Plugin Instances Component
+aipluginoperation,AIPluginOperation,AIPluginOperation,aipluginoperations,True,False,aipluginoperationid,name,AIPluginOperations component
+aipluginoperationparameter,AIPluginOperationParameter,AIPluginOperationParameter,aipluginoperationparameters,True,False,aipluginoperationparameterid,name,Parameter overrides for AI Operation
+aipluginoperationresponsetemplate,AIPluginOperationResponseTemplate,AIPluginOperationResponseTemplate,aipluginoperationresponsetemplates,True,False,aipluginoperationresponsetemplateid,name,Content for the AI Plugin Operation Response Template
+aiplugintitle,AIPluginTitle,AIPluginTitle,aiplugintitles,True,False,aiplugintitleid,name,AIPlugin Title
+aipluginusersetting,AIPluginUserSetting,AIPluginUserSetting,aipluginusersettings,True,False,aipluginusersettingid,name,
+aiskillconfig,AI Skill Config,aiskillconfig,aiskillconfigs,True,False,aiskillconfigid,description,
+allowedmcpclient,Allowed MCP Client,allowedmcpclient,allowedmcpclients,True,False,allowedmcpclientid,name,An MCP client that is allowed to talk to MCP endpoint
+annotation,Note,Annotation,annotations,False,False,annotationid,subject,"Note that is attached to one or more objects, including other notes."
+annualfiscalcalendar,Annual Fiscal Calendar,AnnualFiscalCalendar,annualfiscalcalendars,False,False,userfiscalcalendarid,,Year long fiscal calendar of an organization. A span of time during which the financial activities of an organization are calculated.
+appaction,App Action,appaction,appactions,True,False,appactionid,name,Contains Modern Command Information
+appaction_appactionrule_classicrules,appaction_appactionrule_classicrules,appaction_appactionrule_classicrules,appaction_appactionrule_classicrulesset,True,False,appaction_appactionrule_classicrulesid,,
+appactionmigration,App Action Migration,appactionmigration,appactionmigrations,True,False,appactionmigrationid,name,
+appactionrule,App Action Rule,appactionrule,appactionrules,True,False,appactionruleid,name,
+appactionrule_webresource_scripts,appactionrule_webresource_scripts,appactionrule_webresource_scripts,appactionrule_webresource_scriptsset,True,False,appactionrule_webresource_scriptsid,,
+appconfig,App Configuration,AppConfig,appconfigs,False,False,appconfigid,,"Contains a mapping between an app configuration instance and an app, which defines the properties that can be customized for the app. Optionally, also contains navigation setting for an app. For internal use only."
+appconfiginstance,App Configuration Instance,AppConfigInstance,appconfiginstances,False,False,appconfiginstanceid,,Contains a property or a list of properties from the app configuration master list that can be customized for any app in Dynamics 365. For internal use only.
+appconfigmaster,App Config Master,AppConfigMaster,appconfigmasters,False,False,appconfigmasterid,name,Contains the master list of all properties that can be customized for apps in Dynamics 365. For internal use only.
+appelement,Model-Driven App Element,AppElement,appelements,True,False,appelementid,name,Associates a model-driven app with its components.
+appentitysearchview,AppEntitySearchView,AppEntitySearchView,appentitysearchviews,True,False,appentitysearchviewid,name,This table contains records of app entity search views
+application,Application,Application,applications,False,False,applicationid,name,Application
+applicationfile,Application File,ApplicationFile,applicationfiles,False,False,fileid,,Files used by the application
+applicationroles,applicationroles,ApplicationRoles,applicationrolesset,True,False,applicationrolesid,,
+applicationuser,ApplicationUser,ApplicationUser,applicationusers,True,False,applicationuserid,applicationname,Application User that has non-interactive access to the CDS system
+applicationuserprofile,applicationuserprofile,applicationuserprofile,applicationuserprofileset,True,False,applicationuserprofileid,,
+applicationuserrole,applicationuserrole,applicationuserrole,applicationuserroleset,True,False,applicationuserroleid,,
+appmodule,Model-driven App,AppModule,appmodules,False,False,appmoduleid,name,"A role-based, modular business app that provides task-based functionality for a particular area of work."
+appmodulecomponent,App Module Component,AppModuleComponent,appmodulecomponents,False,False,appmodulecomponentid,,"A component available in a business app such as entity, dashboard, form, view, chart, and business process."
+appmodulecomponentedge,Model-Driven App Component Node's Edge,AppModuleComponentEdge,appmodulecomponentedges,True,False,appmodulecomponentedgeid,name,Contains Model-Driven App Component Node's Edge Information.
+appmodulecomponentnode,Model-Driven App Component Node,AppModuleComponentNode,appmodulecomponentnodes,True,False,appmodulecomponentnodeid,name,Contains Model-Driven App Component Node Information
+appmodulemetadata,AppModule Metadata,AppModuleMetadata,appmodulemetadatacollection,False,False,appmodulemetadataid,,For internal use only.
+appmodulemetadatadependency,AppModule Metadata Dependency,AppModuleMetadataDependency,appmodulemetadatadependencycollection,False,False,appmodulemetadatadependencyid,,For internal use only.
+appmodulemetadataoperationlog,AppModule Metadata Async Operation,AppModuleMetadataOperationLog,appmodulemetadataoperationlogcollection,False,False,appmodulemetadataoperationlogid,,For internal use only.
+appmoduleroles,App Module Roles,AppModuleRoles,appmodulerolescollection,False,False,appmoduleroleid,,Security roles that have access to a business app.
+appnotification,Notification,appnotification,appnotifications,True,False,appnotificationid,title,Notification to be provided to a user.
+appointment,Appointment,Appointment,appointments,False,True,activityid,subject,Commitment representing a time interval with start/end times and duration.
+approvalprocess,Approval Process,approvalprocess,approvalprocesses,True,False,approvalprocessid,name,Approval Process for Multi-Stage Approvals
+approvalstageapproval,Approval Stage Approval,approvalstageapproval,approvalstageapprovals,True,False,approvalstageapprovalid,name,The approval stage in multi-stage approvals
+approvalstagecondition,Approval Stage Condition,approvalstagecondition,approvalstageconditions,True,False,approvalstageconditionid,name,The condition in multi-stage approvals
+approvalstageintelligent,Approval Stage Intelligent,approvalstageintelligent,approvalstageintelligents,True,False,approvalstageintelligentid,name,
+approvalstageorder,Approval Stage Order,approvalstageorder,approvalstageorders,True,False,approvalstageorderid,name,The order of the stages in multi-stage approvals.
+appsetting,Model-Driven App Setting,AppSetting,appsettings,True,False,appsettingid,displayname,Holds the value for the associated App Setting Definition.
+appusersetting,Model-Driven App User Setting,AppUserSetting,appusersettings,True,False,appusersettingid,displayname,Holds the value for the associated App User Setting Definition.
+archivecleanupinfo,ArchiveCleanupInfo,ArchiveCleanupInfo,ArchiveCleanupInfos,True,False,archivecleanupinfoid,name,This is Deprecated Entity.
+archivecleanupoperation,ArchiveCleanupOperation,ArchiveCleanupOperation,archivecleanupoperations,True,False,archivecleanupoperationid,name,This is Deprecated Entity.
+aspn_aspentask,Aspen Task,aspn_aspentask,aspn_aspentasks,True,False,aspn_aspentaskid,aspn_name,Aspen Tasks
+asyncoperation,System Job,AsyncOperation,asyncoperations,False,False,asyncoperationid,name,Process whose execution can proceed independently or in the background.
+attachment,Attachment,Attachment,attachments,False,False,attachmentid,filename,Attachment for an email activity.
+attribute,Attribute,Attribute,attributes,False,False,attributeid,name,
+attributeclusterconfig,Attribute Cluster Config,AttributeClusterConfig,attributeclusterconfigs,True,False,attributeclusterconfigid,name,Holds Attribute Cluster configuration for entities
+attributeimageconfig,Image Attribute Configuration,AttributeImageConfig,attributeimageconfigs,True,False,attributeimageconfigid,attributelogicalname,Store configuration for each image attribute
+attributemap,Attribute Map,AttributeMap,attributemaps,False,False,attributemapid,,Represents a mapping between attributes where the attribute values should be copied from a record into the form of a new related record.
+attributemaskingrule,Secured Masking Column,AttributeMaskingRule,attributemaskingrules,False,False,attributemaskingruleid,uniquename,Defines secured masking rule for column
+attributepicklistvalue,Option Set Value,AttributePicklistValue,AttributePicklistValues,False,False,attributepicklistvalueid,,Option Set Value
+audit,Auditing,Audit,audits,False,False,auditid,,"Track changes to records for analysis, record keeping, and compliance."
+authorizationserver,Authorization Server,AuthorizationServer,authorizationservers,False,False,authorizationserverid,name,Authorization servers that trust this organization
+azureserviceconnection,Azure Service Connection,AzureServiceConnection,azureserviceconnections,False,False,azureserviceconnectionid,name,Stores connection information for an Azure service
+backgroundoperation,Background Operation,backgroundoperation,backgroundoperations,True,False,backgroundoperationid,name,
+bookableresource,Bookable Resource,BookableResource,bookableresources,False,False,bookableresourceid,name,Resource that has capacity which can be allocated to work.
+bookableresourcebooking,Bookable Resource Booking,BookableResourceBooking,bookableresourcebookings,False,False,bookableresourcebookingid,name,Represents the line details of a resource booking.
+bookableresourcebookingexchangesyncidmapping,Bookable Resource Booking to Exchange Id Mapping,BookableResourceBookingExchangeSyncIdMapping,bookableresourcebookingexchangesyncidmappings,False,False,bookableresourcebookingexchangesyncidmappingid,name,The mapping used to keep track of the IDs for items synced between Dynamics 365 Bookable Resource Booking and Exchange.
+bookableresourcebookingheader,Bookable Resource Booking Header,BookableResourceBookingHeader,bookableresourcebookingheaders,False,False,bookableresourcebookingheaderid,name,Reservation entity representing the summary of the associated resource bookings.
+bookableresourcecategory,Bookable Resource Category,BookableResourceCategory,bookableresourcecategories,False,False,bookableresourcecategoryid,name,Categorize resources that have capacity into categories such as roles.
+bookableresourcecategoryassn,Bookable Resource Category Assn,BookableResourceCategoryAssn,bookableresourcecategoryassns,False,False,bookableresourcecategoryassnid,name,Association entity to model the categorization of resources.
+bookableresourcecharacteristic,Bookable Resource Characteristic,BookableResourceCharacteristic,bookableresourcecharacteristics,False,False,bookableresourcecharacteristicid,name,Associates resources with their characteristics and specifies the proficiency level of a resource for that characteristic.
+bookableresourcegroup,Bookable Resource Group,BookableResourceGroup,bookableresourcegroups,False,False,bookableresourcegroupid,name,Associates resources with resource groups that they are a member of.
+bookingstatus,Booking Status,BookingStatus,bookingstatuses,False,False,bookingstatusid,name,Allows creation of multiple sub statuses mapped to a booking status option.
+bot,Copilot,bot,bots,True,False,botid,name,Represents a copilot created in Copilot Studio. https://copilotstudio.microsoft.com/
+bot_botcomponent,bot_botcomponent,bot_botcomponent,bot_botcomponentset,True,False,bot_botcomponentid,,
+bot_botcomponentcollection,bot_botcomponentcollection,bot_botcomponentcollection,bot_botcomponentcollectionset,True,False,bot_botcomponentcollectionid,,
+bot_environmentvariabledefinition,bot_environmentvariabledefinition,bot_environmentvariabledefinition,bot_environmentvariabledefinitionset,True,False,bot_environmentvariabledefinitionid,,
+botcomponent,Copilot component,botcomponent,botcomponents,True,False,botcomponentid,name,"Holds key authoring components of a Copilot such a topics, entities, variables, etc."
+botcomponent_aipluginoperation,botcomponent_aipluginoperation,botcomponent_aipluginoperation,botcomponent_aipluginoperationset,True,False,botcomponent_aipluginoperationid,,
+botcomponent_botcomponent,botcomponent_botcomponent,botcomponent_botcomponent,botcomponent_botcomponentset,True,False,botcomponent_botcomponentid,,
+botcomponent_connectionreference,botcomponent_connectionreference,botcomponent_connectionreference,botcomponent_connectionreferenceset,True,False,botcomponent_connectionreferenceid,,
+botcomponent_dvtablesearch,botcomponent_dvtablesearch,botcomponent_dvtablesearch,botcomponent_dvtablesearchset,True,False,botcomponent_dvtablesearchid,,
+botcomponent_environmentvariabledefinition,botcomponent_environmentvariabledefinition,botcomponent_environmentvariabledefinition,botcomponent_environmentvariabledefinitionset,True,False,botcomponent_environmentvariabledefinitionid,,
+botcomponent_msdyn_aimodel,botcomponent_msdyn_aimodel,botcomponent_msdyn_aimodel,botcomponent_msdyn_aimodelset,True,False,botcomponent_msdyn_aimodelid,,
+botcomponent_workflow,botcomponent_workflow,botcomponent_workflow,botcomponent_workflowset,True,False,botcomponent_workflowid,,
+botcomponentcollection,Copilot component collection,botcomponentcollection,botcomponentcollections,True,False,botcomponentcollectionid,name,
+bp_defaultapplication,Application,bp_DefaultApplication,bp_defaultapplications,True,False,bp_defaultapplicationid,bp_name,
+bp_permit,Permit,bp_Permit,bp_permits,True,False,bp_permitid,bp_name,
+bp_permitsteps,Permit Steps,bp_PermitSteps,bp_permitstepses,True,False,bp_permitstepsid,bp_name,
+bulkarchiveconfig,BulkArchiveConfig,BulkArchiveConfig,bulkarchiveconfigs,True,False,bulkarchiveconfigid,name,This is Deprecated Entity.
+bulkarchivefailuredetail,BulkArchiveFailureDetail,BulkArchiveFailureDetail,bulkarchivefailuredetails,True,False,bulkarchivefailuredetailid,name,This is Deprecated Entity.
+bulkarchiveoperation,BulkArchiveOperation,BulkArchiveOperation,bulkarchiveoperations,True,False,bulkarchiveoperationid,name,This is Deprecated Entity.
+bulkarchiveoperationdetail,BulkArchiveOperationDetail,BulkArchiveOperationDetail,bulkarchiveoperationdetails,True,False,bulkarchiveoperationdetailid,name,This is Deprecated Entity.
+bulkdeletefailure,Bulk Delete Failure,BulkDeleteFailure,bulkdeletefailures,False,False,bulkdeletefailureid,,Record that was not deleted during a bulk deletion job.
+bulkdeleteoperation,Bulk Delete Operation,BulkDeleteOperation,bulkdeleteoperations,False,False,bulkdeleteoperationid,name,User-submitted bulk deletion job.
+businessdatalocalizedlabel,Business Data Localized Label,BusinessDataLocalizedLabel,businessdatalocalizedlabels,False,False,businessdatalocalizedlabelid,,Business Data Localized Label
+businessprocess,Business Process,businessprocess,businessprocesses,True,False,businessprocessid,name,
+businessprocessflowinstance,Business Process Flow Instance,BusinessProcessFlowInstance,businessprocessflowinstances,False,False,businessprocessflowinstanceid,,Active path associated with every Business Process Flow instance
+businessprocesslinkedartifact,Business Process Linked Artifact,BusinessProcessLinkedArtifact,businessprocesslinkedartifacts,True,False,businessprocesslinkedartifactid,name,
+businessunit,Business Unit,BusinessUnit,businessunits,False,False,businessunitid,name,"Business, division, or department in the Microsoft Dynamics 365 database."
+businessunitmap,Business Unit Map,BusinessUnitMap,businessunitmaps,False,False,businessunitmapid,,Stores mapping attributes for business units.
+businessunitnewsarticle,Announcement,BusinessUnitNewsArticle,businessunitnewsarticles,False,False,businessunitnewsarticleid,articletitle,Announcement associated with an organization.
+calendar,Calendar,Calendar,calendars,False,False,calendarid,name,Calendar used by the scheduling system to define when an appointment or activity is to occur.
+calendarrule,Calendar Rule,CalendarRule,calendarrules,False,False,calendarruleid,name,"Defines free/busy times for a service and for resources or resource groups, such as working, non-working, vacation, and blocked."
+callbackregistration,Callback Registration,CallbackRegistration,callbackregistrations,False,False,callbackregistrationid,name,Callback Registration that stores configuration.
+canvasapp,Canvas App,CanvasApp,canvasapps,False,False,canvasappid,name,An application built through a canvas-based editing experience.
+canvasappextendedmetadata,CanvasApp Extended Metadata,CanvasAppExtendedMetadata,canvasappextendedmetadata,True,False,canvasappextendedmetadataid,name,Holds extended metadata values for canvas apps that are not solution aware
+card,Card,card,cards,True,False,cardid,name,Card
+cardentityconnections,cardentityconnections,cardentityconnections,cardentityconnectionsset,True,False,cardentityconnectionsid,,
+cardstateitem,Card State Item,cardstateitem,cardstateitems,True,False,cardstateitemid,name,
+cardtype,Action Card Type,CardType,cardtype,False,False,cardtypeid,cardname,To provide master data for the card types list. For internal use only
+cascadegrantrevokeaccessrecordstracker,CascadeGrantRevokeAccessRecordsTracker,cascadegrantrevokeaccessrecordstracker,cascadegrantrevokeaccessrecordstrackers,True,False,cascadegrantrevokeaccessrecordstrackerid,name,
+cascadegrantrevokeaccessversiontracker,CascadeGrantRevokeAccessVersionTracker,cascadegrantrevokeaccessversiontracker,cascadegrantrevokeaccessversiontrackers,True,False,cascadegrantrevokeaccessversiontrackerid,name,
+catalog,Catalog,Catalog,catalogs,True,False,catalogid,name,Entity for cataloging records to make it easier for your customers to find them on portals and through search.
+catalogassignment,Catalog Assignment,CatalogAssignment,catalogassignments,True,False,catalogassignmentid,name,Entity for assigning records to a specific catalog 
+category,Category,Category,categories,False,False,categoryid,title,Entity for categorizing records to make it easier for your customers to find them on portals and through search.
+certificatecredential,CertificateCredential,CertificateCredential,certificatecredentials,True,False,certificatecredentialid,name,Contains data to represent an Azure Active Directory Application used to connect to secure web-hosted resources.
+channelaccessprofile,Channel Access Profile,ChannelAccessProfile,channelaccessprofiles,False,False,channelaccessprofileid,name,Information about permissions needed to access Dynamics 365 through external channels.For internal use only
+channelaccessprofileentityaccesslevel,channelaccessprofileentityaccesslevel,ChannelAccessProfileEntityAccessLevel,channelaccessprofileentityaccesslevels,False,False,channelaccessprofileentityaccesslevelid,,Group of privileges used to categorize users to provide appropriate access to entities.
+channelaccessprofilerule,Channel Access Profile Rule,ChannelAccessProfileRule,channelaccessprofilerules,False,False,channelaccessprofileruleid,name,Defines the rules for automatically associating channel access profiles to external party records.For internal use only
+channelaccessprofileruleitem,Channel Access Profile Rule Item,ChannelAccessProfileRuleItem,channelaccessprofileruleitems,False,False,channelaccessprofileruleitemid,name,Defines the rule items of a profile rule set for the automated profile association.For internal use only
+channelproperty,Channel Property,ChannelProperty,channelproperties,False,False,channelpropertyid,name,Instance of a channel property containing its name and corresponding data type.
+channelpropertygroup,Channel Property Group,ChannelPropertyGroup,channelpropertygroups,False,False,channelpropertygroupid,name,Group or collection of channel properties provided by the external channel for a Microsoft Dynamics 365 activity.
+characteristic,Characteristic,Characteristic,characteristics,False,False,characteristicid,name,"Skills, education and certifications of resources."
+chat,Teams chat,chat,chats,True,True,activityid,subject,For internal use only. Entity which stores association data of Dynamics 365 records with Microsoft Teams chat
+clientupdate,Client update,ClientUpdate,clientupdates,False,False,clientupdateid,,Microsoft Dynamics 365 client for Outlook offline database update.
+columnmapping,Column Mapping,ColumnMapping,columnmappings,False,False,columnmappingid,sourceattributename,Mapping for columns in a data map.
+comment,Comment,Comment,comments,True,False,commentid,name,A collaborative comment on a maker artifact
+complexcontrol,Process Configuration,ComplexControl,complexcontrols,False,False,complexcontrolid,name,For internal use only.
+componentchangesetpayload,Component Changeset Payload,componentchangesetpayload,componentchangesetpayloads,True,False,componentchangesetpayloadid,name,
+componentchangesetversion,Component Changeset Version,componentchangesetversion,componentchangesetversions,True,False,componentchangesetversionid,name,
+componentversion,Component Version,componentversion,componentversions,True,False,componentversionid,componentversionname,
+componentversiondatasource,Component Version Data Source,componentversiondatasource,componentversiondatasources,True,False,componentversiondatasourceid,name,
+componentversionnrddatasource,Component Version (Internal),componentversionnrddatasource,componentversionnrddatasourceset,True,False,componentversionnrddatasourceid,componentversionname,
+connection,Connection,Connection,connections,False,False,connectionid,name,Relationship between two entities.
+connectioninstance,Connection Instance,ConnectionInstance,connectioninstances,True,False,connectioninstanceid,connectioninternalid,
+connectionreference,Connection Reference,connectionreference,connectionreferences,True,False,connectionreferenceid,connectionreferencedisplayname,
+connectionrole,Connection Role,ConnectionRole,connectionroles,False,False,connectionroleid,name,Role describing a relationship between a two records.
+connectionroleassociation,connectionroleassociation,ConnectionRoleAssociation,connectionroleassociations,False,False,connectionroleassociationid,,
+connectionroleobjecttypecode,Connection Role Object Type Code,ConnectionRoleObjectTypeCode,connectionroleobjecttypecodes,False,False,connectionroleobjecttypecodeid,,Specifies the entity type that can play specific role in a connection.
+connector,Connector,connector,connectors,True,False,connectorid,name,Connector Entity to support Solutioning Integration
+contact,Contact,Contact,contacts,False,False,contactid,fullname,"Person with whom a business unit has a relationship, such as customer, supplier, and colleague."
+conversationtranscript,ConversationTranscript,conversationtranscript,conversationtranscripts,True,False,conversationtranscriptid,name,"Contains the transcripts of conversations between participants such as customers, Virtual Agents or Human agents."
+convertrule,Record Creation and Update Rule,ConvertRule,convertrules,False,False,convertruleid,name,Defines the settings for automatic record creation.
+convertruleitem,Record Creation and Update Rule Item,ConvertRuleItem,convertruleitems,False,False,convertruleitemid,name,Defines the individual conditions required for creating records automatically.
+copilotexamplequestion,CopilotExampleQuestion,CopilotExampleQuestion,copilotexamplequestions,True,False,copilotexamplequestionid,question,CopilotExampleQuestions Component
+copilotglossaryterm,CopilotGlossaryTerm,CopilotGlossaryTerm,copilotglossaryterms,True,False,copilotglossarytermid,name,CopilotGlossaryTerm Component
+copilotsynonyms,CopilotSynonyms,CopilotSynonyms,copilotsynonyms,True,False,copilotsynonymsid,name,CopilotSynonyms Component
+credential,Credential,credential,credentials,True,False,credentialid,name,
+customapi,Custom API,CustomAPI,customapis,True,False,customapiid,name,Entity that defines a custom API
+customapirequestparameter,Custom API Request Parameter,CustomAPIRequestParameter,customapirequestparameters,True,False,customapirequestparameterid,name,Entity that defines a request parameter for a custom API
+customapiresponseproperty,Custom API Response Property,CustomAPIResponseProperty,customapiresponseproperties,True,False,customapiresponsepropertyid,name,Entity that defines a response property for a custom API 
+customcontrol,Custom Control,CustomControl,customcontrols,False,False,customcontrolid,name,For internal use only.
+customcontroldefaultconfig,Custom Control Default Config,CustomControlDefaultConfig,customcontroldefaultconfigs,False,False,customcontroldefaultconfigid,,For internal use only.
+customcontrolresource,Custom Control Resource,CustomControlResource,customcontrolresources,False,False,customcontrolresourceid,name,Custom Control Resource Id
+customeraddress,Address,CustomerAddress,customeraddresses,False,False,customeraddressid,name,Address and shipping information. Used to store additional addresses for an account or contact.
+customerrelationship,Customer Relationship,CustomerRelationship,customerrelationships,False,False,customerrelationshipid,customerroleidname,Relationship between a customer and a partner in which either can be an account or contact.
+datalakefolder,Data Lake Folder,datalakefolder,datalakefolders,True,False,datalakefolderid,name,A folder is a place to store data in Azure Data Lake.
+datalakefolderpermission,Data Lake Folder Permission,datalakefolderpermission,datalakefolderpermissions,True,False,datalakefolderpermissionid,name,
+datalakeworkspace,Data Lake Workspace,datalakeworkspace,datalakeworkspaces,True,False,datalakeworkspaceid,name,A workspace is a place to store data in Azure Data Lake.
+datalakeworkspacepermission,Data Lake Workspace Permission,datalakeworkspacepermission,datalakeworkspacepermissions,True,False,datalakeworkspacepermissionid,name,
+dataperformance,Data Performance Dashboard,DataPerformance,dataperformances,False,False,dataperformanceid,,Data Performance Dashboard.
+dataprocessingconfiguration,Data Processing configuration,DataProcessingConfiguration,dataprocessingconfigurations,True,False,dataprocessingconfigurationid,name,
+delegatedauthorization,DelegatedAuthorization,DelegatedAuthorization,DelegatedAuthorizations,True,False,delegatedauthorizationid,name,Context for delegated authorization.
+deleteditemreference,Deleted Record Reference,DeletedItemReference,deleteditemreferences,True,False,deleteditemreferenceid,name,Deleted Record Reference
+delveactionhub,DelveActionHub,DelveActionHub,delveactionhubs,False,False,delveactionhubid,subject,Delve Action Hubs Description
+dependency,Dependency,Dependency,dependencies,False,False,dependencyid,,A component dependency in CRM.
+dependencyfeature,Dependency Feature,DependencyFeature,dependencyfeatures,False,False,dependencyfeatureid,,A dependency feature.
+dependencynode,Dependency Node,DependencyNode,dependencynodes,False,False,dependencynodeid,,The representation of a component dependency node in CRM.
+desktopflowbinary,Desktop Flow Binary,desktopflowbinary,desktopflowbinaries,True,False,desktopflowbinaryid,name,
+desktopflowmodule,Desktop Flow Module,desktopflowmodule,desktopflowmodules,True,False,desktopflowmoduleid,name,
+displaystring,Display String,DisplayString,displaystrings,False,False,displaystringid,,Customized messages for an entity that has been renamed.
+displaystringmap,Display String Map,DisplayStringMap,displaystringmaps,False,False,displaystringmapid,,Maps customized display strings to entities.
+documentindex,Indexed Article,DocumentIndex,documentindexes,False,False,documentindexid,title,Article indexed for search purposes.
+documenttemplate,Document Template,DocumentTemplate,documenttemplates,False,False,documenttemplateid,name,Used to store Document Templates in database in binary format.
+duplicaterecord,Duplicate Record,DuplicateRecord,duplicaterecords,False,False,duplicateid,,Potential duplicate record.
+duplicaterule,Duplicate Detection Rule,DuplicateRule,duplicaterules,False,False,duplicateruleid,name,Rule used to identify potential duplicates.
+duplicaterulecondition,Duplicate Rule Condition,DuplicateRuleCondition,duplicateruleconditions,False,False,duplicateruleconditionid,,Condition of a duplicate detection rule.
+dvfilesearch,DVFileSearch,DVFileSearch,dvfilesearchs,True,False,dvfilesearchid,name,DVFileSearches Component
+dvfilesearchattribute,DVFileSearchAttribute,DVFileSearchAttribute,dvfilesearchattributes,True,False,dvfilesearchattributeid,name,
+dvfilesearchentity,DVFileSearchEntity,DVFileSearchEntity,dvfilesearchentities,True,False,dvfilesearchentityid,name,DVFileSearchEntities component.
+dvtablesearch,DVTableSearch,DVTableSearch,dvtablesearchs,True,False,dvtablesearchid,name,DVTableSearches component
+dvtablesearchattribute,DVTableSearchAttribute,DVTableSearchAttribute,dvtablesearchattributes,True,False,dvtablesearchattributeid,name,DVTableSearchAttribute component
+dvtablesearchentity,DVTableSearchEntity,DVTableSearchEntity,dvtablesearchentities,True,False,dvtablesearchentityid,name,DVTableSearchEntities component
+elasticfileattachment,ElasticFileAttachment,ElasticFileAttachment,elasticfileattachments,False,False,elasticfileattachmentid,filename,Elastic File Attachment
+email,Email,Email,emails,False,True,activityid,subject,Activity that is delivered using email protocols.
+emailaddressconfiguration,Email Address Configuration,EmailAddressConfiguration,emailaddressconfigurations,True,False,emailaddressconfigurationid,name,Entity which stores configuration metadata for Email Address type fields
+emailhash,Email Hash,EmailHash,emailhashes,False,False,emailhashid,,Email activity hashes used for correlation purposes.
+emailsearch,Email Search,EmailSearch,emailsearches,False,False,emailsearchid,,Email Address Search Table.
+emailserverprofile,Email Server Profile,EmailServerProfile,emailserverprofiles,False,False,emailserverprofileid,name,Holds the Email Server Profiles of an organization
+emailsignature,Email Signature,EmailSignature,emailsignatures,False,False,emailsignatureid,title,Signature for email message
+enablearchivalrequest,EnableArchivalRequest,enablearchivalrequest,enablearchivalrequests,True,False,enablearchivalrequestid,name,For internal use only.
+entity,Entity,Entity,entities,False,False,entityid,name,
+entityanalyticsconfig,Entity Analytics Config,EntityAnalyticsConfig,entityanalyticsconfigs,False,False,entityanalyticsconfigid,parententitylogicalname,This entity contains information about which entities are enabled for Azure Data Lake Services integration
+entityclusterconfig,Entity Cluster Configuration,EntityClusterConfig,entityclusterconfigs,True,False,entityclusterconfigid,name,Holds Entity Cluster configuration for entities
+entitydataprovider,Virtual Entity Data Provider,EntityDataProvider,entitydataproviders,False,False,entitydataproviderid,name,Developers can register plug-ins on a data provider to enable data access for virtual entities in the system.
+entitydatasource,Virtual Entity Data Source,EntityDataSource,entitydatasources,False,False,entitydatasourceid,name,Internal entity that stores data source information for all installed providers.
+entityimageconfig,Entity Image Configuration,EntityImageConfig,entityimageconfigs,True,False,entityimageconfigid,parententitylogicalname,Store image configuration for each entity
+entityindex,Entity Index,EntityIndex,entityindexes,False,False,indexid,name,Metadata describing index of an entity
+entitykey,Entity Key,EntityKey,entitykeys,False,False,entitykeyid,logicalname,
+entitymap,Entity Map,EntityMap,entitymaps,False,False,entitymapid,,Represents a mapping between two related entities so that data from one record can be copied into the form of a new related record.
+entityrecordfilter,EntityRecordFilter,EntityRecordFilter,entityrecordfilters,True,False,entityrecordfilterid,name,RecordFilter Object Type Codes
+entityrelationship,Entity Relationship,EntityRelationship,entityrelationships,False,False,entityrelationshipid,schemaname,
+environmentvariabledefinition,Environment Variable Definition,EnvironmentVariableDefinition,environmentvariabledefinitions,True,False,environmentvariabledefinitionid,schemaname,"Contains information about the settable variable: its type, default value, and etc."
+environmentvariablevalue,Environment Variable Value,EnvironmentVariableValue,environmentvariablevalues,True,False,environmentvariablevalueid,schemaname,Holds the value for the associated EnvironmentVariableDefinition entity.
+eventexpanderbreadcrumb,Event Expander Breadcrumb,EventExpanderBreadcrumb,eventexpanderbreadcrumbs,True,False,eventexpanderbreadcrumbid,name,Table to store breadcrumb records of Event Expander pipeline.
+exchangesyncidmapping,Exchange Sync Id Mapping,ExchangeSyncIdMapping,exchangesyncidmappings,False,False,exchangesyncidmappingid,,The mapping used to keep track of the IDs for items synced between CRM and Exchange.
+expanderevent,Expander Event,ExpanderEvent,expanderevents,False,False,expandereventid,name,For internal use only. An event that will be expanded into jobs whose executions can proceed in the background.
+expiredprocess,Expired Process,ExpiredProcess,expiredprocesses,False,False,businessprocessflowinstanceid,name,Expired Process Business Process Flow
+exportedexcel,Exported Excel,exportedexcel,exportedexcels,True,False,exportedexcelid,name,A Place holder entity to save excel file for each exportretaineddata custom api requests.
+exportsolutionupload,ExportSolutionUpload,ExportSolutionUpload,exportsolutionuploads,True,False,exportsolutionuploadid,name,
+externalparty,External Party,ExternalParty,externalparties,False,False,externalpartyid,fullname,Information about external parties that need to access Dynamics 365 from external channels.For internal use only
+externalpartyitem,External Party Item,ExternalPartyItem,externalpartyitems,False,False,externalpartyitemid,name,Information about external party items that need to access Dynamics 365 from external channels.For internal use only
+fabricaiskill,Fabric AISkill,fabricaiskill,fabricaiskills,True,False,fabricaiskillid,name,AISkills published from Fabric.
+fax,Fax,Fax,faxes,False,True,activityid,subject,Activity that tracks call outcome and number of pages for a fax and optionally stores an electronic copy of the document.
+featurecontrolsetting,FeatureControlSetting,featurecontrolsetting,featurecontrolsettings,True,False,featurecontrolsettingid,name,featurecontrolsetting
+federatedknowledgecitation,FederatedKnowledgeCitation,FederatedKnowledgeCitation,federatedknowledgecitations,True,False,federatedknowledgecitationid,federatedknowledgecitationname,Records the Federated Knowledge Citation info for UCI view
+federatedknowledgeconfiguration,FederatedKnowledgeConfiguration,FederatedKnowledgeConfiguration,federatedknowledgeconfigurations,True,False,federatedknowledgeconfigurationid,uniquename,FederatedKnowledgeConfigurations component
+federatedknowledgeentityconfiguration,FederatedKnowledgeEntityConfiguration,FederatedKnowledgeEntityConfiguration,federatedknowledgeentityconfigurations,True,False,federatedknowledgeentityconfigurationid,name,FederatedKnowledgeEntityConfigurations component
+federatedknowledgemetadatarefresh,FederatedKnowledgeMetadataRefresh,FederatedKnowledgeMetadataRefresh,federatedknowledgemetadatarefreshset,True,False,federatedknowledgemetadatarefreshid,searchconfigurationname,Records the Federated Knowledge MetadataRefresh job status
+feedback,Feedback,Feedback,feedback,False,False,feedbackid,title,Feedback and rating.
+fieldpermission,Field Permission,FieldPermission,fieldpermissions,False,False,fieldpermissionid,,Group of privileges used to categorize users to provide appropriate access to secured columns.
+fieldsecurityprofile,Field Security Profile,FieldSecurityProfile,fieldsecurityprofiles,False,False,fieldsecurityprofileid,name,Profile which defines access level for secured attributes
+fileattachment,FileAttachment,FileAttachment,fileattachments,False,False,fileattachmentid,filename,File Attachment
+filtertemplate,Filter Template,FilterTemplate,filtertemplates,False,False,filtertemplateid,,Template for a filter.
+fixedmonthlyfiscalcalendar,Fixed Monthly Fiscal Calendar,FixedMonthlyFiscalCalendar,fixedmonthlyfiscalcalendars,False,False,userfiscalcalendarid,,Fixed monthly fiscal calendar of an organization. A span of time during which the financial activities of an organization are calculated.
+flowaggregation,Flow Aggregation,flowaggregation,flowaggregations,True,False,flowaggregationid,name,
+flowcapacityassignment,Flow Capacity Assignment,flowcapacityassignment,flowcapacityassignments,True,False,flowcapacityassignmentid,name,Capacity assignment for usage in Power Automate
+flowcredentialapplication,Flow Credential Application,flowcredentialapplication,flowcredentialapplications,True,False,flowcredentialapplicationid,name,
+flowevent,Flow Event,flowevent,flowevents,True,False,floweventid,name,Entity to store the events that happen during usage of Power Automate.
+flowlog,Flow Log,flowlog,flowlogs,True,False,flowlogid,name,
+flowmachine,Flow Machine,flowmachine,flowmachines,True,False,flowmachineid,name,
+flowmachinegroup,Flow Machine Group,flowmachinegroup,flowmachinegroups,True,False,flowmachinegroupid,name,
+flowmachineimage,Flow Machine Image,flowmachineimage,flowmachineimages,True,False,flowmachineimageid,name,
+flowmachineimageversion,Flow Machine Image Version,flowmachineimageversion,flowmachineimageversions,True,False,flowmachineimageversionid,name,
+flowmachinenetwork,Flow Machine Network,flowmachinenetwork,flowmachinenetworks,True,False,flowmachinenetworkid,name,
+flowrun,Flow Run,flowrun,flowruns,True,False,flowrunid,name,
+flowsession,Flow Session,flowsession,flowsessions,True,False,flowsessionid,name,Entity to store the information that is generated when a Power Automate Desktop flow runs.
+flowsessionbinary,Flow Session Binary,flowsessionbinary,flowsessionbinaries,True,False,flowsessionbinaryid,name,
+fxexpression,FxExpression,fxexpression,fxexpressions,True,False,fxexpressionid,name,
+gitbranch,Git Branch,GitBranch,gitbranches,True,False,gitbranchid,branchname,
+gitconfigurationretrievaldatasource,Git Configuration Retrieval Data Source,GitConfigurationRetrievalDataSource,gitconfigurationretrievaldatasources,True,False,gitconfigurationretrievaldatasourceid,name,
+gitorganization,Git Organization,GitOrganization,gitorganizations,True,False,gitorganizationid,organizationname,
+gitproject,Git Project,GitProject,gitprojects,True,False,gitprojectid,projectname,
+gitrepository,Git Repository,GitRepository,gitrepositories,True,False,gitrepositoryid,repositoryname,
+gitsolution,Git Solution,GitSolution,GitSolutions,True,False,gitsolutionid,solutionname,
+globalsearchconfiguration,Global Search Configuration,GlobalSearchConfiguration,globalsearchconfigurations,False,False,globalsearchconfigurationid,,
+goal,Goal,Goal,goals,False,False,goalid,title,Target objective for a user or a team for a specified time period.
+goalrollupquery,Rollup Query,GoalRollupQuery,goalrollupqueries,False,False,goalrollupqueryid,name,Query that is used to filter the results of the goal rollup.
+governanceconfiguration,Governance Configuration,GovernanceConfiguration,governanceconfigurations,True,False,governanceconfigurationid,scope,
+hierarchyrule,Hierarchy Rule,HierarchyRule,hierarchyrules,False,False,hierarchyruleid,name,Organization-owned entity customizations including mapping Quick view form with Relationship Id
+hierarchysecurityconfiguration,Hierarchy Security Configuration,HierarchySecurityConfiguration,hierarchysecurityconfigurations,False,False,hierarchysecuritymodelingsettingid,,
+holidaywrapper,HolidayWrapper,holidaywrapper,holidaywrappers,False,False,holidaywrapperid,name,
+imagedescriptor,Image Descriptor,ImageDescriptor,imagedescriptors,False,False,imagedescriptorid,,For internal use only.
+import,Data Import,Import,imports,False,False,importid,name,Status and ownership information for an import job.
+importdata,Import Data,ImportData,importdataset,False,False,importdataid,data,Unprocessed data from imported files.
+importentitymapping,Import Entity Mapping,ImportEntityMapping,importentitymappings,False,False,importentitymappingid,,Mapping for entities in a data map.
+importfile,Import Source File,ImportFile,importfiles,False,False,importfileid,name,File name of file used for import.
+importjob,Import Job,ImportJob,importjobs,False,False,importjobid,,For internal use only.
+importlog,Import Log,ImportLog,importlogs,False,False,importlogid,,Failure reason and other detailed information for a record that failed to import.
+importmap,Data Map,ImportMap,importmaps,False,False,importmapid,name,Data map used in import.
+indexattributes,Index Attribute,IndexAttributes,indexattributes,False,False,indexattributeid,,Stores index attributes
+indexedtrait,indexedtrait,indexedtrait,indexedtraits,True,False,indexedtraitid,name,
+integrationstatus,Integration Status,IntegrationStatus,integrationstatuses,False,False,integrationentryid,,Contains integration status information.
+intelligentmemory,IntelligentMemory,IntelligentMemory,intelligentmemories,True,False,intelligentmemoryid,intelligentmemoryname,Represents intelligent memories used in the system.
+interactionforemail,Interaction for Email,InteractionForEmail,interactionforemails,False,False,interactionforemailid,name,
+internaladdress,Internal Address,InternalAddress,internaladdresses,False,False,internaladdressid,,"Storage of addresses for a user, business unit, or site."
+internalcatalogassignment,Internal Catalog Assignment,InternalCatalogAssignment,internalcatalogassignments,True,False,internalcatalogassignmentid,name,
+interprocesslock,Inter Process Lock,InterProcessLock,interprocesslocks,False,False,interprocesslockid,,Inter Process Locks.
+invaliddependency,Invalid Dependency,InvalidDependency,invaliddependencies,False,False,invaliddependencyid,,An invalid dependency in the CRM system.
+isvconfig,ISV Config,IsvConfig,isvconfigs,False,False,isvconfigid,,An XML document used to configure client extension controls.
+kbarticle,Article,KbArticle,kbarticles,False,False,kbarticleid,title,Structured content that is part of the knowledge base.
+kbarticlecomment,Article Comment,KbArticleComment,kbarticlecomments,False,False,kbarticlecommentid,title,Comment on a knowledge base article.
+kbarticletemplate,Article Template,KbArticleTemplate,kbarticletemplates,False,False,kbarticletemplateid,title,Template for a knowledge base article that contains the standard attributes of an article.
+keyvaultreference,Key Vault Reference,KeyVaultReference,keyvaultreferences,True,False,keyvaultreferenceid,keyvaulturi,Contains data that refers to an Azure Key Vault containing credentials used to connect to secure web-hosted resources.
+knowledgearticle,Knowledge Article,KnowledgeArticle,knowledgearticles,False,False,knowledgearticleid,title,Organizational knowledge for internal and external use.
+knowledgearticlescategories,Knowledge Article Category,KnowledgeArticlesCategories,KnowledgeArticleCategories,False,False,knowledgearticlecategoryid,,Category for a Knowledge Article.
+knowledgearticleviews,Knowledge Article Views,KnowledgeArticleViews,knowledgearticleviews,False,False,knowledgearticleviewsid,knowledgearticleidname,No of times an article is viewed per day
+knowledgebaserecord,Knowledge Base Record,KnowledgeBaseRecord,knowledgebaserecords,False,False,knowledgebaserecordid,title,Metadata of knowledge base (KB) articles associated with Microsoft Dynamics 365 entities.
+knowledgefaq,Knowledge FAQ,KnowledgeFAQ,knowledgefaqs,True,False,knowledgefaqid,botcomponentid,Stores Knowledge Frequently Asked Questions
+knowledgesearchmodel,Knowledge Search Model,KnowledgeSearchModel,knowledgesearchmodels,False,False,knowledgesearchmodelid,name,Configuration for automatic suggestion of knowledge articles using text analytics and search
+knowledgesourceconsumer,Knowledge Source Consumer,KnowledgeSourceConsumer,knowledgesourceconsumers,True,False,knowledgesourceconsumerid,consumerid,
+knowledgesourceprofile,Knowledge Source Profile,KnowledgeSourceProfile,knowledgesourceprofiles,True,False,knowledgesourceprofileid,displayname,
+languagelocale,Language,LanguageLocale,languagelocale,False,False,languagelocaleid,name,Language
+languageprovisioningstate,Language Provisioning State,LanguageProvisioningState,languageprovisioningstates,False,False,languageprovisioningstateid,,Container for language provisioning checkpoint states
+letter,Letter,Letter,letters,False,True,activityid,subject,Activity that tracks the delivery of a letter. The activity can contain the electronic copy of the letter.
+license,License,License,licenses,False,False,licenseid,,Stores information about a Microsoft CRM license.
+localconfigstore,LocalConfigStore,LocalConfigStore,localconfigstores,False,False,id,,
+lookupmapping,Lookup Mapping,LookUpMapping,lookupmappings,False,False,lookupmappingid,,"In a data map, maps a lookup attribute in a source file to Microsoft Dynamics 365."
+mailbox,Mailbox,Mailbox,mailboxes,False,False,mailboxid,name,
+mailboxstatistics,Mailbox Statistics,MailboxStatistics,mailboxstatistics,False,False,mailboxstatisticsid,,Stores data regarding Mailbox processing cycles
+mailboxtrackingcategory,Mailbox Tracking Category,MailboxTrackingCategory,mailboxtrackingcategories,False,False,mailboxtrackingcategoryid,,Stores data about what categories for a mailbox are tracked
+mailboxtrackingfolder,Mailbox Auto Tracking Folder,MailboxTrackingFolder,mailboxtrackingfolders,False,False,mailboxtrackingfolderid,,Stores data about what folders for a mailbox are auto tracked
+mailmergetemplate,Mail Merge Template,MailMergeTemplate,mailmergetemplates,False,False,mailmergetemplateid,name,Template for a mail merge document that contains the standard attributes of that document.
+mainfewshot,MainFewShot,mainfewshot,mainfewshots,True,False,mainfewshotid,query,This fewshot entity will only be updated during solution installation.
+makerfewshot,MakerFewShot,makerfewshot,makerfewshots,True,False,makerfewshotid,query,This fewshot is updated by maker for testing the queries and by the NL2SQ with the results
+managedidentity,Managed Identity,ManagedIdentity,managedidentities,True,False,managedidentityid,name,Contains data to represent an Azure Active Directory Application used to connect to secure web-hosted resources.
+managedproperty,Managed Property,ManagedProperty,managedproperties,False,False,managedpropertyid,logicalname,
+maskingrule,Secured Masking Rule,MaskingRule,maskingrules,False,False,maskingruleid,name,Secured Masking Rules to apply to fields.
+mcpserver,MCPServer,MCPServer,mcpservers,True,False,mcpserverid,displayname,MCPServers component
+mcptool,MCPTool,MCPTool,mcptools,True,False,mcptoolid,name,MCPTools component
+metadatadifference,Metadata Difference,MetadataDifference,metadatadifferences,False,False,metadatadifferenceid,,Metadata Difference
+metadataforarchival,MetadataForArchival,MetadataForArchival,metadataforarchivals,True,False,metadataforarchivalid,name,Holds  metadata values of tables for retention
+metric,Goal Metric,Metric,metrics,False,False,metricid,name,"Type of measurement for a goal, such as money amount or count."
+mobileofflineprofile,Mobile Offline Profile,MobileOfflineProfile,mobileofflineprofiles,False,False,mobileofflineprofileid,name,Information to administer and manage the data available to mobile devices in offline mode.
+mobileofflineprofileextension,MobileOfflineProfileExtension,mobileofflineprofileextension,mobileofflineprofileextensions,True,False,mobileofflineprofileextensionid,name,
+mobileofflineprofileitem,Mobile Offline Profile Item,MobileOfflineProfileItem,mobileofflineprofileitems,False,False,mobileofflineprofileitemid,name,Information on entity availability to mobile devices in offline mode for a mobile offline profile item.
+mobileofflineprofileitemassociation,Mobile Offline Profile Item Association,MobileOfflineProfileItemAssociation,mobileofflineprofileitemassociations,False,False,mobileofflineprofileitemassociationid,name,Information on relationships to be used to follow related entity's records for mobile offline profile item.
+mobileofflineprofileitemfilter,MobileOfflineProfileItemFilter,mobileofflineprofileitemfilter,mobileofflineprofileitemfilters,True,False,mobileofflineprofileitemfilterid,name,
+monthlyfiscalcalendar,Monthly Fiscal Calendar,MonthlyFiscalCalendar,monthlyfiscalcalendars,False,False,userfiscalcalendarid,,Monthly fiscal calendar of an organization. A span of time during which the financial activities of an organization are calculated.
+msdyn_aibdataset,AI Builder Dataset,msdyn_AIBDataset,msdyn_aibdatasets,True,False,msdyn_aibdatasetid,msdyn_name,
+msdyn_aibdatasetfile,AI Builder Dataset File,msdyn_AIBDatasetFile,msdyn_aibdatasetfiles,True,False,msdyn_aibdatasetfileid,msdyn_name,
+msdyn_aibdatasetrecord,AI Builder Dataset Record,msdyn_AIBDatasetRecord,msdyn_aibdatasetrecords,True,False,msdyn_aibdatasetrecordid,msdyn_name,
+msdyn_aibdatasetscontainer,AI Builder Datasets Container,msdyn_AIBDatasetsContainer,msdyn_aibdatasetscontainers,True,False,msdyn_aibdatasetscontainerid,msdyn_name,
+msdyn_aibfeedbackloop,AI Builder Feedback Loop,msdyn_AIBFeedbackLoop,msdyn_aibfeedbackloops,True,False,msdyn_aibfeedbackloopid,msdyn_name,
+msdyn_aibfile,AI Builder File,msdyn_AIBFile,msdyn_aibfiles,True,False,msdyn_aibfileid,msdyn_name,
+msdyn_aibfileattacheddata,AI Builder File Attached Data,msdyn_AIBFileAttachedData,msdyn_aibfileattacheddatas,True,False,msdyn_aibfileattacheddataid,msdyn_key,
+msdyn_aiconfiguration,AI Configuration,msdyn_AIConfiguration,msdyn_aiconfigurations,True,False,msdyn_aiconfigurationid,msdyn_name,
+msdyn_aiconfiguration_documenttemplate,msdyn_aiconfiguration_documenttemplate,msdyn_aiconfiguration_documenttemplate,msdyn_aiconfiguration_documenttemplateset,True,False,msdyn_aiconfiguration_documenttemplateid,,
+msdyn_aidataprocessingevent,Data Processing Event,msdyn_AIDataProcessingEvent,msdyn_aidataprocessingevents,True,False,msdyn_aidataprocessingeventid,msdyn_name,Events that are triggered by Data Processing.
+msdyn_aidocumenttemplate,AI Document Template,msdyn_aidocumenttemplate,msdyn_aidocumenttemplates,True,False,msdyn_aidocumenttemplateid,msdyn_filename,Used to store Document templates
+msdyn_aievaluationconfiguration,AI Evaluation Configuration,msdyn_AIEvaluationConfiguration,msdyn_aievaluationconfigurations,True,False,msdyn_aievaluationconfigurationid,msdyn_name,
+msdyn_aievaluationmetric,AI Evaluation Metric,msdyn_AIEvaluationMetric,msdyn_aievaluationmetrics,True,False,msdyn_aievaluationmetricid,msdyn_aiobjectid,
+msdyn_aievaluationrun,AI Evaluation Run,msdyn_AIEvaluationRun,msdyn_aievaluationruns,True,False,msdyn_aievaluationrunid,msdyn_name,
+msdyn_aievent,AI Event,msdyn_AIEvent,msdyn_aievents,True,False,msdyn_aieventid,msdyn_name,
+msdyn_aifptrainingdocument,AI Form Processing Document,msdyn_AIFpTrainingDocument,msdyn_aifptrainingdocuments,True,False,msdyn_aifptrainingdocumentid,msdyn_name,
+msdyn_aimodel,AI Model,msdyn_AIModel,msdyn_aimodels,True,False,msdyn_aimodelid,msdyn_name,
+msdyn_aimodelcatalog,AI Model Catalog,msdyn_AIModelCatalog,msdyn_aimodelcatalogs,True,False,msdyn_aimodelcatalogid,msdyn_name,This table contains records of AI Model Catalogs used for BYOM
+msdyn_aiodimage,AI Object Detection Image,msdyn_AIOdImage,msdyn_aiodimages,True,False,msdyn_aiodimageid,msdyn_name,
+msdyn_aiodlabel,AI Object Detection Label,msdyn_AIOdLabel,msdyn_aiodlabels,True,False,msdyn_aiodlabelid,msdyn_name,
+msdyn_aiodlabel_msdyn_aiconfiguration,msdyn_aiodlabel_msdyn_aiconfiguration,msdyn_aiodlabel_msdyn_aiconfiguration,msdyn_aiodlabel_msdyn_aiconfigurationset,True,False,msdyn_aiodlabel_msdyn_aiconfigurationid,,
+msdyn_aiodtrainingboundingbox,AI Object Detection Bounding Box,msdyn_AIOdTrainingBoundingBox,msdyn_aiodtrainingboundingboxes,True,False,msdyn_aiodtrainingboundingboxid,msdyn_name,
+msdyn_aiodtrainingimage,AI Object Detection Image Mapping,msdyn_AIOdTrainingImage,msdyn_aiodtrainingimages,True,False,msdyn_aiodtrainingimageid,msdyn_name,
+msdyn_aioptimization,AI Optimization,msdyn_AIOptimization,msdyn_aioptimizations,True,False,msdyn_aioptimizationid,msdyn_aiobjectid,
+msdyn_aioptimizationprivatedata,AI Optimization Private Data,msdyn_AIOptimizationPrivateData,msdyn_aioptimizationprivatedatas,True,False,msdyn_aioptimizationprivatedataid,msdyn_name,
+msdyn_aitemplate,AI Template,msdyn_AITemplate,msdyn_aitemplates,True,False,msdyn_aitemplateid,msdyn_uniquename,
+msdyn_aitestcase,AI Test Case,msdyn_AITestCase,msdyn_aitestcases,True,False,msdyn_aitestcaseid,msdyn_name,
+msdyn_aitestcasedocument,AI Test Case Document,msdyn_AITestCaseDocument,msdyn_aitestcasedocuments,True,False,msdyn_aitestcasedocumentid,msdyn_name,
+msdyn_aitestcaseinput,AI Test Case Input,msdyn_AITestCaseInput,msdyn_aitestcaseinputs,True,False,msdyn_aitestcaseinputid,msdyn_name,
+msdyn_aitestrun,AI Test Run,msdyn_AITestRun,msdyn_aitestruns,True,False,msdyn_aitestrunid,msdyn_name,
+msdyn_aitestrunbatch,AI Test Run Batch,msdyn_AITestRunBatch,msdyn_aitestrunbatches,True,False,msdyn_aitestrunbatchid,msdyn_name,
+msdyn_analysiscomponent,Analysis Component,msdyn_analysiscomponent,msdyn_analysiscomponents,True,False,msdyn_analysiscomponentid,msdyn_name,
+msdyn_analysisjob,Analysis Job,msdyn_analysisjob,msdyn_analysisjobs,True,False,msdyn_analysisjobid,msdyn_name,
+msdyn_analysisoverride,Analysis Override,msdyn_analysisoverride,msdyn_analysisoverrides,True,False,msdyn_analysisoverrideid,msdyn_rule,
+msdyn_analysisresult,Analysis Result,msdyn_analysisresult,msdyn_analysisresults,True,False,msdyn_analysisresultid,msdyn_name,
+msdyn_analysisresultdetail,Analysis Result Detail,msdyn_analysisresultdetail,msdyn_analysisresultdetails,True,False,msdyn_analysisresultdetailid,msdyn_name,
+msdyn_appinsightsmetadata,App Insights Metadata,msdyn_appinsightsmetadata,msdyn_appinsightsmetadatas,True,False,msdyn_appinsightsmetadataid,name,Metadata for App Insights Platform components
+msdyn_bookableresourceassociation,Bookable Resource Association,msdyn_bookableresourceassociation,msdyn_bookableresourceassociations,True,False,msdyn_bookableresourceassociationid,msdyn_name,
+msdyn_bookingalert,Booking Alert,msdyn_bookingalert,msdyn_bookingalerts,True,True,activityid,subject,Alerts that notify schedule board users of booking issues or information.
+msdyn_bookingalertstatus,Booking Alert Status,msdyn_bookingalertstatus,msdyn_bookingalertstatuses,True,False,msdyn_bookingalertstatusid,msdyn_name,The status of a booking alert.
+msdyn_bookingchange,Booking Change,msdyn_bookingchange,msdyn_bookingchanges,True,False,msdyn_bookingchangeid,msdyn_name,An internal entity used to track changes that affect the schedule board.
+msdyn_bookingrule,Booking Rule,msdyn_bookingrule,msdyn_bookingrules,True,False,msdyn_bookingruleid,msdyn_name,Specify custom rules to be validated by the system before saving a booking record.
+msdyn_bookingsetupmetadata,Booking Setup Metadata,msdyn_bookingsetupmetadata,msdyn_bookingsetupmetadatas,True,False,msdyn_bookingsetupmetadataid,msdyn_entitylogicalname,
+msdyn_businessclosure,Business Closure,msdyn_businessclosure,msdyn_businessclosures,True,False,msdyn_businessclosureid,msdyn_name,
+msdyn_clientextension,Client Extension,msdyn_clientextension,msdyn_clientextensions,True,False,msdyn_clientextensionid,msdyn_name,
+msdyn_componentlayer,Component Layer,msdyn_componentlayer,msdyn_componentlayers,True,False,msdyn_componentlayerid,msdyn_name,
+msdyn_componentlayerdatasource,Component Layer Data Source,msdyn_componentlayerdatasource,msdyn_componentlayerdatasources,True,False,msdyn_componentlayerdatasourceid,msdyn_name,
+msdyn_configuration,Configuration,msdyn_Configuration,msdyn_configurations,True,False,msdyn_configurationid,msdyn_name,This entity is used to store queries and templates.
+msdyn_connectordatasource,Virtual Connector Data Source,msdyn_connectordatasource,msdyn_connectordatasources,True,False,msdyn_connectordatasourceid,msdyn_name,
+msdyn_connectordatasource_environmentva,msdyn_connectordatasource_environmentva,msdyn_connectordatasource_environmentva,msdyn_connectordatasource_environmentvaset,True,False,msdyn_connectordatasource_environmentvaid,,
+msdyn_copilotinteractions,Copilot Interactions,msdyn_CopilotInteractions,msdyn_copilotinteractionses,True,False,msdyn_copilotinteractionsid,msdyn_name,Data table of previous copilot interactions.
+msdyn_customcontrolextendedsettings,Custom Control Extended Setting,msdyn_customcontrolextendedsettings,msdyn_customcontrolextendedsettingses,True,False,msdyn_customcontrolextendedsettingsid,msdyn_name,
+msdyn_dataflow,Dataflow,msdyn_dataflow,msdyn_dataflows,True,False,msdyn_dataflowid,msdyn_name,
+msdyn_dataflow_datalakefolder,Dataflow DatalakeFolder,msdyn_dataflow_datalakefolder,msdyn_dataflow_datalakefolders,True,False,msdyn_dataflow_datalakefolderid,msdyn_dataflow_datalakefolder,
+msdyn_dataflowconnectionreference,Dataflow Connection Reference,msdyn_DataflowConnectionReference,msdyn_dataflowconnectionreferences,True,False,msdyn_dataflowconnectionreferenceid,msdyn_name,Intersecting table between Dataflow and Connection Reference
+msdyn_dataflowrefreshhistory,DataflowRefreshHistory,msdyn_dataflowrefreshhistory,msdyn_dataflowrefreshhistories,True,False,msdyn_dataflowrefreshhistoryid,msdyn_name,
+msdyn_dataflowtemplate,Dataflow Template,msdyn_DataflowTemplate,msdyn_dataflowtemplates,True,False,msdyn_dataflowtemplateid,msdyn_uniquename,An entity to store information about dataflow templates
+msdyn_datalakeds,Insights Store Data Source,msdyn_datalakeds,msdyn_datalakedses,True,False,msdyn_datalakedsid,msdyn_name,
+msdyn_dataworkspace,Data Workspace,msdyn_DataWorkspace,msdyn_dataworkspaces,True,False,msdyn_dataworkspaceid,msdyn_name,Table that stores Data workspace records.
+msdyn_deletedproject,Deleted Project,msdyn_deletedproject,msdyn_deletedprojects,True,False,msdyn_deletedprojectid,msdyn_projectid,(Internal use only) It stores deleted project ids that are not synced up with PSS.
+msdyn_dmsrequest,Data Movement Service Request,msdyn_dmsrequest,msdyn_dmsrequests,True,False,msdyn_dmsrequestid,msdyn_requestuniquename,Table for Data Movement Service Requests
+msdyn_dmsrequeststatus,Data Movement Service Request Status,msdyn_dmsrequeststatus,msdyn_dmsrequeststatuses,True,False,msdyn_dmsrequeststatusid,msdyn_jobuniquename,Table for Data Movement Service Request Status
+msdyn_dmssyncrequest,DMS Sync Request,msdyn_dmssyncrequest,msdyn_dmssyncrequests,True,False,msdyn_dmssyncrequestid,msdyn_requestuniquename,An entity to save DMS sync requests.
+msdyn_dmssyncstatus,DMS Sync Status,msdyn_dmssyncstatus,msdyn_dmssyncstatuses,True,False,msdyn_dmssyncstatusid,msdyn_statusuniquename,An entity to save DMS sync statuses.
+msdyn_documentheader,Document Header,msdyn_documentheader,msdyn_documentheaders,True,False,msdyn_documentheaderid,msdyn_name,The header for the document
+msdyn_documentsection,Document Section,msdyn_documentsection,msdyn_documentsections,True,False,msdyn_documentsectionid,msdyn_name,The sections of the document
+msdyn_entitylinkchatconfiguration,Entity link chat configuration,msdyn_entitylinkchatconfiguration,msdyn_entitylinkchatconfigurations,True,False,msdyn_entitylinkchatconfigurationid,msdyn_name,
+msdyn_entityrefreshhistory,EntityRefreshHistory,msdyn_entityrefreshhistory,msdyn_entityrefreshhistories,True,False,msdyn_entityrefreshhistoryid,msdyn_name,
+msdyn_favoriteknowledgearticle,Favorite knowledge article,msdyn_favoriteknowledgearticle,msdyn_favoriteknowledgearticles,True,False,msdyn_favoriteknowledgearticleid,msdyn_name,Entity for favorite knowledge articles
+msdyn_federatedarticle,Knowledge Federated Article,msdyn_federatedarticle,msdyn_federatedarticles,True,False,msdyn_federatedarticleid,msdyn_title,
+msdyn_federatedarticleincident,Knowledge Federated Article Incident,msdyn_federatedarticleincident,msdyn_federatedarticleincidents,True,False,msdyn_federatedarticleincidentid,msdyn_name,
+msdyn_fileupload,File Upload,msdyn_FileUpload,msdyn_fileuploads,True,False,msdyn_fileuploadid,msdyn_filename,
+msdyn_flow_actionapprovalmodel,Action Approval Model,msdyn_flow_actionapprovalmodel,msdyn_flow_actionapprovalmodels,True,False,msdyn_flow_actionapprovalmodelid,msdyn_flow_actionapprovalmodel_name,The action approval model data attached to an action approval.
+msdyn_flow_actionapprovalmodel_systemuser,msdyn_flow_actionapprovalmodel_systemuser,msdyn_flow_actionapprovalmodel_systemuser,msdyn_flow_actionapprovalmodel_systemuserset,True,False,msdyn_flow_actionapprovalmodel_systemuserid,,
+msdyn_flow_actionapprovalmodel_team,msdyn_flow_actionapprovalmodel_team,msdyn_flow_actionapprovalmodel_team,msdyn_flow_actionapprovalmodel_teamset,True,False,msdyn_flow_actionapprovalmodel_teamid,,
+msdyn_flow_approval,Approval,msdyn_flow_approval,msdyn_flow_approvals,True,False,msdyn_flow_approvalid,msdyn_flow_approval_name,An approval.
+msdyn_flow_approvalrequest,Approval Request,msdyn_flow_approvalrequest,msdyn_flow_approvalrequests,True,False,msdyn_flow_approvalrequestid,msdyn_flow_approvalrequest_name,An individual request for approval.
+msdyn_flow_approvalresponse,Approval Response,msdyn_flow_approvalresponse,msdyn_flow_approvalresponses,True,False,msdyn_flow_approvalresponseid,msdyn_flow_approvalresponse_name,An individual response to an approval.
+msdyn_flow_approvalstep,Approval Step,msdyn_flow_approvalstep,msdyn_flow_approvalsteps,True,False,msdyn_flow_approvalstepid,msdyn_name,
+msdyn_flow_awaitallactionapprovalmodel,Await All Action Approval Model,msdyn_flow_awaitallactionapprovalmodel,msdyn_flow_awaitallactionapprovalmodels,True,False,msdyn_flow_awaitallactionapprovalmodelid,msdyn_flow_awaitallactionapprovalmodel_name,The await all action approval model data attached to an action approval.
+msdyn_flow_awaitallactionapprovalmodel_team,msdyn_flow_awaitallactionapprovalmodel_team,msdyn_flow_awaitallactionapprovalmodel_team,msdyn_flow_awaitallactionapprovalmodel_teamset,True,False,msdyn_flow_awaitallactionapprovalmodel_teamid,,
+msdyn_flow_awaitallactionapprovalmodel_user,msdyn_flow_awaitallactionapprovalmodel_user,msdyn_flow_awaitallactionapprovalmodel_user,msdyn_flow_awaitallactionapprovalmodel_userset,True,False,msdyn_flow_awaitallactionapprovalmodel_userid,,
+msdyn_flow_awaitallapprovalmodel,Await All Approval Model,msdyn_flow_awaitallapprovalmodel,msdyn_flow_awaitallapprovalmodels,True,False,msdyn_flow_awaitallapprovalmodelid,msdyn_flow_awaitallapprovalmodel_name,The await all approval model data attached to an approval.
+msdyn_flow_awaitallmodel_systemuser,msdyn_flow_awaitallmodel_systemuser,msdyn_flow_awaitallmodel_systemuser,msdyn_flow_awaitallmodel_systemuserset,True,False,msdyn_flow_awaitallmodel_systemuserid,,
+msdyn_flow_awaitallmodel_team,msdyn_flow_awaitallmodel_team,msdyn_flow_awaitallmodel_team,msdyn_flow_awaitallmodel_teamset,True,False,msdyn_flow_awaitallmodel_teamid,,
+msdyn_flow_basicapprovalmodel,Basic Approval Model Data,msdyn_flow_basicapprovalmodel,msdyn_flow_basicapprovalmodels,True,False,msdyn_flow_basicapprovalmodelid,msdyn_flow_basicapprovalmodel_name,The basic approval model data attached to an approval.
+msdyn_flow_basicapprovalmodel_systemuser,msdyn_flow_basicapprovalmodel_systemuser,msdyn_flow_basicapprovalmodel_systemuser,msdyn_flow_basicapprovalmodel_systemuserset,True,False,msdyn_flow_basicapprovalmodel_systemuserid,,
+msdyn_flow_basicapprovalmodel_team,msdyn_flow_basicapprovalmodel_team,msdyn_flow_basicapprovalmodel_team,msdyn_flow_basicapprovalmodel_teamset,True,False,msdyn_flow_basicapprovalmodel_teamid,,
+msdyn_flow_flowapproval,Flow Approval,msdyn_flow_flowapproval,msdyn_flow_flowapprovals,True,False,msdyn_flow_flowapprovalid,msdyn_flow_flowapproval_name,Microsoft Flow data attached to an approval.
+msdyn_formmapping,Form Mapping,msdyn_FormMapping,msdyn_formmappings,True,False,msdyn_formmappingid,msdyn_formname,
+msdyn_function,Function,msdyn_function,msdyn_functions,True,False,msdyn_functionid,name,
+msdyn_helppage,Help Page,msdyn_helppage,msdyn_helppages,True,False,msdyn_helppageid,msdyn_displayname,
+msdyn_historicalcaseharvestbatch,msdyn_historicalcaseharvestbatch,msdyn_historicalcaseharvestbatch,msdyn_historicalcaseharvestbatches,True,False,msdyn_historicalcaseharvestbatchid,msdyn_name,
+msdyn_historicalcaseharvestrun,msdyn_historicalcaseharvestrun,msdyn_historicalcaseharvestrun,msdyn_historicalcaseharvestruns,True,False,msdyn_historicalcaseharvestrunid,msdyn_paginationmarker,
+msdyn_insightsstorevirtualentity,Insights Store Virtual Entity,msdyn_InsightsStoreVirtualEntity,msdyn_insightsstorevirtualentities,True,False,msdyn_insightsstorevirtualentityid,name,Insights Store Virtual Entity
+msdyn_integratedsearchprovider,Integrated search provider,msdyn_integratedsearchprovider,msdyn_integratedsearchproviders,True,False,msdyn_integratedsearchproviderid,msdyn_name,"Ingest and search files, documents, or articles from data sources outside of your current Dynamics 365 organization with a unified ranking."
+msdyn_interimupdateknowledgearticle,Interim Update Knowledge Article,msdyn_interimupdateknowledgearticle,msdyn_interimupdateknowledgearticles,True,False,msdyn_interimupdateknowledgearticleid,msdyn_title,Interim table to facilitate the update of knowledge articles from knowledge harvesting.
+msdyn_kalanguagesetting,Knowledge article language setting,msdyn_kalanguagesetting,msdyn_kalanguagesettings,True,False,msdyn_kalanguagesettingid,msdyn_name,Allows you to select default language for knowledge authoring.
+msdyn_kbattachment,Knowledge Article Attachment,msdyn_kbattachment,msdyn_kbattachments,True,False,msdyn_kbattachmentid,msdyn_filename,
+msdyn_kmfederatedsearchconfig,Search provider,msdyn_kmfederatedsearchconfig,msdyn_kmfederatedsearchconfigs,True,False,msdyn_kmfederatedsearchconfigid,msdyn_name,
+msdyn_kmpersonalizationsetting,Knowledge personalization,msdyn_kmpersonalizationsetting,msdyn_kmpersonalizationsettings,True,False,msdyn_kmpersonalizationsettingid,msdyn_name,Allows users to personalize their knowledge search filters and knowledge authoring language.
+msdyn_knowledgearticlecustomentity,Knowledge Article Custom Entity,msdyn_knowledgearticlecustomentity,msdyn_knowledgearticlecustomentities,True,False,msdyn_knowledgearticlecustomentityid,msdyn_entityname,Table to facilitate the linking of knowledge articles to custom entity sources.
+msdyn_knowledgearticleimage,Knowledge Article Image,msdyn_knowledgearticleimage,msdyn_knowledgearticleimages,True,False,msdyn_knowledgearticleimageid,msdyn_filename,
+msdyn_knowledgearticletemplate,Knowledge Article Template,msdyn_knowledgearticletemplate,msdyn_knowledgearticletemplates,True,False,msdyn_knowledgearticletemplateid,msdyn_name,Organizational Knowledge Article Template for Internal and external creation of Knowledge Articles.
+msdyn_knowledgeassetconfiguration,Knowledge Asset Configuration,msdyn_knowledgeassetconfiguration,msdyn_knowledgeassetconfigurations,True,False,msdyn_knowledgeassetconfigurationid,name,Knowledge asset configurations for data sources configured in knowledge hub.
+msdyn_knowledgeconfiguration,Knowledge Configuration,msdyn_knowledgeconfiguration,msdyn_knowledgeconfigurations,True,False,msdyn_knowledgeconfigurationid,msdyn_settingname,Represents the possible settings used in Knowledge management
+msdyn_knowledgeharvestjobrecord,Knowledge Harvest Job Record,msdyn_knowledgeharvestjobrecord,msdyn_knowledgeharvestjobrecords,True,False,msdyn_knowledgeharvestjobrecordid,msdyn_entityids,Tracking entity record used to trigger the harvesting process for knowledge articles
+msdyn_knowledgeinteractioninsight,Knowledge Interaction Insight,msdyn_knowledgeinteractioninsight,msdyn_knowledgeinteractioninsights,True,False,msdyn_knowledgeinteractioninsightid,msdyn_interactiontype,Knowledge Interaction Insight
+msdyn_knowledgemanagementsetting,Knowledge Management Setting,msdyn_knowledgemanagementsetting,msdyn_knowledgemanagementsettings,True,False,msdyn_knowledgemanagementsettingid,msdyn_entityname,Setup knowledge management for your organization.
+msdyn_knowledgepersonalfilter,Knowledge search personal filter config,msdyn_knowledgepersonalfilter,msdyn_knowledgepersonalfilters,True,False,msdyn_knowledgepersonalfilterid,msdyn_name,Allows you to configure and manage personal filter settings.
+msdyn_knowledgesearchfilter,Knowledge search filter,msdyn_knowledgesearchfilter,msdyn_knowledgesearchfilters,True,False,msdyn_knowledgesearchfilterid,msdyn_name,Allows you to configure and manage filter settings.
+msdyn_knowledgesearchinsight,Knowledge Search Insight,msdyn_knowledgesearchinsight,msdyn_knowledgesearchinsights,True,False,msdyn_knowledgesearchinsightid,msdyn_searchterm,Knowledge Search Insight
+msdyn_longrunningjobstatus,Long Running Job Status (For internal use only),msdyn_longrunningjobstatus,msdyn_longrunningjobstatuses,True,False,msdyn_longrunningjobstatusid,msdyn_name,The table tracking the Status of Long Running Jobs (For internal use only).
+msdyn_mobileapp,Mobile App,msdyn_mobileapp,msdyn_mobileapps,True,False,msdyn_mobileappid,name,Mobile App
+msdyn_modulerundetail,Module Run Detail,msdyn_modulerundetail,msdyn_modulerundetails,True,False,msdyn_modulerundetailid,msdyn_modelrunid,Result of execution of a MEF model
+msdyn_msdyn_kbattachment_knowledgearticle,msdyn_msdyn_kbattachment_knowledgearticle,msdyn_msdyn_kbattachment_knowledgearticle,msdyn_msdyn_kbattachment_knowledgearticleset,True,False,msdyn_msdyn_kbattachment_knowledgearticleid,,
+msdyn_nonrelationalds,NonRelational Data Source,msdyn_nonrelationalds,msdyn_nonrelationaldses,True,False,msdyn_nonrelationaldsid,msdyn_name,
+msdyn_odatav4ds,OData v4 Data Source,msdyn_odatav4ds,msdyn_odatav4ds,True,False,msdyn_odatav4dsid,msdyn_name,Data sources used by the OData v4 data provider to access data from an external web service.
+msdyn_operationset,OperationSet,msdyn_operationset,msdyn_operationsets,True,False,msdyn_operationsetid,msdyn_description,Used to represent operationSets
+msdyn_operationsetdetail,OperationSet Detail,msdyn_operationsetdetail,msdyn_operationsetdetails,True,False,msdyn_operationsetdetailid,msdyn_entityname,Contains details of each operationSet request
+msdyn_optimizationrequest,Optimization Request,msdyn_OptimizationRequest,msdyn_optimizationrequests,True,False,msdyn_optimizationrequestid,msdyn_name,
+msdyn_organizationalunit,Organizational Unit,msdyn_organizationalunit,msdyn_organizationalunits,True,False,msdyn_organizationalunitid,msdyn_name,
+msdyn_plan,Plan,msdyn_Plan,msdyn_plans,True,False,msdyn_planid,msdyn_name,Table that stores plan records.
+msdyn_planartifact,Plan Artifact,msdyn_PlanArtifact,msdyn_planartifacts,True,False,msdyn_planartifactid,msdyn_name,Table that stores the artifact records for a plan.
+msdyn_planattachment,Plan Attachment,msdyn_PlanAttachment,msdyn_planattachments,True,False,msdyn_planattachmentid,msdyn_name,
+msdyn_pmanalysishistory,PM Analysis History,msdyn_pmanalysishistory,msdyn_pmanalysishistories,True,False,msdyn_pmanalysishistoryid,msdyn_name,
+msdyn_pmbusinessruleautomationconfig,PM Business Rule Automation Config,msdyn_pmbusinessruleautomationconfig,msdyn_pmbusinessruleautomationconfigs,True,False,msdyn_pmbusinessruleautomationconfigid,msdyn_name,
+msdyn_pmcalendar,PM Calendar,msdyn_pmcalendar,msdyn_pmcalendars,True,False,msdyn_pmcalendarid,msdyn_name,
+msdyn_pmcalendarversion,PM Calendar Version,msdyn_pmcalendarversion,msdyn_pmcalendarversions,True,False,msdyn_pmcalendarversionid,msdyn_name,
+msdyn_pminferredtask,PM Inferred Task,msdyn_pminferredtask,msdyn_pminferredtasks,True,False,msdyn_pminferredtaskid,msdyn_name,
+msdyn_pmprocessextendedmetadataversion,PM Process Extended Metadata Version,msdyn_pmprocessextendedmetadataversion,msdyn_pmprocessextendedmetadataversions,True,False,msdyn_pmprocessextendedmetadataversionid,msdyn_name,
+msdyn_pmprocesstemplate,PM Process Template,msdyn_pmprocesstemplate,msdyn_pmprocesstemplates,True,False,msdyn_pmprocesstemplateid,msdyn_name,
+msdyn_pmprocessusersettings,PM Process User Settings,msdyn_pmprocessusersettings,msdyn_pmprocessusersettings,True,False,msdyn_pmprocessusersettingsid,msdyn_name,
+msdyn_pmprocessversion,PM Process Version,msdyn_pmprocessversion,msdyn_pmprocessversions,True,False,msdyn_pmprocessversionid,msdyn_name,
+msdyn_pmrecording,PM Recording,msdyn_pmrecording,msdyn_pmrecordings,True,False,msdyn_pmrecordingid,msdyn_name,
+msdyn_pmsimulation,PM Simulation,msdyn_pmsimulation,msdyn_pmsimulations,True,False,msdyn_pmsimulationid,msdyn_name,
+msdyn_pmtab,PM Tab,msdyn_pmtab,msdyn_pmtabs,True,False,msdyn_pmtabid,msdyn_name,
+msdyn_pmtemplate,PM Template,msdyn_pmtemplate,msdyn_pmtemplates,True,False,msdyn_pmtemplateid,msdyn_name,
+msdyn_pmview,PM View,msdyn_pmview,msdyn_pmviews,True,False,msdyn_pmviewid,msdyn_name,
+msdyn_priority,Priority,msdyn_priority,msdyn_priorities,True,False,msdyn_priorityid,msdyn_name,"Priorities to be used on bookings. In addition, a color could be specified for each priority type and the color selected will be shown visually on the schedule board."
+msdyn_project,Plan,msdyn_project,msdyn_projects,True,False,msdyn_projectid,msdyn_subject,Delivery entity in an engagement.
+msdyn_projectbaselinedata,Project Baseline Data,msdyn_projectbaselinedata,msdyn_projectbaselinedatas,True,False,msdyn_projectbaselinedataid,msdyn_name,"Entity to store baseline data and project fields (project start, finish, duration, percent complete, effort)."
+msdyn_projectbaselinetaskdata,Project Baseline Task Data,msdyn_projectbaselinetaskdata,msdyn_projectbaselinetaskdatas,True,False,msdyn_projectbaselinetaskdataid,msdyn_name,"Entity to store baseline task data (start, finish, duration, percent complete, effort, effort remaining, effort completed)."
+msdyn_projectbucket,Project Bucket,msdyn_projectbucket,msdyn_projectbuckets,True,False,msdyn_projectbucketid,msdyn_name,
+msdyn_projectchange,Change,msdyn_ProjectChange,msdyn_projectchanges,True,False,msdyn_projectchangeid,msdyn_name,
+msdyn_projectchecklist,Project Checklist,msdyn_projectchecklist,msdyn_projectchecklists,True,False,msdyn_projectchecklistid,msdyn_name,
+msdyn_projectgoal,Project Goal,msdyn_projectgoal,msdyn_projectgoals,True,False,msdyn_projectgoalid,msdyn_name,
+msdyn_projecthistory,Project History,msdyn_projecthistory,msdyn_projecthistory,True,False,msdyn_projecthistoryid,msdyn_name,
+msdyn_projectimportstaging,Project Import Staging,msdyn_projectimportstaging,msdyn_projectimportstagings,True,False,msdyn_projectimportstagingid,msdyn_name,Store uploaded mpp files for Project Import functionality.
+msdyn_projectinternalconfiguration,Project Internal Configuration,msdyn_projectinternalconfiguration,msdyn_projectinternalconfigurations,True,False,msdyn_projectinternalconfigurationid,msdyn_name,
+msdyn_projectissue,Issue,msdyn_ProjectIssue,msdyn_projectissues,True,False,msdyn_projectissueid,msdyn_name,
+msdyn_projectlabel,Project Label,msdyn_projectlabel,msdyn_projectlabels,True,False,msdyn_projectlabelid,msdyn_projectlabeltext,Labels related to project tasks
+msdyn_projectparameter,Project Parameter,msdyn_projectparameter,msdyn_projectparameters,True,False,msdyn_projectparameterid,msdyn_description,List of settings that determine the behavior of the project-based service solution.
+msdyn_projectprogram,Program,msdyn_ProjectProgram,msdyn_projectprograms,True,False,msdyn_projectprogramid,msdyn_name,
+msdyn_projectrequest,Project Request,msdyn_ProjectRequest,msdyn_projectrequests,True,False,msdyn_projectrequestid,msdyn_name,
+msdyn_projectrisk,Risk,msdyn_ProjectRisk,msdyn_projectrisks,True,False,msdyn_projectriskid,msdyn_name,
+msdyn_projectsprint,Project Sprint,msdyn_projectsprint,msdyn_projectsprints,True,False,msdyn_projectsprintid,msdyn_name,
+msdyn_projectstatusreport,Status Report,msdyn_ProjectStatusReport,msdyn_projectstatusreports,True,False,msdyn_projectstatusreportid,msdyn_name,
+msdyn_projecttask,Project Task,msdyn_projecttask,msdyn_projecttasks,True,False,msdyn_projecttaskid,msdyn_subject,Tasks related to project.
+msdyn_projecttaskattachment,Project Task Attachment,msdyn_projecttaskattachment,msdyn_projecttaskattachments,True,False,msdyn_projecttaskattachmentid,msdyn_name,Entity to store attachment link information for a task
+msdyn_projecttaskconversation,Project Task Conversation,msdyn_projecttaskconversation,msdyn_projecttaskconversations,True,False,msdyn_projecttaskconversationid,msdyn_name,Teams Conversations on tasks.
+msdyn_projecttaskdependency,Project Task Dependency,msdyn_projecttaskdependency,msdyn_projecttaskdependencies,True,False,msdyn_projecttaskdependencyid,msdyn_description,Dependency data between tasks.
+msdyn_projecttasktogoal,Project Task to Goal,msdyn_projecttasktogoal,msdyn_projecttasktogoals,True,False,msdyn_projecttasktogoalid,msdyn_name,
+msdyn_projecttasktolabel,Project Task To Label,msdyn_projecttasktolabel,msdyn_projecttasktolabels,True,False,msdyn_projecttasktolabelid,msdyn_name,relationship between project tasks and project labels
+msdyn_projectteam,Project Team Member,msdyn_projectteam,msdyn_projectteams,True,False,msdyn_projectteamid,msdyn_name,Entity used to model relationship between resources and project teams.
+msdyn_projectteampermission,Project Team Member Permission,msdyn_projectteampermission,msdyn_projectteampermission,True,False,msdyn_projectteampermissionid,msdyn_name,Entity used to track entity level access restrictions for a team member. Allows one to set permission on the project record.( This is for internal use only )
+msdyn_projectteamschannelmapping,Project Teams Channel Mapping,msdyn_projectteamschannelmapping,msdyn_projectteamschannelmappings,True,False,msdyn_projectteamschannelmappingid,msdyn_name,Mapping between Project and Teams channel. User can create the mapping by pinning a project into a channel.
+msdyn_psserrorlog,PSS Error Log,msdyn_psserrorlog,msdyn_psserrorlogs,True,False,msdyn_psserrorlogid,msdyn_correlationid,Represents PSS error logs
+msdyn_qna,QnA,msdyn_qna,msdyn_qnas,True,False,msdyn_qnaid,msdyn_question,Question and Answers entity
+msdyn_replaylogheader,Replay Log Header (Deprecated),msdyn_replaylogheader,msdyn_replaylogheaders,True,False,msdyn_replaylogheaderid,msdyn_name,Replay log header for the document.
+msdyn_replaylogsection,Replay Log Section,msdyn_replaylogsection,msdyn_replaylogsections,True,False,msdyn_replaylogsectionid,msdyn_name,The sections of the replay log.
+msdyn_requirementchange,Requirement Change,msdyn_requirementchange,msdyn_requirementchanges,True,False,msdyn_requirementchangeid,msdyn_name,
+msdyn_requirementcharacteristic,Requirement Characteristic,msdyn_requirementcharacteristic,msdyn_requirementcharacteristics,True,False,msdyn_requirementcharacteristicid,msdyn_name,Requirement Characteristic
+msdyn_requirementdependency,Requirement Dependency,msdyn_requirementdependency,msdyn_requirementdependencies,True,False,msdyn_requirementdependencyid,msdyn_name,
+msdyn_requirementgroup,Requirement Group,msdyn_requirementgroup,msdyn_requirementgroups,True,False,msdyn_requirementgroupid,msdyn_name,Service which has resource requirement offering periods
+msdyn_requirementorganizationunit,Requirement Organization Unit,msdyn_requirementorganizationunit,msdyn_requirementorganizationunits,True,False,msdyn_requirementorganizationunitid,msdyn_name,Requirement of Organization Unit
+msdyn_requirementrelationship,Requirement Relationship,msdyn_requirementrelationship,msdyn_requirementrelationships,True,False,msdyn_requirementrelationshipid,msdyn_name,Relationship of requirements in the group
+msdyn_requirementresourcecategory,Requirement Resource Category,msdyn_requirementresourcecategory,msdyn_requirementresourcecategories,True,False,msdyn_requirementresourcecategoryid,msdyn_name,Requirement Resource Category
+msdyn_requirementresourcepreference,Requirement Resource Preference,msdyn_requirementresourcepreference,msdyn_requirementresourcepreferences,True,False,msdyn_requirementresourcepreferenceid,msdyn_name,Requirement Resource Preference
+msdyn_requirementstatus,Requirement Status,msdyn_requirementstatus,msdyn_requirementstatuses,True,False,msdyn_requirementstatusid,msdyn_name,Requirement Status
+msdyn_resourceassignment,Resource Assignment,msdyn_resourceassignment,msdyn_resourceassignments,True,False,msdyn_resourceassignmentid,msdyn_name,Entity used to keep track of resource assignment header information  on tasks.
+msdyn_resourcerequest,Resource Request,msdyn_resourcerequest,msdyn_resourcerequests,True,False,msdyn_resourcerequestid,msdyn_name,"Entity that wraps the resource requirement to capture the type of resources, skills, and location required."
+msdyn_resourcerequirement,Resource Requirement,msdyn_resourcerequirement,msdyn_resourcerequirements,True,False,msdyn_resourcerequirementid,msdyn_name,Entity used to track the high-level information about resource requirements.
+msdyn_resourcerequirement_bookableresource,msdyn_resourcerequirement_bookableresource,msdyn_resourcerequirement_bookableresource,msdyn_resourcerequirement_bookableresourceset,True,False,msdyn_resourcerequirement_bookableresourceid,,
+msdyn_resourcerequirement_bookingheader,msdyn_resourcerequirement_bookingheader,msdyn_resourcerequirement_bookingheader,msdyn_resourcerequirement_bookingheaderset,True,False,msdyn_resourcerequirement_bookingheaderid,,
+msdyn_resourcerequirement_systemuser,msdyn_resourcerequirement_systemuser,msdyn_resourcerequirement_systemuser,msdyn_resourcerequirement_systemuserset,True,False,msdyn_resourcerequirement_systemuserid,,
+msdyn_resourcerequirementdetail,Resource Requirement Detail,msdyn_resourcerequirementdetail,msdyn_resourcerequirementdetails,True,False,msdyn_resourcerequirementdetailid,msdyn_name,Entity used to track the detailed information about resource requirements.
+msdyn_resourceterritory,Resource Territory,msdyn_resourceterritory,msdyn_resourceterritories,True,False,msdyn_resourceterritoryid,msdyn_name,Allows to specify for which territory a resource could provide services for
+msdyn_richtextfile,Rich Text Attachment,msdyn_richtextfile,msdyn_richtextfiles,True,False,msdyn_richtextfileid,msdyn_name,Image or file attached to a rich text field
+msdyn_rolecompetencyrequirement,Role competency requirement,msdyn_rolecompetencyrequirement,msdyn_rolecompetencyrequirements,True,False,msdyn_rolecompetencyrequirementid,msdyn_name,Entity used  to associate skills in a role.
+msdyn_salesforcestructuredobject,Salesforce Structured Object,msdyn_salesforcestructuredobject,msdyn_salesforcestructuredobjects,True,False,msdyn_salesforcestructuredobjectid,name,Entity that represents the Salesforce Structured Object.
+msdyn_salesforcestructuredqnaconfig,Salesforce Structured QnA Config,msdyn_salesforcestructuredqnaconfig,msdyn_salesforcestructuredqnaconfigs,True,False,msdyn_salesforcestructuredqnaconfigid,name,Entity that represents the Salesforce Structured QnA Config.
+msdyn_schedule,Schedule,msdyn_schedule,msdyn_schedules,True,False,msdyn_scheduleid,msdyn_schedule,Generic refresh schedule
+msdyn_scheduleboardsetting,Schedule Board Setting,msdyn_scheduleboardsetting,msdyn_scheduleboardsettinges,True,False,msdyn_scheduleboardsettingid,msdyn_tabname,To store settings of SB by user & tabs
+msdyn_schedulingfeatureflag,Scheduling Feature Flag,msdyn_schedulingfeatureflag,msdyn_schedulingfeatureflags,True,False,msdyn_schedulingfeatureflagid,msdyn_name,Update records in this entity to enable a new feature.
+msdyn_schedulingparameter,Scheduling Parameter,msdyn_schedulingparameter,msdyn_schedulingparameters,True,False,msdyn_schedulingparameterid,msdyn_name,Scheduling Parameters
+msdyn_schedulingscope,Scheduling Scope,msdyn_schedulingscope,msdyn_schedulingscopes,True,False,msdyn_schedulingscopeid,msdyn_name,Defines the scope for scheduling.
+msdyn_serviceconfiguration,Service Configuration,msdyn_serviceconfiguration,msdyn_serviceconfigurations,True,False,msdyn_serviceconfigurationid,msdyn_name,
+msdyn_slakpi,SLA KPI,msdyn_slakpi,msdyn_slakpis,True,False,msdyn_slakpiid,msdyn_name,
+msdyn_solutioncomponentcountdatasource,Solution Component Count Data Source,msdyn_solutioncomponentcountdatasource,msdyn_solutioncomponentcountdatasources,True,False,msdyn_solutioncomponentcountdatasourceid,msdyn_name,
+msdyn_solutioncomponentcountsummary,Solution Component Count Summary,msdyn_solutioncomponentcountsummary,msdyn_solutioncomponentcountsummaries,True,False,msdyn_solutioncomponentcountsummaryid,msdyn_name,
+msdyn_solutioncomponentdatasource,Solution Component Data Source,msdyn_solutioncomponentdatasource,msdyn_solutioncomponentdatasources,True,False,msdyn_solutioncomponentdatasourceid,msdyn_name,
+msdyn_solutioncomponentsummary,Solution Component Summary,msdyn_solutioncomponentsummary,msdyn_solutioncomponentsummaries,True,False,msdyn_solutioncomponentsummaryid,msdyn_name,
+msdyn_solutionhealthrule,Solution Health Rule,msdyn_solutionhealthrule,msdyn_solutionhealthrules,True,False,msdyn_solutionhealthruleid,msdyn_name,
+msdyn_solutionhealthruleargument,Solution Health Rule Argument,msdyn_solutionhealthruleargument,msdyn_solutionhealthrulearguments,True,False,msdyn_solutionhealthruleargumentid,msdyn_name,
+msdyn_solutionhealthruleset,Solution Health Rule Set,msdyn_solutionhealthruleset,msdyn_solutionhealthrulesets,True,False,msdyn_solutionhealthrulesetid,msdyn_name,Represents a set that owns a number of solution health rules.
+msdyn_solutionhistory,Solution History,msdyn_solutionhistory,msdyn_solutionhistories,True,False,msdyn_solutionhistoryid,msdyn_name,
+msdyn_solutionhistorydatasource,Solution History Data Source,msdyn_solutionhistorydatasource,msdyn_solutionhistorydatasources,True,False,msdyn_solutionhistorydatasourceid,msdyn_name,
+msdyn_systemuserschedulersetting,System User Scheduler Setting,msdyn_systemuserschedulersetting,msdyn_systemuserschedulersettinges,True,False,msdyn_systemuserschedulersettingid,msdyn_name,Stores user-specific settings for the schedule board.
+msdyn_timegroup,Fulfillment Preference,msdyn_timegroup,msdyn_timegroups,True,False,msdyn_timegroupid,msdyn_name,"Specify time groups consisting of multiple time windows to be used for scheduling, for example."
+msdyn_timegroupdetail,Time Group Detail,msdyn_timegroupdetail,msdyn_timegroupdetails,True,False,msdyn_timegroupdetailid,msdyn_name,Specify individual time windows under a time group.
+msdyn_timelinepin,Timeline Pin,msdyn_timelinepin,msdyn_timelinepins,True,False,msdyn_timelinepinid,msdyn_name,Timeline Pin Record
+msdyn_tour,Tour,msdyn_tour,msdyn_tours,True,False,msdyn_tourid,msdyn_displayname,
+msdyn_useraccesspermission,User Access Permission,msdyn_useraccesspermission,msdyn_useraccesspermissions,True,False,msdyn_useraccesspermissionid,msdyn_name,Permissions on projects user is not a member of
+msdyn_virtualtablecolumncandidate,Virtual Table Column Candidate,msdyn_virtualtablecolumncandidate,msdyn_virtualtablecolumncandidates,True,False,msdyn_virtualtablecolumncandidateid,msdyn_externalname,
+msdyn_workflowactionstatus,Workflow Action Status,msdyn_workflowactionstatus,msdyn_workflowactionstatuses,True,False,msdyn_workflowactionstatusid,msdyn_actionname,PA Workflows action processing status
+msdyn_workhourtemplate,Work template,msdyn_workhourtemplate,msdyn_workhourtemplates,True,False,msdyn_workhourtemplateid,msdyn_name,Template where resource working hours can be saved and reused.
+msdynce_botcontent,BotContent,msdynce_botcontent,msdynce_botcontents,True,False,msdynce_botcontentid,msdynce_autonumber,
+msgraphresourcetosubscription,Ms Graph Resource To Subscription,MsGraphResourceToSubscription,msgraphresourcetosubscriptions,True,False,msgraphresourcetosubscriptionid,resourceid,For internal use only. The mapping between Ms Graph Resources and Subscriptions.
+mspcat_catalogsubmissionfiles,Catalog Submission Files,mspcat_CatalogSubmissionFiles,mspcat_catalogsubmissionfileses,True,False,mspcat_catalogsubmissionfilesid,mspcat_name,Files associated with the package that will be used as part of the submission to the catalog system.
+mspcat_packagestore,Package Submission Store,mspcat_PackageStore,mspcat_packagestores,True,False,mspcat_packagestoreid,mspcat_name,Manages submissions to the Catalog and provisioning
+mspp_accesscontrolrule_publishingstate,mspp_accesscontrolrule_publishingstate,mspp_accesscontrolrule_publishingstate,mspp_accesscontrolrule_publishingstateset,True,False,mspp_accesscontrolrule_publishingstateid,,
+mspp_adplacement,Ad Placement,mspp_adplacement,mspp_adplacements,True,False,mspp_adplacementid,mspp_name,
+mspp_columnpermission,Column Permission,mspp_columnpermission,mspp_columnpermissions,True,False,mspp_columnpermissionid,mspp_columnname,
+mspp_columnpermissionprofile,Column Permission Profile,mspp_columnpermissionprofile,mspp_columnpermissionprofiles,True,False,mspp_columnpermissionprofileid,mspp_profilename,
+mspp_columnpermissionprofile_webrole,mspp_columnpermissionprofile_webrole,mspp_columnpermissionprofile_webrole,mspp_columnpermissionprofile_webroleset,True,False,mspp_columnpermissionprofile_webroleid,,
+mspp_contentsnippet,Content Snippet,mspp_contentsnippet,mspp_contentsnippets,True,False,mspp_contentsnippetid,mspp_name,"Content snippets are inserted in page templates so that any label, text string or image in the template can be content-managed."
+mspp_entityform,Basic Form,mspp_entityform,mspp_entityforms,True,False,mspp_entityformid,mspp_name,Defines the form to render for a given entity type.
+mspp_entityformmetadata,Basic Form Metadata,mspp_entityformmetadata,mspp_entityformmetadatas,True,False,mspp_entityformmetadataid,mspp_name,Defines the additional behavior modification logic to augment or override the functionality of form components that is not possible with Dynamics 365 entity and form metadata.
+mspp_entitylist,List,mspp_entitylist,mspp_entitylists,True,False,mspp_entitylistid,mspp_name,
+mspp_entitypermission,Table Permission,mspp_entitypermission,mspp_entitypermissions,True,False,mspp_entitypermissionid,mspp_entityname,
+mspp_entitypermission_webrole,mspp_entitypermission_webrole,mspp_entitypermission_webrole,mspp_entitypermission_webroleset,True,False,mspp_entitypermission_webroleid,,
+mspp_pagetemplate,Page Template,mspp_pagetemplate,mspp_pagetemplates,True,False,mspp_pagetemplateid,mspp_name,URL of the .aspx page used to create new webpages.
+mspp_pollplacement,Poll Placement,mspp_pollplacement,mspp_pollplacements,True,False,mspp_pollplacementid,mspp_name,
+mspp_powerpagescoreentityds,Power Pages Core Entity DS,mspp_powerpagescoreentityds,mspp_powerpagescoreentitydses,True,False,mspp_powerpagescoreentitydsid,mspp_name,
+mspp_publishingstate,Publishing State,mspp_publishingstate,mspp_publishingstates,True,False,mspp_publishingstateid,mspp_name,
+mspp_publishingstatetransitionrule,Publishing State Transition Rule,mspp_publishingstatetransitionrule,mspp_publishingstatetransitionrules,True,False,mspp_publishingstatetransitionruleid,mspp_name,
+mspp_publishingstatetransitionrule_webrole,mspp_publishingstatetransitionrule_webrole,mspp_publishingstatetransitionrule_webrole,mspp_publishingstatetransitionrule_webroleset,True,False,mspp_publishingstatetransitionrule_webroleid,,
+mspp_redirect,Redirect,mspp_redirect,mspp_redirects,True,False,mspp_redirectid,mspp_name,
+mspp_shortcut,Shortcut,mspp_shortcut,mspp_shortcuts,True,False,mspp_shortcutid,mspp_name,
+mspp_sitemarker,Site Marker,mspp_sitemarker,mspp_sitemarkers,True,False,mspp_sitemarkerid,mspp_name,Used by web page templates to locate a specific page of content.
+mspp_sitesetting,Site Setting,mspp_sitesetting,mspp_sitesettings,True,False,mspp_sitesettingid,mspp_name,Site specific settings or variables refferenced by the web site code files.
+mspp_webfile,Web File,mspp_webfile,mspp_webfiles,True,False,mspp_webfileid,mspp_name,Storage of files used in the web Portals.
+mspp_webform,Multistep Form,mspp_webform,mspp_webforms,True,False,mspp_webformid,mspp_name,Defines the necessary properties and relationships to the other key entities in order to control the initialization of the form within a web portal.
+mspp_webformmetadata,Multistep Form Metadata,mspp_webformmetadata,mspp_webformmetadatas,True,False,mspp_webformmetadataid,mspp_attributelogicalname,Defines the additional behavior modification logic to augment or override the functionality of form fields that is not possible with Dynamics 365 entity and form metadata.
+mspp_webformstep,Form Step,mspp_webformstep,mspp_webformsteps,True,False,mspp_webformstepid,mspp_name,Defines the flow logic of the form's user experience such as steps and conditional branching.
+mspp_weblink,Web Link,mspp_weblink,mspp_weblinks,True,False,mspp_weblinkid,mspp_name,A textual or imaged based link to an interal or external URL.
+mspp_weblinkset,Web Link Set,mspp_weblinkset,mspp_weblinksets,True,False,mspp_weblinksetid,mspp_name,A grouping of web links.
+mspp_webpage,Web Page,mspp_webpage,mspp_webpages,True,False,mspp_webpageid,mspp_name,Web Page
+mspp_webpageaccesscontrolrule,Web Page Access Control Rule,mspp_webpageaccesscontrolrule,mspp_webpageaccesscontrolrules,True,False,mspp_webpageaccesscontrolruleid,mspp_name,
+mspp_webpageaccesscontrolrule_webrole,mspp_webpageaccesscontrolrule_webrole,mspp_webpageaccesscontrolrule_webrole,mspp_webpageaccesscontrolrule_webroleset,True,False,mspp_webpageaccesscontrolrule_webroleid,,
+mspp_webrole,Web Role,mspp_webrole,mspp_webroles,True,False,mspp_webroleid,mspp_name,Sets the user's role for the Portal.
+mspp_website,Website,mspp_website,mspp_websites,True,False,mspp_websiteid,mspp_name,Web Portal
+mspp_websiteaccess,Website Access,mspp_websiteaccess,mspp_websiteaccesses,True,False,mspp_websiteaccessid,mspp_name,
+mspp_websiteaccess_webrole,mspp_websiteaccess_webrole,mspp_websiteaccess_webrole,mspp_websiteaccess_webroleset,True,False,mspp_websiteaccess_webroleid,,
+mspp_websitelanguage,Website Language,mspp_websitelanguage,mspp_websitelanguages,True,False,mspp_websitelanguageid,mspp_name,Languages supported and publishing status for the portal
+mspp_webtemplate,Web Template,mspp_webtemplate,mspp_webtemplates,True,False,mspp_webtemplateid,mspp_name,
+multientitysearch,MultiEntitySearch,MultiEntitySearch,multientitysearches,False,False,multientitysearchid,name,Multi Entity Search.
+multientitysearchentities,multientitysearchentities,MultiEntitySearchEntities,multientitysearchentitiescollection,False,False,multientitysearchentityid,,
+multiselectattributeoptionvalues,Multi Select Option Value,MultiSelectAttributeOptionValues,multiselectattributeoptionvaluescollection,False,False,multiselectfulltextidkey,,Multi Select Option Value
+navigationsetting,Navigation Setting,NavigationSetting,navigationsettings,False,False,navigationsettingid,name,Navigation Setting: A setting page or group of pages available for configuration within an app. A record representing a group of pages is regarded as the parent navigation setting of one or more other records. For internal use only.
+newprocess,New Process,NewProcess,newprocesses,False,False,businessprocessflowinstanceid,name,New Process Business Process Flow
+nlsqregistration,NL2SQ Registration Information,nlsqregistration,nlsqregistrations,True,False,nlsqregistrationid,name,"Org registration status, AllowedEntity list, and registration error message."
+notification,Notification,Notification,notifications,False,False,notificationid,,For internal use only.
+officedocument,Office Document,OfficeDocument,officedocuments,False,False,officedocumentid,name,Used to store Office Documents in database in binary format.
+officegraphdocument,Office Graph Document,OfficeGraphDocument,officegraphdocuments,False,False,officegraphdocumentid,title,Office Graph Documents Description
+offlinecommanddefinition,Offline Command Definition,OfflineCommandDefinition,offlinecommanddefinitions,False,False,commanddefinitionid,commandname,For internal use only.
+optionset,OptionSet,OptionSet,optionsets,False,False,optionsetid,name,
+organization,Organization,Organization,organizations,False,False,organizationid,name,"Top level of the Microsoft Dynamics 365 business hierarchy. The organization can be a specific business, holding company, or corporation."
+organizationdatasyncfnostate,OrganizationDataSyncFnoState,organizationdatasyncfnostate,organizationdatasyncfnostates,True,False,organizationdatasyncfnostateid,name,Information regarding data synchronization state
+organizationdatasyncstate,OrganizationDataSyncState,organizationdatasyncstate,organizationdatasyncstates,True,False,organizationdatasyncstateid,name,Information regarding data synchronization state
+organizationdatasyncsubscription,OrganizationDataSyncSubscription,organizationdatasyncsubscription,organizationdatasyncsubscriptions,True,False,organizationdatasyncsubscriptionid,name,
+organizationdatasyncsubscriptionentity,OrganizationDataSyncSubscriptionEntity,organizationdatasyncsubscriptionentity,organizationdatasyncsubscriptionentities,True,False,organizationdatasyncsubscriptionentityid,name,
+organizationdatasyncsubscriptionfnotable,OrganizationDataSyncSubscriptionFnoTable,organizationdatasyncsubscriptionfnotable,organizationdatasyncsubscriptionfnotables,True,False,organizationdatasyncsubscriptionfnotableid,name,
+organizationsetting,Organization Setting,OrganizationSetting,organizationsettings,True,False,organizationsettingid,displayname,Holds the value for the associated Organization Setting Definition.
+organizationstatistic,Organization Statistic,OrganizationStatistic,organizationstatistics,False,False,organizationstatisticid,,Statistics measuring the organization's usage of the Microsoft Dynamics 365 system over the past 24 hours.
+organizationui,Organization UI,OrganizationUI,organizationuis,False,False,formid,,Entity customizations including form layout and icons. Includes current and past versions.
+orginsightsmetric,Organization Insights Metric,OrgInsightsMetric,orginsightsmetrics,False,False,orginsightsmetricid,,Stores data regarding organization insights metric
+orginsightsnotification,Organization Insights Notification,OrgInsightsNotification,orginsightsnotifications,False,False,orginsightsnotificationid,,Stores data regarding organization insights notification
+owner,Owner,Owner,owners,False,False,ownerid,name,Group of undeleted system users and undeleted teams. Owners can be used to control access to specific objects.
+ownermapping,Owner Mapping,OwnerMapping,ownermappings,False,False,ownermappingid,,"In a data map, maps ownership data from the source file to Microsoft Dynamics 365."
+package,Package,package,packages,True,False,packageid,packageuniquename,
+package_solution,package_solution,package_solution,package_solutionset,True,False,package_solutionid,,
+packagehistory,Package History,packagehistory,packagehistories,True,False,packagehistoryid,executionname,
+partnerapplication,Partner Application,PartnerApplication,partnerapplications,False,False,partnerapplicationid,name,Partner applications registered for this organization
+pdfsetting,PDF Setting,PDFSetting,pdfsettings,True,False,pdfsettingid,entityname,PDF Settings to save enabled pdf entities
+personaldocumenttemplate,Personal Document Template,PersonalDocumentTemplate,personaldocumenttemplates,False,False,personaldocumenttemplateid,name,Used to store Personal Document Templates in database in binary format.
+phonecall,Phone Call,PhoneCall,phonecalls,False,True,activityid,subject,Activity to track a telephone call.
+picklistmapping,List Value Mapping,PickListMapping,picklistmappings,False,False,picklistmappingid,,"In a data map, maps list values from the source file to Microsoft Dynamics 365."
+plannerbusinessscenario,Planner Business Scenario,plannerbusinessscenario,plannerbusinessscenarios,True,False,plannerbusinessscenarioid,uniquename,For internal use only. The Business Scenario record to be created in Planner.
+plannersyncaction,Planner Sync Action,PlannerSyncAction,plannersyncactions,True,False,plannersyncactionid,title,The Planner Sync Action to be executed.
+plugin,Plug-in,plugin,plugins,True,False,pluginid,name,
+pluginassembly,Plug-in Assembly,PluginAssembly,pluginassemblies,False,False,pluginassemblyid,name,Assembly that contains one or more plug-in types.
+pluginpackage,Plugin Package,PluginPackage,pluginpackages,True,False,pluginpackageid,name,
+plugintracelog,Plug-in Trace Log,PluginTraceLog,plugintracelogs,False,False,plugintracelogid,typename,Trace and exception information generated by plug-ins and custom workflow activities.
+plugintype,Plug-in Type,PluginType,plugintypes,False,False,plugintypeid,name,Type that inherits from the IPlugin interface and is contained within a plug-in assembly.
+plugintypestatistic,Plug-in Type Statistic,PluginTypeStatistic,plugintypestatistics,False,False,plugintypestatisticid,,Plug-in type statistic.
+position,Position,Position,positions,False,False,positionid,name,Position of a user in the hierarchy
+post,Post,Post,posts,False,False,postid,text,An activity feed post.
+postcomment,Comment,PostComment,postcomments,False,False,postcommentid,text,A comment on an activity feed post.
+postfollow,Follow,PostFollow,postfollows,False,False,postfollowid,regardingobjectidname,Represents a user following the activity feed of an object.
+postlike,Like,PostLike,postlikes,False,False,postlikeid,,A like on an activity feed post.
+postregarding,Post Regarding,PostRegarding,postregardings,False,False,postregardingid,,Represents which object an activity feed post is regarding. For internal use only.
+postrole,Post Role,PostRole,postroles,False,False,postroleid,,Represents the objects with which an activity feed post is associated. For internal use only.
+powerfxrule,PowerfxRule,powerfxrule,powerfxrules,True,False,powerfxruleid,name,
+powerpagecomponent,Site Component,powerpagecomponent,powerpagecomponents,True,False,powerpagecomponentid,name,
+powerpagecomponent_mspp_webrole_account,powerpagecomponent_mspp_webrole_account,powerpagecomponent_mspp_webrole_account,powerpagecomponent_mspp_webrole_accountset,True,False,powerpagecomponent_mspp_webrole_accountid,,
+powerpagecomponent_mspp_webrole_contact,powerpagecomponent_mspp_webrole_contact,powerpagecomponent_mspp_webrole_contact,powerpagecomponent_mspp_webrole_contactset,True,False,powerpagecomponent_mspp_webrole_contactid,,
+powerpagecomponent_powerpagecomponent,powerpagecomponent_powerpagecomponent,powerpagecomponent_powerpagecomponent,powerpagecomponent_powerpagecomponentset,True,False,powerpagecomponent_powerpagecomponentid,,
+powerpagecomponent_webrole_systemuser,powerpagecomponent_webrole_systemuser,powerpagecomponent_webrole_systemuser,powerpagecomponent_webrole_systemuserset,True,False,powerpagecomponent_webrole_systemuserid,,
+powerpagesddosalert,PowerPagesDDOSAlert,PowerPagesDDOSAlert,powerpagesddosalerts,True,False,powerpagesddosalertid,portalid,Schema for DDOS Alerts on PowerPage Site
+powerpagesite,Site,powerpagesite,powerpagesites,True,False,powerpagesiteid,name,
+powerpagesite_dvfilesearch,powerpagesite_dvfilesearch,powerpagesite_dvfilesearch,powerpagesite_dvfilesearchset,True,False,powerpagesite_dvfilesearchid,,
+powerpagesite_dvtablesearch,powerpagesite_dvtablesearch,powerpagesite_dvtablesearch,powerpagesite_dvtablesearchset,True,False,powerpagesite_dvtablesearchid,,
+powerpagesitelanguage,Site Language,powerpagesitelanguage,powerpagesitelanguages,True,False,powerpagesitelanguageid,name,
+powerpagesitepublished,Power Pages Site Published,powerpagesitepublished,powerpagesitepublisheds,True,False,powerpagesitepublishedid,name,
+powerpageslog,Power Pages Log,PowerPagesLog,powerpageslogs,True,False,powerpageslogid,name,
+powerpagesmanagedidentity,PowerPagesManagedIdentity,PowerPagesManagedIdentity,powerpagesmanagedidentities,True,False,powerpagesmanagedidentityid,name,
+powerpagesscanreport,Power Pages Scan Report,PowerPagesScanReport,powerpagesscanreports,True,False,powerpagesscanreportid,name,Power Pages Scan Report
+powerpagessiteaifeedback,Power Pages Site AI Feedback,PowerPagesSiteAIFeedback,powerpagessiteaifeedbacks,True,False,powerpagessiteaifeedbackid,name,
+powerpagessourcefile,Site Source File,powerpagessourcefile,powerpagessourcefiles,True,False,powerpagessourcefileid,name,Power Pages Site Source File
+principalattributeaccessmap,principalattributeaccessmap,PrincipalAttributeAccessMap,principalattributeaccessmaps,False,False,principalattributeaccessmapid,,Maps security principals (users and teams) to secured field access rights.
+principalentitybusinessunitmap,PrincipalEntityBusinessUnitMap,PrincipalEntityBusinessUnitMap,principalentitybusinessunitmaps,False,False,principalentitybusinessunitmapid,,Internal authorization table to track user authorization changes
+principalentitymap,principalentitymap,PrincipalEntityMap,principalentitymaps,False,False,principalentitymapid,,Map CRM security principals (users and teams) to user/team owned entities with basic read privilege.
+principalobjectaccess,principalobjectaccess,PrincipalObjectAccess,principalobjectaccessset,False,False,principalobjectaccessid,,
+principalobjectaccessreadsnapshot,principalobjectaccessreadsnapshot,PrincipalObjectAccessReadSnapshot,principalobjectaccessreadsnapshots,False,False,principalobjectaccessreadsnapshotid,,
+principalobjectattributeaccess,Field Sharing,PrincipalObjectAttributeAccess,principalobjectattributeaccessset,False,False,principalobjectattributeaccessid,,Defines CRM security principals (users and teams) access rights to secured field for an entity instance.
+principalsyncattributemap,Principal Sync Attribute Map,PrincipalSyncAttributeMap,principalsyncattributemaps,False,False,principalsyncattributemapid,,Maps security principals (users and teams) to sync attribute mappings.
+privilege,Privilege,Privilege,privileges,False,False,privilegeid,name,Permission to perform an action in Microsoft CRM. The platform checks for the privilege and rejects the attempt if the user does not hold the privilege.
+privilegecheckerlog,Privilege Checker Log,PrivilegeCheckerLog,privilegecheckerlogs,True,False,privilegecheckerlogid,name,Holds information about privilege checks for the user who started (created) a privilege checker tool run (Privilege Checker Run's child entity)
+privilegecheckerrun,Privilege Checker Run,PrivilegeCheckerRun,privilegecheckerruns,True,False,privilegecheckerrunid,name,Entity to keep track of privilege checker tool runs. Parent entity of privilege checker log.
+privilegeobjecttypecodes,Privilege Object Type Code,PrivilegeObjectTypeCodes,privilegeobjecttypecodesset,False,False,privilegeobjecttypecodeid,,For internal use only.
+privilegesremovalsetting,Privileges Removal Setting,PrivilegesRemovalSetting,privilegesremovalsettings,False,False,privilegesremovalsettingid,name,Privileges Removal Setting
+processorregistration,processor registration,processorregistration,processorregistrations,True,False,processorregistrationid,processortype,
+processsession,Process Session,ProcessSession,processsessions,False,False,processsessionid,name,"Information that is generated when a dialog is run. Every time that you run a dialog, a dialog session is created."
+processstage,Process Stage,ProcessStage,processstages,False,False,processstageid,stagename,Stage associated with a process.
+processstageparameter,ProcessStageParameter,processstageparameter,processstageparameters,True,False,processstageparameterid,name,
+processtrigger,Process Trigger,ProcessTrigger,processtriggers,False,False,processtriggerid,,Trigger that invoke a rule.
+provisionlanguageforuser,ProvisionLanguageForUser,ProvisionLanguageForUser,provisionlanguageforusers,True,False,provisionlanguageforuserid,name,
+publisher,Publisher,Publisher,publishers,False,False,publisherid,friendlyname,A publisher of a CRM solution.
+publisheraddress,Publisher Address,PublisherAddress,publisheraddresses,False,False,publisheraddressid,name,Address and shipping information. Used to store additional addresses for a publisher.
+purviewlabelinfo,Purview Label Info,purviewlabelinfo,purviewlabelinfos,True,False,purviewlabelinfoid,name,
+purviewlabelsynccache,Purview Label Sync Cache,purviewlabelsynccache,purviewlabelsynccaches,True,False,purviewlabelsynccacheid,name,Purview Label Sync Cache
+qrt_agreements,Agreements,qrt_Agreements,qrt_agreementses,True,False,qrt_agreementsid,qrt_name,
+qrt_aossuggestionbox,"Dear AOS,",qrt_AOSSuggestionBox,qrt_aossuggestionboxes,True,True,activityid,subject,
+qrt_assetcontract,Asset Contract,qrt_assetcontract,qrt_assetcontracts,True,False,qrt_assetcontractid,qrt_title,Table for managing Asset Contract data.
+qrt_assetmanagementrequests,AM Requests,qrt_assetmanagementrequests,qrt_assetmanagementrequestses,True,True,activityid,subject,Table for managing Asset Management Requests activities.
+qrt_assetproforma,Asset Proforma,qrt_assetproforma,qrt_assetproformas,True,False,qrt_assetproformaid,qrt_title,Table for managing Asset Proforma data.
+qrt_bidissuance,Bid Issuance,qrt_bidissuance,qrt_bidissuances,True,True,activityid,subject,Table for managing Bid Issuance activities.
+qrt_bidpackage,Bid Package,qrt_BidPackage,qrt_bidpackages,True,False,qrt_bidpackageid,qrt_name,
+qrt_bidpackage_account,qrt_bidpackage_account,qrt_BidPackage_Account,qrt_bidpackage_accountset,True,False,qrt_bidpackage_accountid,,
+qrt_bidpackage_msdyn_project,qrt_bidpackage_msdyn_project,qrt_BidPackage_msdyn_project,qrt_bidpackage_msdyn_projectset,True,False,qrt_bidpackage_msdyn_projectid,,
+qrt_bonds,Bonds,qrt_bonds,qrt_bondses,True,False,qrt_bondsid,qrt_title,Table for managing Bonds data.
+qrt_constructionrequests,Construction Reqs,qrt_constructionrequests,qrt_constructionrequestses,True,True,activityid,subject,Table for managing Construction Requests activities.
+qrt_costcodes,Cost Codes,qrt_CostCodes,qrt_costcodeses,True,False,qrt_costcodesid,qrt_name,
+qrt_departmentheadsmeetingagenda,Department Heads Meeting Agenda,qrt_DepartmentHeadsMeetingAgenda,qrt_departmentheadsmeetingagendas,True,False,qrt_departmentheadsmeetingagendaid,qrt_name,
+qrt_designrequests,Design Requests,qrt_designrequests,qrt_designrequestses,True,True,activityid,subject,Table for managing Design Requests activities.
+qrt_developmentrequests,Development Reqs,qrt_developmentrequests,qrt_developmentrequestses,True,True,activityid,subject,Table for managing Development Requests activities.
+qrt_engineeringrequests,Engineering Reqs,qrt_engineeringrequests,qrt_engineeringrequestses,True,True,activityid,subject,Table for managing Engineering Requests activities.
+qrt_epca,EPCA,qrt_EPCA,qrt_epcas,True,False,qrt_epcaid,qrt_name,
+qrt_epcamilestones,EPCA Milestones,qrt_EPCAMilestones,qrt_epcamilestoneses,True,False,qrt_epcamilestonesid,qrt_name,
+qrt_equipment,Equipment,qrt_equipment,qrt_equipments,True,False,qrt_equipmentid,qrt_title,Table for managing Equipment data.
+qrt_equipmentskuquotes,Equipment SKU Quotes,qrt_equipmentskuquotes,qrt_equipmentskuquoteses,True,False,qrt_equipmentskuquotesid,qrt_title,Table for managing Equipment SKU Quotes data.
+qrt_equipmentskus,Equipment SKUs,qrt_equipmentskus,qrt_equipmentskuses,True,False,qrt_equipmentskusid,qrt_title,Table for managing Equipment SKUs data.
+qrt_estimateresquests,Estimate Requests,qrt_estimateresquests,qrt_estimateresquestses,True,True,activityid,subject,Table for managing Estimate Requests activities.
+qrt_financerequests,Finance Requests,qrt_financerequests,qrt_financerequestses,True,True,activityid,subject,Table for managing Finance Requests activities.
+qrt_flowconfiguration,Flow Configuration,qrt_FlowConfiguration,qrt_flowconfigurations,True,False,qrt_flowconfigurationid,qrt_name,
+qrt_geotechreview,Geotech Review,qrt_GeotechReview,qrt_geotechreviews,True,False,qrt_geotechreviewid,qrt_name,
+qrt_icrequest,IC Request,qrt_ICRequest,qrt_icrequests,True,False,qrt_icrequestid,qrt_name,
+qrt_incentiveprogram,Incentive Program,qrt_incentiveprogram,qrt_incentiveprograms,True,False,qrt_incentiveprogramid,qrt_title,Table for managing Incentive Program data.
+qrt_incentives,Incentives,qrt_incentives,qrt_incentiveses,True,False,qrt_incentivesid,qrt_title,Table for managing Incentives data.
+qrt_interconnectionagreementsandpayments,IX Agreements,qrt_interconnectionagreementsandpayments,qrt_interconnectionagreementsandpaymentses,True,False,qrt_interconnectionagreementsandpaymentsid,qrt_title,Table for managing Interconnection Agreements & Payments data.
+qrt_interconnectionapplicationsstudies,IX Applications,qrt_interconnectionapplicationsstudies,qrt_interconnectionapplicationsstudieses,True,False,qrt_interconnectionapplicationsstudiesid,qrt_title,Table for managing Interconnection Applications & Studies data.
+qrt_legalrequests,Legal Requests,qrt_legalrequests,qrt_legalrequestses,True,True,activityid,subject,Table for managing Legal Requests activities.
+qrt_originationnotes,Origination Notes,qrt_OriginationNotes,qrt_originationnoteses,True,False,qrt_originationnotesid,qrt_name,
+qrt_permits,Permits,qrt_permits,qrt_permitses,True,False,qrt_permitsid,qrt_title,Table for managing Permits data.
+qrt_portfolio,Portfolio,qrt_Portfolio,qrt_portfolios,True,False,qrt_portfolioid,qrt_name,
+qrt_procurementrequests,Procurement Reqs,qrt_procurementrequests,qrt_procurementrequestses,True,True,activityid,subject,Table for managing Procurement Requests activities.
+qrt_schedulerequests,Schedule Requests,qrt_ScheduleRequests,qrt_schedulerequestses,True,True,activityid,subject,
+qrt_scheduletasks,Schedule Tasks,qrt_ScheduleTasks,qrt_scheduletaskses,True,False,qrt_scheduletasksid,qrt_name,
+qrt_sharepointfolderstructure,Sharepoint Folder Structure,qrt_SharepointFolderStructure,qrt_sharepointfolderstructures,True,False,qrt_sharepointfolderstructureid,qrt_name,
+qrt_sitecontrol,Site Control,qrt_sitecontrol,qrt_sitecontrols,True,False,qrt_sitecontrolid,qrt_title,Table for managing site control data.
+qrt_studies,Studies,qrt_studies,qrt_studieses,True,False,qrt_studiesid,qrt_title,Table for managing Studies data.
+qrt_submittals,Submittals,qrt_Submittals,qrt_submittalses,True,False,qrt_submittalsid,qrt_name,
+qrt_taskconfigrule,Task Config Rule,qrt_taskconfigrule,qrt_taskconfigrules,True,False,qrt_taskconfigruleid,qrt_fieldname,Task Config Rule
+qrt_taskconfiguration,Task Configuration,qrt_taskconfiguration,qrt_taskconfigurations,True,False,qrt_taskconfigurationid,qrt_title,Task Configuration
+qrt_taskrules,Task Rules,qrt_TaskRules,qrt_taskruleses,True,False,qrt_taskrulesid,qrt_name,
+qrt_titleandalta,Title & ALTA,qrt_titleandalta,qrt_titleandaltas,True,False,qrt_titleandaltaid,qrt_title,Table for managing Title & ALTA data.
+quarterlyfiscalcalendar,Quarterly Fiscal Calendar,QuarterlyFiscalCalendar,quarterlyfiscalcalendars,False,False,userfiscalcalendarid,,Quarterly fiscal calendar of an organization. A span of time during which the financial activities of an organization are calculated.
+queue,Queue,Queue,queues,False,False,queueid,name,"A list of records that require action, such as accounts, activities, and cases."
+queueitem,Queue Item,QueueItem,queueitems,False,False,queueitemid,title,"A specific item in a queue, such as a case record or an activity record."
+queueitemcount,QueueItemCount,QueueItemCount,queueitemcounts,False,False,queueitemcountid,,For internal use only.
+queuemembercount,QueueMemberCount,QueueMemberCount,queuemembercounts,False,False,queuemembercountid,,For internal use only.
+queuemembership,queuemembership,QueueMembership,queuememberships,False,False,queuemembershipid,,
+ratingmodel,Rating Model,RatingModel,ratingmodels,False,False,ratingmodelid,name,Represents a model to evaluate skills or other related entities.
+ratingvalue,Rating Value,RatingValue,ratingvalues,False,False,ratingvalueid,name,A unique value associated with a rating model that allows providing a user friendly rating value.
+recentlyused,Recently Used,recentlyused,recentlyused,True,False,recentlyusedid,name,Most recently used data table.
+recommendeddocument,Document Suggestions,RecommendedDocument,recommendeddocuments,False,False,recommendeddocumentid,title,Document Suggestions
+reconciliationentityinfo,ReconciliationEntityInfo,reconciliationentityinfo,reconciliationentityinfos,True,False,reconciliationentityinfoid,name,Table level details of the data lake reconciliation process. For internal use only.
+reconciliationentitystepinfo,ReconciliationEntityStepInfo,reconciliationentitystepinfo,reconciliationentitystepinfos,True,False,reconciliationentitystepinfoid,name,Step level details of the data lake reconciliation process. For internal use only.
+reconciliationinfo,ReconciliationInfo,reconciliationinfo,reconciliationinfos,True,False,reconciliationinfoid,name,Information about data lake reconciliation operation. For internal use only.
+recordcountsnapshot,recordcountsnapshot,RecordCountSnapshot,recordcountsnapshots,False,False,recordcountsnapshotid,,
+recordfilter,Record Filter,RecordFilter,recordfilters,True,False,recordfilterid,displayname,Record Access Filter
+recurrencerule,Recurrence Rule,RecurrenceRule,recurrencerules,False,False,ruleid,,Recurrence Rule represents the pattern of incidence of recurring entities.
+recurringappointmentmaster,Recurring Appointment,RecurringAppointmentMaster,recurringappointmentmasters,False,True,activityid,subject,The Master appointment of a recurring appointment series.
+recyclebinconfig,Restore Deleted Records Configuration,RecycleBinConfig,recyclebinconfigs,True,False,recyclebinconfigid,name,Holds Restore Deleted Records configuration for entities
+relationship,Relationship Entity,Relationship,relationships,False,False,relationshipid,name,
+relationshipattribute,Relationship Attribute,RelationshipAttribute,relationshipattributes,False,False,relationshipattributeid,name,Stores relationship attributes mapping for Multi-predicate relationship
+relationshiprole,Relationship Role,RelationshipRole,relationshiproles,False,False,relationshiproleid,name,Relationship between an account or contact and an opportunity.
+relationshiprolemap,Relationship Role Map,RelationshipRoleMap,relationshiprolemaps,False,False,relationshiprolemapid,,Mapping of the primary associated objects between which the relationship role is valid.
+replicationbacklog,Replication Backlog,ReplicationBacklog,replicationbacklogs,False,False,replicationbacklogid,,Entity to hold replication backlog tasks. For internal use only.
+report,Report,Report,reports,False,False,reportid,name,Data summary in an easy-to-read layout.
+reportcategory,Report Related Category,ReportCategory,reportcategories,False,False,reportcategoryid,,Categories related to a report. A report can be related to multiple categories.
+reportentity,Report Related Entity,ReportEntity,reportentities,False,False,reportentityid,,Entities related to a report. A report can be related to multiple entities.
+reportlink,Report Link,ReportLink,reportlinks,False,False,reportlinkid,,"Links and dependencies between reports. A report may drill through to another report, or it may have another report as a sub-report."
+reportparameter,Report Parameter,ReportParameter,reportparameters,True,False,reportparameterid,name,
+reportvisibility,Report Visibility,ReportVisibility,reportvisibilities,False,False,reportvisibilityid,,Area in which to show a report. A report can be shown in multiple areas.
+retaineddataexcel,RetainedData Excel,retaineddataexcel,retaineddataexcels,True,False,retaineddataexcelid,name,A Place holder entity to save excel file for each exportretaineddata custom api requests.
+retentioncleanupinfo,RetentionCleanupInfo,retentioncleanupinfo,retentioncleanupinfos,True,False,retentioncleanupinfoid,name,Holds watermark information about retention cleanup operations. For internal use only.
+retentioncleanupoperation,RetentionCleanupOperation,retentioncleanupoperation,retentioncleanupoperations,True,False,retentioncleanupoperationid,name,Holds data of cleanup operations such as reconcile and purge.  For internal use only.
+retentionconfig,RetentionConfig,retentionconfig,retentionconfigs,True,False,retentionconfigid,name,Holds retention policies for a table.
+retentionfailuredetail,RetentionFailureDetail,retentionfailuredetail,retentionfailuredetails,True,False,retentionfailuredetailid,name,Retention failure details.
+retentionoperation,RetentionOperation,retentionoperation,retentionoperations,True,False,retentionoperationid,name,Retention policy execution details.
+retentionoperationdetail,RetentionOperationDetail,retentionoperationdetail,retentionoperationdetails,True,False,retentionoperationdetailid,name,Table level details of retention execution.
+retentionsuccessdetail,RetentionSuccessDetail,retentionsuccessdetail,retentionsuccessdetails,True,False,retentionsuccessdetailid,name,Retention Success details.
+revokeinheritedaccessrecordstracker,RevokeInheritedAccessRecordsTracker,revokeinheritedaccessrecordstracker,revokeinheritedaccessrecordstrackers,True,False,revokeinheritedaccessrecordstrackerid,revokeinheritedaccessrecordstracker,
+ribbonclientmetadata,Ribbon Client Metadata.,RibbonClientMetadata,ribbonclientmetadata,False,False,ribbonid,,A ribbon client metadata.
+ribboncommand,Ribbon Command,RibbonCommand,ribboncommands,False,False,ribboncommandid,,"Ribbon Commands - the command definition, rules, etc."
+ribboncontextgroup,Ribbon Context Group,RibbonContextGroup,ribboncontextgroups,False,False,ribboncontextgroupid,,Groupings of contextual tabs.
+ribboncustomization,Application Ribbons,RibbonCustomization,ribboncustomizations,False,False,ribboncustomizationid,,Ribbon customizations for the application ribbon and entity ribbon templates.
+ribbondiff,Ribbon Difference,RibbonDiff,ribbondiffs,False,False,ribbondiffid,,"All layout customizations to be applied to the ribbons, which contain only the differences from the base ribbon."
+ribbonmetadatatoprocess,Ribbon Metadata To Process,RibbonMetadataToProcess,RibbonMetadataSetToProcess,False,False,ribbonmetadatarowid,,Container for Ribbon Metadata To Process
+ribbonrule,Ribbon Rule,RibbonRule,ribbonrules,False,False,ribbonruleid,,"Ribbon rule definitions, used to enable and disable, show and hide ribbon elements."
+ribbontabtocommandmap,Ribbon Tab To Command Mapping,RibbonTabToCommandMap,ribbontabtocommandmaps,False,False,ribbontabtocommandmapid,,"A mapping between Tab Ids, and the Commands within those tabs."
+role,Security Role,Role,roles,False,False,roleid,name,Grouping of security privileges. Users are assigned roles that authorize their access to the Microsoft CRM system.
+roleeditorlayout,RoleEditorLayout,RoleEditorLayout,roleeditorlayouts,True,False,roleeditorlayoutid,name,
+roleprivileges,roleprivileges,RolePrivileges,roleprivilegescollection,False,False,roleprivilegeid,,Group of privileges used to categorize users to provide appropriate access to entities.
+roletemplate,Role Template,RoleTemplate,roletemplates,False,False,roletemplateid,name,Template for a role. Defines initial attributes that will be used when creating a new role.
+roletemplateprivileges,roletemplateprivileges,RoleTemplatePrivileges,roletemplateprivilegescollection,False,False,roletemplateprivilegeid,,
+rollupfield,Rollup Field,RollupField,rollupfields,False,False,rollupfieldid,,Field to be rolled up to calculate the actual and in-progress values against the goal.
+rollupjob,Rollup Job,RollupJob,rollupjobs,False,False,rollupjobid,,Stores rollup jobs.
+rollupproperties,Rollup Properties,RollupProperties,rolluppropertiescollection,False,False,rolluppropertiesid,,Stores properties related to rollup fields.
+routingrule,Routing Rule Set,RoutingRule,routingrules,False,False,routingruleid,name,Define Routing Rule to route cases to right people at the right time
+routingruleitem,Rule Item,RoutingRuleItem,routingruleitems,False,False,routingruleitemid,name,Please provide the description for entity
+runtimedependency,RuntimeDependency,RuntimeDependency,runtimedependencies,False,False,dependencyid,,Form Level dependencies in CRM.
+sa_suggestedaction,Suggested Action,sa_SuggestedAction,sa_suggestedactions,True,False,sa_suggestedactionid,sa_actiontitle,This table contains records of suggested actions with execution details.
+sa_suggestedactioncriteria,Suggested Action Criteria,sa_SuggestedActionCriteria,sa_suggestedactioncriterias,True,False,sa_suggestedactioncriteriaid,sa_appid,This table contains records of suggested action criteria.
+savedorginsightsconfiguration,Saved Organization Insights Configuration,SavedOrgInsightsConfiguration,savedorginsightsconfigurations,False,False,savedorginsightsconfigurationid,,Saved configuration for the organization insights
+savedquery,View,SavedQuery,savedqueries,False,False,savedqueryid,name,Saved query against the database.
+savedqueryvisualization,System Chart,SavedQueryVisualization,savedqueryvisualizations,False,False,savedqueryvisualizationid,name,System chart attached to an entity.
+savingrule,Saving Rule,savingrule,savingrules,True,False,savingruleid,name,
+sdkmessage,Sdk Message,SdkMessage,sdkmessages,False,False,sdkmessageid,name,Message that is supported by the SDK.
+sdkmessagefilter,Sdk Message Filter,SdkMessageFilter,sdkmessagefilters,False,False,sdkmessagefilterid,name,Filter that defines which SDK messages are valid for each type of entity.
+sdkmessagepair,Sdk Message Pair,SdkMessagePair,sdkmessagepairs,False,False,sdkmessagepairid,,For internal use only.
+sdkmessageprocessingstep,Sdk Message Processing Step,SdkMessageProcessingStep,sdkmessageprocessingsteps,False,False,sdkmessageprocessingstepid,name,Stage in the execution pipeline that a plug-in is to execute.
+sdkmessageprocessingstepimage,Sdk Message Processing Step Image,SdkMessageProcessingStepImage,sdkmessageprocessingstepimages,False,False,sdkmessageprocessingstepimageid,name,Copy of an entity's attributes before or after the core system operation.
+sdkmessageprocessingstepsecureconfig,Sdk Message Processing Step Secure Configuration,SdkMessageProcessingStepSecureConfig,sdkmessageprocessingstepsecureconfigs,False,False,sdkmessageprocessingstepsecureconfigid,,Non-public custom configuration that is passed to a plug-in's constructor.
+sdkmessagerequest,Sdk Message Request,SdkMessageRequest,sdkmessagerequests,False,False,sdkmessagerequestid,,For internal use only.
+sdkmessagerequestfield,Sdk Message Request Field,SdkMessageRequestField,sdkmessagerequestfields,False,False,sdkmessagerequestfieldid,,For internal use only.
+sdkmessageresponse,Sdk Message Response,SdkMessageResponse,sdkmessageresponses,False,False,sdkmessageresponseid,,For internal use only.
+sdkmessageresponsefield,Sdk Message Response Field,SdkMessageResponseField,sdkmessageresponsefields,False,False,sdkmessageresponsefieldid,,For internal use only.
+searchattributesettings,SearchAttributeSettings,searchattributesettings,searchattributesettingses,True,False,searchattributesettingsid,name,
+searchcustomanalyzer,SearchCustomAnalyzer,searchcustomanalyzer,searchcustomanalyzers,True,False,searchcustomanalyzerid,name,
+searchrelationshipsettings,SearchRelationshipSettings,searchrelationshipsettings,searchrelationshipsettingses,True,False,searchrelationshipsettingsid,relationshipsettingname,
+searchresultscache,SearchResultsCache,SearchResultsCache,searchresultscaches,True,False,searchresultscacheid,searchrequesthash,Cache search results internally
+searchtelemetry,Search Telemetry,searchtelemetry,searchtelemetries,True,False,searchtelemetryid,userquery,Entity to log telemetry that used to improve search quality
+semiannualfiscalcalendar,Semiannual Fiscal Calendar,SemiAnnualFiscalCalendar,semiannualfiscalcalendars,False,False,userfiscalcalendarid,,Calendar representing the semi-annual span of time during which the financial activities of an organization are calculated.
+sensitivitylabel,Sensitivity Label,sensitivitylabel,sensitivitylabels,True,False,sensitivitylabelid,name,Virtual entity that represents Sensitivity Labels
+sensitivitylabelattributemapping,Sensitivity Label Attribute Mapping,sensitivitylabelattributemapping,sensitivitylabelattributemappings,True,False,sensitivitylabelattributemappingid,name,Sensitivity Label Attribute Mapping
+serviceendpoint,Service Endpoint,ServiceEndpoint,serviceendpoints,False,False,serviceendpointid,name,Service endpoint that can be contacted.
+serviceplan,Service Plan,ServicePlan,serviceplans,False,False,serviceplanid,name,Service Plan
+serviceplanappmodules,serviceplanappmodules,ServicePlanAppModules,serviceplanappmodulesset,True,False,serviceplanappmodulesid,,
+serviceplancustomcontrol,Service Plan Custom Control,ServicePlanCustomControl,serviceplancustomcontrolset,True,False,serviceplancustomcontrolid,name,Service Plan Custom Controls
+serviceplanmapping,Service Plan Mapping,ServicePlanMapping,serviceplanmappings,True,False,serviceplanmappingid,name,Service Plan Mapping
+settingdefinition,Setting Definition,SettingDefinition,settingdefinitions,True,False,settingdefinitionid,displayname,Contains Setting Definitions
+sharedlinksetting,Shared Link Setting,SharedLinkSetting,sharedlinksettings,True,False,sharedlinksettingid,name,Shared Link Setting
+sharedobject,Shared Object,sharedobject,sharedobjects,True,False,sharedobjectid,objectname,A record that is being shared in a real time collaboration session.
+sharedobjectsforread,sharedobjectsforread,SharedObjectsForRead,sharedobjectsforread,False,False,sharedobjectsforreadid,,
+sharedworkspace,Shared Workspace,sharedworkspace,sharedworkspaces,True,False,sharedworkspaceid,name,References a container that stores real-time collaboration data.
+sharedworkspaceaccesstoken2,Shared Workspace Access Token,sharedworkspaceaccesstoken2,sharedworkspaceaccesstoken2s,True,False,sharedworkspaceaccesstoken2id,systemuserid,Contains information about the shared workspace access tokens.
+sharedworkspacepool,Shared Workspace Pool,sharedworkspacepool,sharedworkspacepools,True,False,sharedworkspacepoolid,name,"Contains metadata about a container used to store real-time collaboration data. Once claimed, a sharedworkspace record would be created with copied metadata."
+sharepointdata,SharePoint Data,SharePointData,sharepointdatacollection,False,False,sharepointdataid,,"SharePoint's Data Corresponding to a user , Record , Location and Page"
+sharepointdocument,Sharepoint Document,SharePointDocument,sharepointdocuments,False,False,sharepointdocumentid,fullname,Document libraries or folders on a SharePoint server from where documents can be managed in Microsoft Dynamics 365.
+sharepointdocumentlocation,Document Location,SharePointDocumentLocation,sharepointdocumentlocations,False,False,sharepointdocumentlocationid,name,Document libraries or folders on a SharePoint server from where documents can be managed in Microsoft Dynamics 365.
+sharepointmanagedidentity,SharePoint Managed Identity,SharePointManagedIdentity,sharepointmanagedidentities,True,False,sharepointmanagedidentityid,name,"Entity representing a managed identity for SharePoint, used for authentication and authorization purposes."
+sharepointsite,SharePoint Site,SharePointSite,sharepointsites,False,False,sharepointsiteid,name,SharePoint site from where documents can be managed in Microsoft Dynamics 365.
+sideloadedaiplugin,SideloadedAIPlugin,sideloadedaiplugin,sideloadedaiplugins,True,False,sideloadedaipluginid,name,Sideloaded AIPlugins metadata.
+signal,signal,signal,signals,True,False,signalid,name,
+signalregistration,signal registration,signalregistration,signalregistrations,True,False,signalregistrationid,signalname,
+similarityrule,Similarity Rule,SimilarityRule,similarityrules,False,False,similarityruleid,name,
+sitemap,Site Map,SiteMap,sitemaps,False,False,sitemapid,,XML data used to control the application navigation pane.
+sla,SLA,SLA,slas,False,False,slaid,name,Contains information about the tracked service-level KPIs for cases that belong to different customers.
+slaitem,SLA Item,SLAItem,slaitems,False,False,slaitemid,name,Contains information about a tracked support KPI for a specific customer.
+slakpiinstance,SLA KPI Instance,SLAKPIInstance,slakpiinstances,False,False,slakpiinstanceid,name,Service level agreement (SLA) key performance indicator (KPI) instance that is tracked for an individual case
+socialactivity,Social Activity,SocialActivity,socialactivities,False,True,activityid,subject,For internal use only.
+socialinsightsconfiguration,SocialInsightsConfiguration,SocialInsightsConfiguration,socialinsightsconfigurations,False,False,socialinsightsconfigurationid,,Configuration for the social insights.
+socialprofile,Social Profile,SocialProfile,socialprofiles,False,False,socialprofileid,profilename,This entity is used to store social profile information of its associated account and contacts on different social channels.
+solution,Solution,Solution,solutions,False,False,solutionid,friendlyname,A solution which contains CRM customizations.
+solutioncomponent,Solution Component,SolutionComponent,solutioncomponents,False,False,solutioncomponentid,,A component of a CRM solution.
+solutioncomponentattributeconfiguration,Solution Component Attribute Configuration,solutioncomponentattributeconfiguration,solutioncomponentattributeconfigurations,True,False,solutioncomponentattributeconfigurationid,name,
+solutioncomponentbatchconfiguration,Solution Component Batch Configuration,solutioncomponentbatchconfiguration,solutioncomponentbatchconfigurations,True,False,solutioncomponentbatchconfigurationid,name,
+solutioncomponentconfiguration,Solution Component Configuration,solutioncomponentconfiguration,solutioncomponentconfigurations,True,False,solutioncomponentconfigurationid,name,
+solutioncomponentdefinition,Solution Component Definition,SolutionComponentDefinition,solutioncomponentdefinitions,False,False,solutioncomponentdefinitionid,name,Contains all the information required to process a solution aware entity
+solutioncomponentrelationshipconfiguration,Solution Component Relationship Configuration,solutioncomponentrelationshipconfiguration,solutioncomponentrelationshipconfigurations,True,False,solutioncomponentrelationshipconfigurationid,name,
+solutionhistorydata,SolutionHistoryData,SolutionHistoryData,solutionhistories,False,False,solutionhistorydataid,,solution history data
+sourcecontrolbranchconfiguration,Source Control Branch Configuration,SourceControlBranchConfiguration,sourcecontrolbranchconfigurations,True,False,sourcecontrolbranchconfigurationid,name,Stores the source control branch configuration associated with the organization or solution
+sourcecontrolcomponent,Source Control Component,SourceControlComponent,sourcecontrolcomponents,True,False,sourcecontrolcomponentid,name,Stores the Source Control Components associated with the organization or solution
+sourcecontrolcomponentpayload,Source Control Component Payload,SourceControlComponentPayload,sourcecontrolcomponentpayloads,True,False,sourcecontrolcomponentpayloadid,name,Stores the Source Control Component Payloads associated with components.
+sourcecontrolconfiguration,Source Control Configuration,SourceControlConfiguration,sourcecontrolconfigurations,True,False,sourcecontrolconfigurationid,name,Stores the git configuration associated with the environment 
+sqlencryptionaudit,sqlencryptionaudit,SqlEncryptionAudit,sqlencryptionaudits,False,False,createdon,,
+stagedattributelookupvalue,Staged attribute lookup value,StagedAttributeLookupValue,stagedattributelookupvalues,True,False,stagedattributelookupvalueid,name,Stores staged attribute lookup value metadata to be processed asynchronous.
+stagedattributepicklistvalue,Staged attribute picklist value,StagedAttributePicklistValue,stagedattributepicklistvalues,True,False,stagedattributepicklistvalueid,name,Stores staged attribute picklist value metadata to be processed asynchronous.
+stagedentity,Staged Entity,StagedEntity,stagedentities,True,False,stagedentityid,name,Stores staged entity metadata to be processed before fully created.
+stagedentityattribute,Staged Entity Attribute,StagedEntityAttribute,stagedentityattributes,True,False,stagedentityattributeid,name,Stores staged entity attribute metadata to be processed in async.
+stagedentityrelationship,Staged entity relationship,StagedEntityRelationship,stagedentityrelationships,True,False,stagedentityrelationshipid,schemaname,Stores staged entity replationship metadata to be processed asynchronous.
+stagedentityrelationshiprelationships,Staged entity relationship relationships,StagedEntityRelationshipRelationships,stagedentityrelationshiprelationships,True,False,stagedentityrelationshiprelationshipsid,schemaname,Stores staged entity replationship relationships metadata to be processed asynchronous.
+stagedentityrelationshiprole,Staged entity relationship role,StagedEntityRelationshipRole,stagedentityrelationshiproles,True,False,stagedentityrelationshiproleid,schemaname,Stores staged entity replationship role metadata to be processed asynchronous.
+stagedmetadataasyncoperation,Staged Metadata Async Operation,StagedMetadataAsyncOperation,stagedmetadataasyncoperations,True,False,stagedmetadataasyncoperationid,name,Stores staged entity metadata to be processed before fully created.
+stagedoptionset,Staged optionset,StagedOptionSet,stagedoptionsets,True,False,stagedoptionsetid,name,Stores staged option set metadata to be processed asynchronous.
+stagedrelationship,Staged relationship,StagedRelationship,stagedrelationships,True,False,stagedrelationshipid,name,Stores staged replationship metadata to be processed asynchronous.
+stagedrelationshipextracondition,Staged relationship,StagedRelationshipExtraCondition,stagedrelationshipextraconditions,True,False,stagedrelationshipextraconditionid,name,Stores staged replationship metadata to be processed asynchronous.
+stagedsourcecontrolcomponent,Staged Source Control Component,StagedSourceControlComponent,stagedsourcecontrolcomponents,True,False,stagedsourcecontrolcomponentid,name,Stores the source control components that needs to be processed
+stagedviewattribute,Staged relationship,StagedViewAttribute,stagedviewattributes,True,False,stagedviewattributeid,name,Stores staged replationship metadata to be processed asynchronous.
+stagesolutionupload,StageSolutionUpload,StageSolutionUpload,stagesolutionuploads,True,False,stagesolutionuploadid,name,
+statusmap,Status Map,StatusMap,statusmaps,False,False,statusmapid,,Mapping between statuses.
+stringmap,String Map,StringMap,stringmaps,False,False,stringmapid,,Mapping between strings.
+subject,Subject,Subject,subjects,False,False,subjectid,title,Information regarding subjects available in the system.
+subscription,Subscription,Subscription,subscriptions,False,False,subscriptionid,,For internal use only.
+subscriptionclients,Subscription Clients,SubscriptionClients,subscriptionclientsset,False,False,subscriptionclientid,,For internal use only.
+subscriptionmanuallytrackedobject,Subscription Manually Tracked Object,SubscriptionManuallyTrackedObject,subscriptionmanuallytrackedobjects,False,False,subscriptionmanuallytrackedobjectid,,For internal use only.
+subscriptionstatisticsoffline,Subscription Statistic Offline,SubscriptionStatisticsOffline,subscriptionstatisticsofflineset,False,False,subscriptionid,,Subscription Statistic Offline
+subscriptionstatisticsoutlook,Subscription Statistic Outlook,SubscriptionStatisticsOutlook,subscriptionstatisticsoutlookset,False,False,subscriptionid,,Subscription Statistic Outlook
+subscriptionsyncentryoffline,Subscription Sync Entry Offline,SubscriptionSyncEntryOffline,subscriptionsyncentriesoffline,False,False,subscriptionid,,"Used for offline sync, internal use only."
+subscriptionsyncentryoutlook,Subscription Sync Entry Outlook,SubscriptionSyncEntryOutlook,subscriptionsyncentriesoutlook,False,False,subscriptionid,,"Used for outlook sync, internal use only."
+subscriptionsyncinfo,Subscription Synchronization Information,SubscriptionSyncInfo,subscriptionsyncinfos,False,False,subscriptionsyncinfoid,,For internal use only.
+subscriptiontrackingdeletedobject,Tracking information for deleted entities,SubscriptionTrackingDeletedObject,subscriptiontrackingdeletedobjects,False,False,timestamp,,For internal use only.
+suggestioncardtemplate,SuggestionCardTemplate,SuggestionCardTemplate,suggestioncardtemplates,False,False,suggestioncardtemplateid,name,Templates for Suggestion Card in Grid
+supportusertable,SupportUserTable,supportusertable,supportusertables,True,False,supportusertableid,aaduserobjectid,
+synapsedatabase,Synapse Database,synapsedatabase,synapsedatabases,True,False,synapsedatabaseid,name,This entity represents an external Synapse database and its associated datalake folder link.
+synapselinkexternaltablestate,Synapse Link External Table State,synapselinkexternaltablestate,synapselinkexternaltablestates,True,False,synapselinkexternaltablestateid,name,Synapse Link external table states
+synapselinkprofile,Synapse Link Profile,synapselinkprofile,synapselinkprofiles,True,False,synapselinkprofileid,name,Synapse Link Profile
+synapselinkprofileentity,Synapse Link Profile Entity,synapselinkprofileentity,synapselinkprofileentities,True,False,synapselinkprofileentityid,name,Entities associated with the Synapse Link profile
+synapselinkprofileentitystate,Synapse Link Profile Entity State,synapselinkprofileentitystate,synapselinkprofileentitystates,True,False,synapselinkprofileentitystateid,name,Runtime state of the Synapse Link entity
+synapselinkschedule,Synapse Link Schedule,synapselinkschedule,synapselinkschedules,True,False,synapselinkscheduleid,name,Synapse link schedules
+syncattributemapping,Sync Attribute Mapping,SyncAttributeMapping,syncattributemappings,False,False,syncattributemappingid,,Group of Sync-Attribute Mappings used to provide Attribute mappings during sync for a particular user
+syncattributemappingprofile,Sync Attribute Mapping Profile,SyncAttributeMappingProfile,syncattributemappingprofiles,False,False,syncattributemappingprofileid,name,Profile which defines sync attribute mapping
+syncerror,Sync Error,SyncError,syncerrors,False,False,syncerrorid,name,Failure reason and other detailed information for a record that failed to sync.
+systemapplicationmetadata,System Application Metadata,SystemApplicationMetadata,systemapplicationmetadatacollection,False,False,systemapplicationmetadataid,,For internal use only.
+systemform,System Form,SystemForm,systemforms,False,False,formid,name,Organization-owned entity customizations including form layout and dashboards.
+systemuser,User,SystemUser,systemusers,False,False,systemuserid,fullname,Person with access to the Microsoft CRM system and who owns objects in the Microsoft CRM database.
+systemuserauthorizationchangetracker,SystemUserAuthorizationChangeTracker,SystemUserAuthorizationChangeTracker,systemuserauthorizationchangetrackers,False,False,systemuserid,,Internal authorization table to track user authorization changes
+systemuserbusinessunitentitymap,SystemUser BusinessUnit Entity Map,SystemUserBusinessUnitEntityMap,systemuserbusinessunitentitymaps,False,False,systemuserbusinessunitentitymapid,,Stores mapping attributes for business units.
+systemuserlicenses,systemuserlicenses,SystemUserLicenses,systemuserlicensescollection,False,False,systemuserlicenseid,,
+systemusermanagermap,System User Manager Map,SystemUserManagerMap,systemusermanagermaps,False,False,systemusermanagermapid,,For internal use only.
+systemuserprincipals,System User Principal,SystemUserPrincipals,systemuserprincipalsset,False,False,systemuserprincipalid,,For internal use only.
+systemuserprofiles,systemuserprofiles,SystemUserProfiles,systemuserprofilescollection,False,False,systemuserprofileid,,
+systemuserroles,systemuserroles,SystemUserRoles,systemuserrolescollection,False,False,systemuserroleid,,
+systemusersyncmappingprofiles,systemusersyncmappingprofiles,SystemUserSyncMappingProfiles,systemusersyncmappingprofilescollection,False,False,systemusersyncmappingprofileid,,
+tag,Tag,tag,tags,True,False,tagid,name,
+taggedflowsession,Tagged Flow Session,taggedflowsession,taggedflowsessions,True,False,taggedflowsessionid,name,
+taggedprocess,Tagged Process,taggedprocess,taggedprocesses,True,False,taggedprocessid,name,
+task,Task,Task,tasks,False,True,activityid,subject,Generic activity representing work needed to be done.
+tdsmetadata,TdsMetadata,tdsmetadata,tdsmetadatas,True,False,tdsmetadataid,tdsmetadataname,
+team,Team,Team,teams,False,False,teamid,name,Collection of system users that routinely collaborate. Teams can be used to simplify record sharing and provide team members with common access to organization data when team members belong to different Business Units.
+teammembership,teammembership,TeamMembership,teammemberships,False,False,teammembershipid,,
+teammobileofflineprofilemembership,TeamMobileOfflineProfileMembership,teammobileofflineprofilemembership,teammobileofflineprofilememberships,True,False,teammobileofflineprofilemembershipid,name,
+teamprofiles,Team Profiles,TeamProfiles,teamprofilescollection,False,False,teamprofileid,,Team Profiles
+teamroles,teamroles,TeamRoles,teamrolescollection,False,False,teamroleid,,
+teamsyncattributemappingprofiles,Team Sync-Attribute Mapping Profiles,TeamSyncAttributeMappingProfiles,teamsyncattributemappingprofilescollection,False,False,teamsyncattributemappingprofileid,,Team Sync-Attribute Mapping Profiles
+teamtemplate,Team template,TeamTemplate,teamtemplates,False,False,teamtemplateid,teamtemplatename,Team template for an entity enabled for automatically created access teams.
+template,Email Template,Template,templates,False,False,templateid,title,Template for an email message that contains the standard attributes of an email message.
+territory,Territory,Territory,territories,False,False,territoryid,name,Territory represents sales regions.
+textanalyticsentitymapping,Text Analytics Entity Mapping,TextAnalyticsEntityMapping,textanalyticsentitymappings,False,False,textanalyticsentitymappingid,,
+textdatarecordsindexingstatus,TextDataRecordsIndexingStatus,textdatarecordsindexingstatus,textdatarecordsindexingstatuses,True,False,textdatarecordsindexingstatusid,name,Stores information about unstructured / text data records indexing status
+theme,Theme,Theme,themes,False,False,themeid,name,Information that's used to set custom visual theme options for client applications.
+timestampdatemapping,Time Stamp Date Mapping,TimeStampDateMapping,timestampdatemappings,False,False,timestampdatemappingid,,For internal use only.`
+timezonedefinition,Time Zone Definition,TimeZoneDefinition,timezonedefinitions,False,False,timezonedefinitionid,userinterfacename,"Time zone definition, including name and time zone code."
+timezonelocalizedname,Time Zone Localized Name,TimeZoneLocalizedName,timezonelocalizednames,False,False,timezonelocalizednameid,userinterfacename,Localized name of the time zone.
+timezonerule,Time Zone Rule,TimeZoneRule,timezonerules,False,False,timezoneruleid,timezoneruleversionnumber,Definition for time conversion between local time and Coordinated Universal Time (UTC) for a particular time zone at a particular time period.
+toolinggateway,ToolingGateway,ToolingGateway,toolinggateways,True,False,toolinggatewayid,displayname,ToolingGateways component (For Internal use only)
+toolinggatewaymcpserver,ToolingGatewayMCPServer,ToolingGatewayMCPServer,toolinggatewaymcpservers,True,False,toolinggatewaymcpserverid,displayname,ToolingGatewayMCPServer component (For Internal use only)
+traceassociation,Trace Association,TraceAssociation,traceassociations,False,False,traceassociationid,,Represents the objects with which a trace record is associated. For internal use only.
+tracelog,Trace,TraceLog,tracelogs,False,False,tracelogid,text,A trace log.
+traceregarding,Trace Regarding,TraceRegarding,traceregardings,False,False,traceregardingid,,Represents which object a trace record is regarding. For internal use only.
+trait,trait,trait,traits,True,False,traitid,name,
+traitregistration,trait registration,traitregistration,traitregistrations,True,False,traitregistrationid,traitname,
+transactioncurrency,Currency,TransactionCurrency,transactioncurrencies,False,False,transactioncurrencyid,currencyname,Currency in which a financial transaction is carried out.
+transformationmapping,Transformation Mapping,TransformationMapping,transformationmappings,False,False,transformationmappingid,,"In a data map, maps the transformation of source attributes to Microsoft Dynamics 365 attributes."
+transformationparametermapping,Transformation Parameter Mapping,TransformationParameterMapping,transformationparametermappings,False,False,transformationparametermappingid,data,"In a data map, defines parameters for a transformation."
+translationprocess,Translation Process,TranslationProcess,translationprocesses,False,False,businessprocessflowinstanceid,name,Translation Process Business Process Flow
+unresolvedaddress,Unresolved Address,UnresolvedAddress,unresolvedaddresses,False,False,unresolvedaddressid,,For internal use only.
+unstructuredfilesearchentity,UnstructuredFileSearchEntity,unstructuredfilesearchentity,unstructuredfilesearchentities,True,False,unstructuredfilesearchentityid,name,
+unstructuredfilesearchrecord,UnstructuredFileSearchRecord,unstructuredfilesearchrecord,unstructuredfilesearchrecords,True,False,unstructuredfilesearchrecordid,columnname,UnstructuredFileSearchRecord
+unstructuredfilesearchrecordstatus,UnstructuredFileSearchRecordStatus,unstructuredfilesearchrecordstatus,unstructuredfilesearchrecordstatuses,True,False,unstructuredfilesearchrecordstatusid,unstructuredfilesearchrecordstatusname,UnstructuredFileSearchRecordStatus
+untrackedemail,UntrackedEmail,UntrackedEmail,untrackedemails,False,True,activityid,subject,Activity that is delivered using UntrackedEmail protocols.
+userapplicationmetadata,User Application Metadata,UserApplicationMetadata,userapplicationmetadatacollection,False,False,userapplicationmetadataid,,For internal use only.
+userentityinstancedata,User Entity Instance Data,UserEntityInstanceData,userentityinstancedataset,False,False,userentityinstancedataid,,Per User item instance data
+userentityuisettings,User Entity UI Settings,UserEntityUISettings,userentityuisettingsset,False,False,userentityuisettingsid,,Stores user settings for entity views.
+userfiscalcalendar,User Fiscal Calendar,UserFiscalCalendar,userfiscalcalendars,False,False,userfiscalcalendarid,,Custom fiscal calendar used for tracking sales quotas.
+userform,User Dashboard,UserForm,userforms,False,False,userformid,name,User-owned dashboards.
+usermapping,User Mapping,UserMapping,usermappings,False,False,usermappingid,,User Mapping
+usermobileofflineprofilemembership,UserMobileOfflineProfileMembership,usermobileofflineprofilemembership,usermobileofflineprofilememberships,True,False,usermobileofflineprofilemembershipid,name,
+userquery,Saved View,UserQuery,userqueries,False,False,userqueryid,name,Saved database query that is owned by a user.
+userqueryvisualization,User Chart,UserQueryVisualization,userqueryvisualizations,False,False,userqueryvisualizationid,name,Chart attached to an entity.
+userrating,User Rating,userrating,userratings,True,False,userratingid,name,
+usersearchfacet,User Search Facet,UserSearchFacet,usersearchfacets,False,False,usersearchfacetid,,
+usersettings,User Settings,UserSettings,usersettingscollection,False,False,systemuserid,,User's preferred settings.
+uxagentcomponent,UX Agent Component,uxagentcomponent,uxagentcomponents,True,False,uxagentcomponentid,name,
+uxagentcomponentrevision,UX Agent Component Revision,uxagentcomponentrevision,uxagentcomponentrevisions,True,False,uxagentcomponentrevisionid,name,
+uxagentproject,UX Agent Project,uxagentproject,uxagentprojects,True,False,uxagentprojectid,name,Code projects generated by the UX Agent.
+uxagentprojectfile,UX Agent Project File,uxagentprojectfile,uxagentprojectfiles,True,False,uxagentprojectfileid,filename,Files under a UX Agent project.
+viewasexamplequestion,ViewAsExampleQuestion,viewasexamplequestion,viewasexamplequestions,True,False,viewasexamplequestionid,query,This fewshot is converted by view
+virtualentitymetadata,Virtual Entity  Metadata,VirtualEntityMetadata,virtualentitymetadatas,True,False,virtualentitymetadataid,name,Holds  metadata values for virtual entities
+webresource,Web Resource,WebResource,webresourceset,False,False,webresourceid,name,Data equivalent to files used in Web development. Web resources provide client-side components that are used to provide custom user interface elements.
+webwizard,Web Wizard,WebWizard,webwizards,False,False,webwizardid,name,Definition for a Web-based wizard.
+wizardaccessprivilege,Web Wizard Access Privilege,WizardAccessPrivilege,wizardaccessprivileges,False,False,wizardaccessprivilegeid,entityname,Privilege needed to access a Web-based wizard.
+wizardpage,Wizard Page,WizardPage,wizardpages,False,False,wizardpageid,,Page in a Web-based wizard.
+workflow,Process,Workflow,workflows,False,False,workflowid,name,"Set of logical rules that define the steps necessary to automate a specific business process, task, or set of actions to be performed."
+workflowbinary,Workflow Binary,workflowbinary,workflowbinaries,True,False,workflowbinaryid,name,
+workflowcardconnections,workflowcardconnections,workflowcardconnections,workflowcardconnectionsset,True,False,workflowcardconnectionsid,,
+workflowdependency,Process Dependency,WorkflowDependency,workflowdependencies,False,False,workflowdependencyid,,Dependencies for a process.
+workflowlog,Process Log,WorkflowLog,workflowlogs,False,False,workflowlogid,,Log used to track process execution.
+workflowmetadata,Workflow Metadata,WorkflowMetadata,workflowmetadata,True,False,workflowmetadataid,name,Metadata associated with workflows
+workflowwaitsubscription,Workflow Wait Subscription,WorkflowWaitSubscription,workflowwaitsubscriptions,False,False,workflowwaitsubscriptionid,,For internal use only.
+workqueue,Work Queue,workqueue,workqueues,True,False,workqueueid,name,
+workqueueitem,Work Queue Item,workqueueitem,workqueueitems,True,False,workqueueitemid,name,
