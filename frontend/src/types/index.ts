@@ -2,6 +2,11 @@
  * Type definitions for Dynamics 365 entities and relationships
  */
 
+export interface RequiredField {
+  displayName: string;
+  logicalName: string;
+}
+
 export interface Entity {
   id: string;
   label: string;
@@ -14,6 +19,7 @@ export interface Entity {
   isActivity: boolean;
   description: string;
   hierarchyLevel?: number; // 1=account, 2=portfolio/project, 3=child entities
+  requiredFields?: RequiredField[]; // Required fields for this entity (only fetched for hierarchy levels 1, 2, 3)
 }
 
 export interface Relationship {

@@ -20,6 +20,7 @@ class DynamicsService:
         self.logger = logging.getLogger(__name__)
         self.dynamics_api = DynamicsAPI(logger=self.logger)
 
+
     @staticmethod
     def get_hierarchy_level(logical_name: str) -> int:
         """
@@ -44,10 +45,11 @@ class DynamicsService:
 
         # Level 3: Child entities (Green)
         child_entities = [
+            'qrt_agreements',
             'qrt_bonds',
             'qrt_designrequests',
             'qrt_epca',
-            'qrt_estimaterequests',
+            'qrt_estimateresquests',  # Fixed: was qrt_estimaterequests
             'qrt_financerequests',
             'qrt_icrequest',
             'qrt_incentives',
@@ -72,8 +74,13 @@ class DynamicsService:
         :return: List of entity objects with id, label, type, and metadata
         """
         try:
+            import time
+            start_time = time.time()
+
             raw_entities = self.dynamics_api.get_all_entity_definitions()
             entities = []
+
+            self.logger.info(f"Fetching required fields for {len(raw_entities.get('value', []))} entities...")
 
             for entity in raw_entities.get('value', []):
                 # Extract display name
@@ -93,6 +100,14 @@ class DynamicsService:
                     desc_text = ''
 
                 logical_name = entity.get('LogicalName')
+                hierarchy_level = self.get_hierarchy_level(logical_name)
+
+                # Only fetch required fields for hierarchy levels 1, 2, and 3
+                # (Account, Portfolio/Project, and Child entities)
+                required_fields = []
+                if hierarchy_level in [1, 2, 3]:
+                    required_fields = self.dynamics_api.get_entity_required_attributes(logical_name)
+
                 entity_obj = {
                     'id': logical_name,
                     'label': label,
@@ -104,11 +119,14 @@ class DynamicsService:
                     'isCustomEntity': entity.get('IsCustomEntity', False),
                     'isActivity': entity.get('IsActivity', False),
                     'description': desc_text,
-                    'hierarchyLevel': self.get_hierarchy_level(logical_name)
+                    'hierarchyLevel': hierarchy_level,
+                    'requiredFields': required_fields
                 }
                 entities.append(entity_obj)
 
-            self.logger.info(f"Processed {len(entities)} entities")
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            self.logger.info(f"Processed {len(entities)} entities with required fields in {elapsed_time:.2f} seconds")
             return entities
 
         except Exception as e:

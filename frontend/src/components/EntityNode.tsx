@@ -12,8 +12,11 @@ interface EntityNodeData extends Entity {
 }
 
 const EntityNode = ({ data }: { data: EntityNodeData }) => {
-  const { label, isCustomEntity, isActivity, isHighlighted, isGrayedOut, description, hierarchyLevel, logicalName, relationshipCount } = data;
+  const { label, isCustomEntity, isActivity, isHighlighted, isGrayedOut, description, hierarchyLevel, logicalName, relationshipCount, requiredFields } = data;
   const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleMouseEnter = () => setShowTooltip(true);
+  const handleMouseLeave = () => setShowTooltip(false);
 
   const baseClasses = "px-4 py-3 rounded-lg border-2 shadow-md transition-all duration-200 min-w-[180px]";
 
@@ -61,8 +64,8 @@ const EntityNode = ({ data }: { data: EntityNodeData }) => {
   return (
     <div
       className={`${baseClasses} ${highlightClasses} relative group`}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <Handle
         type="target"
@@ -91,28 +94,57 @@ const EntityNode = ({ data }: { data: EntityNodeData }) => {
         )}
       </div>
 
-      {/* Hover Tooltip */}
+      {/* Hover Tooltip - Interactive with scroll support for light/dark mode */}
       {showTooltip && !isGrayedOut && (
-        <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-gray-900 text-white text-xs rounded-lg shadow-xl p-3 pointer-events-none">
-          {/* Arrow */}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+        <div
+          className="absolute z-[100] left-full top-1/2 -translate-y-1/2 ml-3 w-80 bg-white dark:bg-gray-900 text-gray-800 dark:text-white text-xs rounded-xl shadow-2xl border-2 border-gray-200 dark:border-gray-700 p-4 backdrop-blur-sm pointer-events-auto"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* Arrow pointing to the card */}
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-[-2px] border-8 border-transparent border-r-white dark:border-r-gray-900"></div>
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-[-1px] border-[9px] border-transparent border-r-gray-200 dark:border-r-gray-700"></div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div>
-              <div className="font-semibold text-white mb-1">{label}</div>
-              <div className="text-gray-300 text-xs">{logicalName}</div>
+              <div className="font-bold text-gray-900 dark:text-white mb-1.5 text-sm">{label}</div>
+              <div className="text-gray-500 dark:text-gray-400 text-xs font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded inline-block">{logicalName}</div>
             </div>
 
-            {description && (
-              <div className="border-t border-gray-700 pt-2">
-                <div className="text-gray-400 line-clamp-3">{description}</div>
+            {/* Show required fields if available (for hierarchy levels 1, 2, 3), otherwise show description */}
+            {requiredFields && requiredFields.length > 0 ? (
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <div className="text-gray-600 dark:text-gray-400 mb-2 text-xs font-bold uppercase tracking-wide">
+                  Required Fields ({requiredFields.length})
+                </div>
+                <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
+                  {requiredFields.map((field, index) => (
+                    <div key={index} className="group">
+                      <div className="text-gray-800 dark:text-gray-200 text-sm font-medium bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 px-3 py-2 rounded-lg border border-blue-200 dark:border-blue-800">
+                        {field.displayName}
+                      </div>
+                      <div className="text-gray-400 dark:text-gray-500 text-xs font-mono mt-0.5 ml-1">{field.logicalName}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            )}
+            ) : description ? (
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <div className="text-gray-600 dark:text-gray-400 mb-2 text-xs font-bold uppercase tracking-wide">Description</div>
+                <div className="text-gray-700 dark:text-gray-300 text-sm line-clamp-4 leading-relaxed bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">{description}</div>
+              </div>
+            ) : null}
 
-            <div className="border-t border-gray-700 pt-2 flex justify-between text-gray-300">
-              <span>{getHierarchyLabel()}</span>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-3 grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <div className="text-gray-500 dark:text-gray-500 mb-1 font-semibold uppercase tracking-wide">Hierarchy</div>
+                <div className="text-gray-800 dark:text-gray-200 font-medium">{getHierarchyLabel()}</div>
+              </div>
               {relationshipCount !== undefined && (
-                <span>{relationshipCount} connection{relationshipCount !== 1 ? 's' : ''}</span>
+                <div>
+                  <div className="text-gray-500 dark:text-gray-500 mb-1 font-semibold uppercase tracking-wide">Connections</div>
+                  <div className="text-gray-800 dark:text-gray-200 font-medium">{relationshipCount}</div>
+                </div>
               )}
             </div>
           </div>

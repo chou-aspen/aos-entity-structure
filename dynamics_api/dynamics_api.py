@@ -416,3 +416,48 @@ class DynamicsAPI:
         except Exception as e:
             self.logger.error(f"Error fetching all relationships: {e}")
             raise e
+
+    def get_entity_required_attributes(self, entity_logical_name: str) -> List[dict]:
+        """
+        Retrieves the required attributes for a specific entity from Dynamics 365.
+        Returns a list of dictionaries with display names and logical names for required fields.
+
+        :param entity_logical_name: The logical name of the entity
+        :return: List of dicts with 'displayName' and 'logicalName' for required attributes
+        """
+        try:
+            url = f"{DYNAMICS_RESOURCE_URL}/api/data/v9.2/EntityDefinitions(LogicalName='{entity_logical_name}')/Attributes?$select=LogicalName,RequiredLevel,DisplayName"
+
+            response = self.session.get(url, headers=self.headers)
+
+            if response.status_code != 200:
+                self.logger.error(f"HTTP {response.status_code}: {response.text}")
+                return []  # Return empty list on error instead of raising exception
+
+            response_data = json.loads(response.content.decode('utf-8'))
+
+            required_attributes = []
+            for attr in response_data.get('value', []):
+                required_level = attr.get('RequiredLevel', {})
+                if isinstance(required_level, dict):
+                    level_value = required_level.get('Value', '')
+                    # Check if the attribute is ApplicationRequired or SystemRequired
+                    if level_value in ['ApplicationRequired', 'SystemRequired']:
+                        # Extract display name
+                        display_name_obj = attr.get('DisplayName', {})
+                        if isinstance(display_name_obj, dict):
+                            labels = display_name_obj.get('LocalizedLabels', [])
+                            display_name = labels[0].get('Label', attr.get('LogicalName')) if labels else attr.get('LogicalName')
+                        else:
+                            display_name = attr.get('LogicalName')
+
+                        required_attributes.append({
+                            'displayName': display_name,
+                            'logicalName': attr.get('LogicalName')
+                        })
+
+            return required_attributes
+
+        except Exception as e:
+            self.logger.error(f"Error fetching required attributes for {entity_logical_name}: {e}")
+            return []  # Return empty list on error
