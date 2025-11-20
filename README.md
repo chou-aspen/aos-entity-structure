@@ -1,63 +1,76 @@
 # Dynamics 365 Entity Structure Visualizer
 
-An interactive web application for visualizing Dynamics 365 entity relationships, built with React Flow and FastAPI.
+An interactive web application for visualizing Dynamics 365 entity relationships with hierarchical color coding and focused radial views.
 
 ## Features
 
-- **Interactive Entity Graph**: Visualize all Dynamics 365 entities and their relationships
-- **Click Interactions**: Click on any entity to highlight its related entities and gray out unrelated ones
-- **Relationship Highlighting**: See connections animate when viewing entity relationships
-- **Layout Options**: Toggle between vertical and horizontal graph layouts
-- **Entity Information**: View entity metadata including custom entities, activities, and descriptions
-- **Responsive Controls**: Zoom, pan, and navigate the graph with intuitive controls
+- **Hierarchy Visualization**: Color-coded entities (Red: Account → Blue: Portfolio/Project → Green: Child entities)
+- **Circular Layout**: All entities arranged in concentric circles by hierarchy level for equal space distribution
+- **Focused View**: Click any entity to show only direct connections in radial layout with auto-centering
+- **Smart Filtering**: Displays 270 relevant entities (filtered from 964) with custom prefix support
+- **Smooth Animations**: 300ms fade transitions and 800ms pan/zoom animations for seamless interactions
+- **Interactive Controls**: Zoom, pan, and click background to restore full view
 
 ## Tech Stack
 
-### Backend
-- **FastAPI**: Modern Python web framework
-- **MSAL**: Microsoft Authentication Library for Dynamics 365 API access
-- **Python 3.x**: Core language
+**Backend**: FastAPI + MSAL + Python 3.10
+**Frontend**: React 18 + TypeScript + React Flow v12 + Tailwind CSS + Vite
+**Layouts**: Dagre (hierarchical), Custom Circular, Custom Radial
 
-### Frontend
-- **React 18**: UI framework
-- **TypeScript**: Type-safe JavaScript
-- **React Flow**: Graph visualization library
-- **Tailwind CSS**: Utility-first CSS framework
-- **Vite**: Fast build tool
-- **Dagre**: Graph layout algorithm
+## Data Flow
+
+```
+Dynamics 365 CRM (964 entities, 12,490 relationships)
+    ↓ MSAL Authentication
+DynamicsAPI (dynamics_api.py)
+    ↓ Entity Definitions + Relationships
+DynamicsService (adds hierarchyLevel: 1/2/3)
+    ↓ Filter to core + custom (qrt_, msdyn_)
+EntityFilters (270 entities, 452 relationships)
+    ↓ FastAPI /api/graph endpoint
+Frontend useGraphData hook
+    ↓ Apply layout algorithm
+getFullCircularLayout() or getRadialLayout()
+    ↓ Render with React Flow
+Interactive Graph Visualization
+```
+
+## Architecture
+
+**Hierarchy Levels**:
+- **Level 1 (Red)**: `account` - Top level
+- **Level 2 (Blue)**: `qrt_portfolio`, `msdyn_project` - Portfolio/Project
+- **Level 3 (Green)**: Child entities (bonds, permits, studies, etc.)
+
+**Layout Algorithms**:
+- **Full View**: Concentric circles (radii: 400px, 800px, 1200px, 2400px)
+- **Focused View**: Radial layout (selected entity at center, connections in rings)
 
 ## Project Structure
 
 ```
 aos-entity-structure/
 ├── backend/
-│   ├── app.py                    # FastAPI application
-│   ├── routes/
-│   │   └── entities.py           # API endpoints
+│   ├── app.py                          # FastAPI app (port 8000)
+│   ├── routes/entities.py              # /api/graph endpoint
 │   ├── services/
-│   │   └── dynamics_service.py   # Business logic
-│   └── requirements.txt          # Python dependencies
+│   │   ├── dynamics_service.py         # get_hierarchy_level(), entity fetching
+│   │   └── entity_filters.py           # Filtering logic (270 from 964)
+│   └── requirements.txt
 ├── frontend/
 │   ├── src/
-│   │   ├── api/
-│   │   │   └── dynamicsApi.ts    # API client
 │   │   ├── components/
-│   │   │   ├── EntityGraph.tsx   # Main graph component
-│   │   │   └── EntityNode.tsx    # Custom node component
-│   │   ├── hooks/
-│   │   │   └── useGraphData.ts   # Data fetching hook
-│   │   ├── types/
-│   │   │   └── index.ts          # TypeScript types
-│   │   ├── utils/
-│   │   │   └── layoutHelpers.ts  # Layout algorithms
-│   │   └── App.tsx               # Root component
+│   │   │   ├── EntityGraph.tsx         # Main graph + focused view logic
+│   │   │   └── EntityNode.tsx          # Hierarchy color styling
+│   │   ├── utils/layoutHelpers.ts      # getFullCircularLayout(), getRadialLayout()
+│   │   ├── types/index.ts              # Entity interface + hierarchyLevel
+│   │   ├── hooks/useGraphData.ts       # API data fetching
+│   │   └── App.tsx                     # ReactFlowProvider wrapper
 │   └── package.json
-├── dynamics_api/
-│   ├── dynamics_api.py           # Dynamics 365 API wrapper
-│   └── utils.py
-├── .env                          # Environment variables (DO NOT COMMIT)
-├── .gitignore
-└── README.md
+├── dynamics_api/dynamics_api.py        # MSAL auth + CRM API wrapper
+├── .env                                # Dynamics 365 credentials
+├── start-backend.sh                    # Quick start script
+└── start-frontend.sh                   # Quick start script
 ```
 
 ## Setup Instructions
@@ -97,170 +110,99 @@ DYNAMICS_SCOPES=https://YOUR_ORG.crm.dynamics.com/.default
 
 **Important**: Never commit the `.env` file to Git. It's already in `.gitignore`.
 
-### 3. Backend Setup
+### 3. Install Dependencies
 
 ```bash
-# Create virtual environment
+# Backend
 python3 -m venv venv
-
-# Activate virtual environment
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+source venv/bin/activate
 pip install -r backend/requirements.txt
 
-# Test Dynamics 365 connection
-python test_connection.py
-
-# Start backend server
-python backend/app.py
+# Frontend
+cd frontend && npm install && cd ..
 ```
 
-The backend will run on `http://localhost:8000`
-
-API Documentation: `http://localhost:8000/docs`
-
-### 4. Frontend Setup
+### 4. Quick Start
 
 ```bash
-# Navigate to frontend directory
-cd frontend
+# Terminal 1 - Backend
+./start-backend.sh    # Runs on http://localhost:8000
 
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+# Terminal 2 - Frontend
+./start-frontend.sh   # Runs on http://localhost:5174
 ```
 
-The frontend will run on `http://localhost:5173`
+**API Docs**: http://localhost:8000/docs
 
 ## Usage
 
-1. **Start both servers** (backend and frontend)
-2. **Open browser** to `http://localhost:5173`
-3. **Wait for data to load** (initial load may take 30-60 seconds for large orgs)
-4. **Interact with the graph**:
-   - Click on any entity to highlight its relationships
-   - Click on empty space to reset the view
-   - Use mouse wheel to zoom in/out
-   - Drag to pan around the graph
-   - Toggle layout direction using the button in the top-left panel
+1. Open browser to `http://localhost:5174`
+2. Wait for data to load (5-7 seconds, fetches 270 entities)
+3. **Interact with the graph**:
+   - **Click entity**: Shows only direct connections in radial layout (auto-centers)
+   - **Click background**: Restore full circular view
+   - **Scroll**: Zoom in/out
+   - **Drag**: Pan around the graph
+4. **View hierarchy** by color: Red (top) → Blue (middle) → Green (children)
 
 ## API Endpoints
 
-### `GET /api/entities`
-Fetch all entity definitions
-
-### `GET /api/relationships`
-Fetch all relationship definitions
-
 ### `GET /api/graph`
-Fetch complete graph data (entities + relationships)
+Fetch complete graph data with smart filtering.
 
-Response:
+**Query Parameters**:
+- `filter_mode`: `core_custom` (default), `business`, `custom`, or `all`
+- `prefixes`: Comma-separated prefixes (e.g., `qrt_,msdyn_`)
+- `limit`: Optional entity limit
+
+**Example**:
+```
+GET /api/graph?filter_mode=core_custom&prefixes=qrt_,msdyn_
+```
+
+**Response**:
 ```json
 {
-  "nodes": [...],
-  "edges": [...],
-  "nodeCount": 500,
-  "edgeCount": 1200
+  "nodes": [...],           // 270 entities with hierarchyLevel field
+  "edges": [...],           // 452 relationships
+  "nodeCount": 270,
+  "edgeCount": 452
 }
 ```
 
+### `GET /health`
+Health check endpoint - returns `{"status":"healthy"}`
+
 ## Troubleshooting
 
-### Backend Issues
+| Issue | Solution |
+|-------|----------|
+| **"invalid_client" or expired secret** | Generate new client secret in Azure Portal and update `.env` |
+| **"KeyError: 'access_token'"** | Verify Azure AD app permissions and tenant ID in `.env` |
+| **Network/CORS error** | Ensure backend is running on port 8000 |
+| **Graph not rendering** | Check browser console and verify `/api/graph` returns valid data |
+| **Slow loading** | Normal for initial load (5-7 seconds for 270 entities) |
 
-**"invalid_client" or "expired secret"**
-- Your client secret has expired
-- Generate a new secret in Azure Portal
-- Update `.env` file with the new secret
-
-**"KeyError: 'access_token'"**
-- Check your Azure AD app permissions
-- Ensure the app has Dynamics 365 API access
-- Verify tenant ID is correct
-
-**Import errors**
-- Ensure virtual environment is activated
-- Run `pip install -r backend/requirements.txt`
-
-### Frontend Issues
-
-**"Network Error" or "CORS error"**
-- Ensure backend is running on port 8000
-- Check CORS settings in `backend/app.py`
-
-**Graph not rendering**
-- Check browser console for errors
-- Verify API responses in Network tab
-- Ensure backend is returning valid data
-
-**Slow loading**
-- Large organizations (500+ entities) may take time
-- Consider implementing pagination or filtering
-- Check network speed and backend response times
-
-## Development
-
-### Adding New Features
-
-1. **Backend**: Add new endpoints in `backend/routes/`
-2. **Frontend**: Add new components in `frontend/src/components/`
-3. **API Client**: Update `frontend/src/api/dynamicsApi.ts`
-
-### Testing Backend Connection
-
+**Test connection**:
 ```bash
 python test_connection.py
 ```
 
-This will verify your Dynamics 365 credentials without starting the full server.
+## Development
 
-## Deployment
+**Key Files**:
+- Backend logic: `backend/services/dynamics_service.py` (hierarchy levels)
+- Filtering: `backend/services/entity_filters.py` (270 from 964)
+- Layout algorithms: `frontend/src/utils/layoutHelpers.ts`
+- Focused view: `frontend/src/components/EntityGraph.tsx` (lines 108-219)
 
-### Using ngrok for Remote Access
+## Security
 
-```bash
-# Install ngrok
-# https://ngrok.com/download
-
-# Expose backend
-ngrok http 8000
-
-# Update frontend API_BASE_URL in src/api/dynamicsApi.ts
-# to use ngrok URL
-```
-
-### Production Deployment
-
-For production deployment, consider:
-- Using environment-specific `.env` files
-- Implementing authentication/authorization
-- Setting up HTTPS
-- Using Docker containers
-- Deploying to Azure App Service or similar platform
-
-## Security Notes
-
-- **Never commit `.env` files** to version control
-- **Rotate client secrets regularly**
-- **Use Azure Key Vault** for production secrets
-- **Implement proper authentication** for production deployment
-- **Review API permissions** regularly
-
-## Contributing
-
-1. Create a feature branch
-2. Make your changes
-3. Test thoroughly
-4. Submit a pull request
+- Never commit `.env` to version control (already in `.gitignore`)
+- Rotate Azure client secrets regularly
+- Use Azure Key Vault for production
+- Review API permissions quarterly
 
 ## License
 
 Internal use only for AOS organization.
-
-## Contact
-
-For questions or issues, contact the development team.

@@ -100,7 +100,7 @@ export const getFullCircularLayout = (nodes: Node[], edges: Edge[]): { nodes: No
   const innerRadius = 400;    // Level 1 (red) - innermost ring
   const middleRadius = 800;   // Level 2 (blue)
   const outerRadius = 1200;   // Level 3 (green)
-  const defaultRadius = 2400; // Other entities (white/purple) - LARGE outermost ring to prevent clustering
+  const defaultRadius = 4800; // Other entities (white/purple) - EXTRA LARGE outermost ring (2x increase)
 
   const layoutedNodes: Node[] = [];
 
@@ -186,7 +186,7 @@ export const getRadialLayout = (
   const innerRadius = 300;    // Level 1 (red) - account entities
   const middleRadius = 550;   // Level 2 (blue) - portfolio/project
   const outerRadius = 800;    // Level 3 (green) - child entities
-  const defaultRadius = 1500; // Other entities (white/purple) - LARGE outermost ring to prevent clustering
+  const defaultRadius = 3000; // Other entities (white/purple) - EXTRA LARGE outermost ring (2x increase)
 
   // Position selected entity at center
   const layoutedNodes: Node[] = [
