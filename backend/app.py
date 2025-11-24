@@ -24,7 +24,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS for local development and ngrok
+# Configure CORS for local development
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -32,9 +32,7 @@ app.add_middleware(
         "http://localhost:5174",
         "http://localhost:5175",
         "http://localhost:3000",
-        "https://mesogastric-lavada-uncongregative.ngrok-free.dev",
     ],
-    allow_origin_regex=r"https://.*\.ngrok-free\.(app|dev)|https://.*\.ngrok\.io",  # Allow any ngrok domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

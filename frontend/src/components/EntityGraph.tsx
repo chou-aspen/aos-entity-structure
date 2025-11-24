@@ -34,7 +34,7 @@ const EntityGraph = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [_isFocusedView, setIsFocusedView] = useState<boolean>(false);
-  const [breadcrumbTrail, setBreadcrumbTrail] = useState<Array<{id: string, label: string}>>([]);
+  const [breadcrumbTrail, setBreadcrumbTrail] = useState<Array<{ id: string, label: string }>>([]);
   const [visibleLevels, setVisibleLevels] = useState<Set<number>>(new Set([0, 1, 2, 3]));
 
   // Store full dataset for switching between views
@@ -420,7 +420,7 @@ const EntityGraph = () => {
         <Panel position="top-left" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md transition-colors duration-200">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-              Dynamics 365 Entity Viewer
+              AOS Entity Viewer
             </h2>
             <button
               onClick={toggleTheme}
@@ -452,11 +452,10 @@ const EntityGraph = () => {
                   <span className="text-gray-400 dark:text-gray-500">›</span>
                   <button
                     onClick={() => handleBreadcrumbClick(index)}
-                    className={`hover:underline whitespace-nowrap ${
-                      index === breadcrumbTrail.length - 1
-                        ? 'text-gray-800 dark:text-gray-200 font-semibold cursor-default'
-                        : 'text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300'
-                    }`}
+                    className={`hover:underline whitespace-nowrap ${index === breadcrumbTrail.length - 1
+                      ? 'text-gray-800 dark:text-gray-200 font-semibold cursor-default'
+                      : 'text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300'
+                      }`}
                   >
                     {crumb.label}
                   </button>
@@ -524,7 +523,17 @@ const EntityGraph = () => {
                   className="w-3.5 h-3.5 text-purple-500 rounded focus:ring-1 focus:ring-purple-500"
                 />
                 <div className="w-5 h-5 border-2 border-purple-400 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 rounded shadow-sm"></div>
-                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Other Custom (L0)</span>
+                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Other qrt_ (L0)</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
+                <input
+                  type="checkbox"
+                  checked={visibleLevels.has(-1)}
+                  onChange={() => toggleHierarchyLevel(-1)}
+                  className="w-3.5 h-3.5 text-slate-500 rounded focus:ring-1 focus:ring-slate-500"
+                />
+                <div className="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded shadow-sm"></div>
+                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">System (Contact, User)</span>
               </label>
             </div>
           </div>

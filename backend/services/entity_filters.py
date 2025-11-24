@@ -380,6 +380,8 @@ CORE_BUSINESS_ENTITIES = {
     # Core CRM
     'account',
     'contact',
+    'systemuser',  # Include users for team visualization
+    'msdyn_project',  # Include Project entity (L2 hierarchy)
 
     # Activities
     'email',

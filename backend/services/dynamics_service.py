@@ -22,6 +22,56 @@ class DynamicsService:
 
 
     @staticmethod
+    def should_include_entity(logical_name: str, is_custom: bool) -> bool:
+        """
+        Determine if an entity should be included based on filtering criteria.
+
+        Include:
+        - All qrt_ custom entities (created by team)
+        - System entities: account, contact, systemuser
+
+        Exclude (hardcoded):
+        - Task Configuration, Task Rules, Bid Issuance, Submittals, etc.
+
+        :param logical_name: The logical name of the entity
+        :param is_custom: Whether the entity is custom
+        :return: True if entity should be included
+        """
+        logical_name_lower = logical_name.lower()
+
+        # Hardcoded exclusion list
+        excluded_entities = {
+            'qrt_taskconfiguration',  # Task Configuration
+            'qrt_taskrules',  # Task Rules
+            'qrt_taskconfigrule',  # Task Config Rule
+            'qrt_bidissuance',  # Bid Issuance
+            'qrt_submittals',  # Submittals
+            'qrt_assetcontract',  # Asset Contracts
+            'qrt_bidpackage',  # Bid Package
+            'qrt_bidpackage_account',  # Bid Package junction
+            'qrt_bidpackage_msdyn_project',  # Bid Package junction
+            'qrt_departmentheadsmeetingagenda',  # Department Heads Meeting Agenda
+            'qrt_flowconfiguration',  # Flow Config
+            'task',  # System task entity
+        }
+
+        # If in exclusion list, reject immediately
+        if logical_name_lower in excluded_entities:
+            return False
+
+        # Include required system and Microsoft entities
+        required_entities = {'account', 'contact', 'systemuser', 'msdyn_project'}
+        if logical_name_lower in required_entities:
+            return True
+
+        # Include all qrt_ custom entities (created by team: meldin/teng/SA1/SA2)
+        if logical_name_lower.startswith('qrt_'):
+            return True
+
+        # Exclude all other entities
+        return False
+
+    @staticmethod
     def get_hierarchy_level(logical_name: str) -> int:
         """
         Determine the hierarchy level of an entity for color-coding visualization
@@ -83,6 +133,13 @@ class DynamicsService:
             self.logger.info(f"Fetching required fields for {len(raw_entities.get('value', []))} entities...")
 
             for entity in raw_entities.get('value', []):
+                logical_name = entity.get('LogicalName')
+                is_custom = entity.get('IsCustomEntity', False)
+
+                # Apply filtering: only include entities created by team + system entities
+                if not self.should_include_entity(logical_name, is_custom):
+                    continue
+
                 # Extract display name
                 display_name = entity.get('DisplayName', {})
                 if isinstance(display_name, dict):
@@ -99,7 +156,6 @@ class DynamicsService:
                 else:
                     desc_text = ''
 
-                logical_name = entity.get('LogicalName')
                 hierarchy_level = self.get_hierarchy_level(logical_name)
 
                 # Only fetch required fields for hierarchy levels 1, 2, and 3
