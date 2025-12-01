@@ -554,7 +554,7 @@ const EntityGraph = () => {
                   title="Tree layout: Top to Bottom (hierarchical)"
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">⬇️</span>
+                    <span className="text-lg">↓</span>
                     <span className="text-xs">Tree TB</span>
                   </div>
                 </button>
@@ -567,7 +567,7 @@ const EntityGraph = () => {
                   title="Tree layout: Left to Right (horizontal)"
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">➡️</span>
+                    <span className="text-lg">→</span>
                     <span className="text-xs">Tree LR</span>
                   </div>
                 </button>
