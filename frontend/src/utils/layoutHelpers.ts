@@ -240,88 +240,105 @@ export const getHierarchyLayout = (
   edges: Edge[],
   direction: 'TB' | 'LR' = 'TB'
 ): { nodes: Node[]; edges: Edge[] } => {
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  // MANUAL LAYOUT with multi-row/column wrapping
+  // Group nodes by hierarchy level (0, 1, 2, 3, 4)
+  const nodesByLevel = new Map<number, Node[]>();
 
-  // UX-Optimized Dagre Configuration
-  dagreGraph.setGraph({
-    rankdir: direction,
-
-    // INCREASED SPACING for better visual hierarchy clarity
-    ranksep: 300,  // Increased from 200 to 300 for clearer tier separation
-    nodesep: 100,  // Reduced from 150 to 100 for tighter horizontal grouping
-    edgesep: 20,   // Space between edges to prevent visual clutter
-
-    // ALIGNMENT for consistent left-to-right reading pattern
-    align: 'UL',   // Up-Left alignment - nodes align to top-left within their rank
-
-    // RANKER for optimal hierarchy positioning
-    ranker: 'network-simplex', // Better than 'tight-tree' for minimizing edge crossings
-
-    // MARGINS for breathing room
-    marginx: 40,
-    marginy: 40,
-  });
-
-  // Build edge weight map for relationship-based positioning
-  const edgeWeightMap = new Map<string, number>();
-
-  edges.forEach((edge) => {
-    const sourceNode = nodes.find(n => n.id === edge.source);
-    const targetNode = nodes.find(n => n.id === edge.target);
-
-    if (sourceNode && targetNode) {
-      const sourceLevel = (sourceNode.data as any).hierarchyLevel || 0;
-      const targetLevel = (targetNode.data as any).hierarchyLevel || 0;
-
-      // Higher weight for hierarchy-following edges (1->2, 2->3)
-      // This encourages dagre to keep hierarchical relationships straight
-      let weight = 1;
-      if (sourceLevel === 1 && targetLevel === 2) weight = 10; // account -> portfolio/project
-      if (sourceLevel === 2 && targetLevel === 3) weight = 10; // portfolio/project -> children
-      if (sourceLevel === 1 && targetLevel === 3) weight = 5;  // account -> children (direct)
-
-      edgeWeightMap.set(`${edge.source}-${edge.target}`, weight);
-    }
-  });
-
-  // Add nodes with explicit rank assignment based on hierarchy level
   nodes.forEach((node) => {
-    const hierarchyLevel = (node.data as any).hierarchyLevel || 99;
-    const nodeWidth = 200;
-    const nodeHeight = 100;
+    const level = (node.data as any).hierarchyLevel ?? 4;
+    if (!nodesByLevel.has(level)) {
+      nodesByLevel.set(level, []);
+    }
+    nodesByLevel.get(level)!.push(node);
+  });
 
-    dagreGraph.setNode(node.id, {
-      width: nodeWidth,
-      height: nodeHeight,
-      // Explicitly set rank to force strict hierarchy ordering
-      rank: hierarchyLevel === 0 ? 99 : hierarchyLevel,
+  const nodeWidth = 220;
+  const nodeHeight = 120;
+  const levelSpacingTB = 200;  // Space between hierarchy levels (top-bottom)
+  const levelSpacingLR = 400;  // Space between hierarchy levels (left-right)
+  const boxSpacing = 150;      // WHITE SPACE between boxes (box-to-box gap)
+  const rowSpacing = 100;      // Space between rows/columns within same level
+  const maxPerRow = 6;         // Maximum entities per row (TB) or column (LR)
+  const startX = 100;
+  const startY = 100;
+
+  const layoutedNodes: Node[] = [];
+  let currentLevelOffsetY = 0;  // Track Y offset for TB
+  let currentLevelOffsetX = 0;  // Track X offset for LR
+
+  if (direction === 'TB') {
+    // TOP to BOTTOM layout with row wrapping
+    [0, 1, 2, 3, 4].forEach((level) => {
+      const levelNodes = nodesByLevel.get(level) || [];
+
+      // Calculate how many rows needed for this level
+      const numRows = Math.ceil(levelNodes.length / maxPerRow);
+
+      // Start Y position for this level
+      const levelStartY = startY + currentLevelOffsetY;
+
+      // Process each row
+      for (let rowIndex = 0; rowIndex < numRows; rowIndex++) {
+        const rowStartIdx = rowIndex * maxPerRow;
+        const rowEndIdx = Math.min(rowStartIdx + maxPerRow, levelNodes.length);
+        const rowNodes = levelNodes.slice(rowStartIdx, rowEndIdx);
+
+        // Calculate width of this row and center it
+        const rowWidth = rowNodes.length * nodeWidth + (rowNodes.length - 1) * boxSpacing;
+        const rowStartX = startX + (3000 - rowWidth) / 2;
+        const y = levelStartY + (rowIndex * (nodeHeight + rowSpacing));
+
+        // Position nodes in this row
+        rowNodes.forEach((node, nodeIndex) => {
+          const x = rowStartX + (nodeIndex * (nodeWidth + boxSpacing));
+          layoutedNodes.push({
+            ...node,
+            position: { x, y },
+          });
+        });
+      }
+
+      // Update offset for next level (total height of this level + level spacing)
+      const levelHeight = numRows * nodeHeight + (numRows - 1) * rowSpacing;
+      currentLevelOffsetY += levelHeight + levelSpacingTB;
     });
-  });
+  } else {
+    // LEFT to RIGHT layout with column wrapping
+    [0, 1, 2, 3, 4].forEach((level) => {
+      const levelNodes = nodesByLevel.get(level) || [];
 
-  // Add edges with weights for relationship-based positioning
-  edges.forEach((edge) => {
-    const weight = edgeWeightMap.get(`${edge.source}-${edge.target}`) || 1;
-    dagreGraph.setEdge(edge.source, edge.target, {
-      weight: weight,
-      minlen: 1, // Minimum edge length to maintain hierarchy separation
+      // Calculate how many columns needed for this level
+      const numCols = Math.ceil(levelNodes.length / maxPerRow);
+
+      // Start X position for this level
+      const levelStartX = startX + currentLevelOffsetX;
+
+      // Process each column
+      for (let colIndex = 0; colIndex < numCols; colIndex++) {
+        const colStartIdx = colIndex * maxPerRow;
+        const colEndIdx = Math.min(colStartIdx + maxPerRow, levelNodes.length);
+        const colNodes = levelNodes.slice(colStartIdx, colEndIdx);
+
+        // Calculate height of this column and center it
+        const colHeight = colNodes.length * nodeHeight + (colNodes.length - 1) * boxSpacing;
+        const colStartY = startY + (3000 - colHeight) / 2;
+        const x = levelStartX + (colIndex * (nodeWidth + rowSpacing));
+
+        // Position nodes in this column
+        colNodes.forEach((node, nodeIndex) => {
+          const y = colStartY + (nodeIndex * (nodeHeight + boxSpacing));
+          layoutedNodes.push({
+            ...node,
+            position: { x, y },
+          });
+        });
+      }
+
+      // Update offset for next level (total width of this level + level spacing)
+      const levelWidth = numCols * nodeWidth + (numCols - 1) * rowSpacing;
+      currentLevelOffsetX += levelWidth + levelSpacingLR;
     });
-  });
-
-  // Run optimized dagre layout
-  dagre.layout(dagreGraph);
-
-  // Apply calculated positions with centering adjustment
-  const layoutedNodes = nodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    return {
-      ...node,
-      position: {
-        x: nodeWithPosition.x - 100, // nodeWidth / 2
-        y: nodeWithPosition.y - 50,  // nodeHeight / 2
-      },
-    };
-  });
+  }
 
   return { nodes: layoutedNodes, edges };
 };

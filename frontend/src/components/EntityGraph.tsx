@@ -5,20 +5,20 @@ import { useCallback, useEffect, useState, useMemo } from 'react';
 import {
   ReactFlow,
   Background,
+  BackgroundVariant,
   Controls,
   MiniMap,
   useNodesState,
   useEdgesState,
   useReactFlow,
   MarkerType,
-  Panel,
 } from '@xyflow/react';
 import type { Node, Edge, NodeTypes } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import EntityNode from './EntityNode';
 import SearchBar from './SearchBar';
 import { useGraphData } from '../hooks/useGraphData';
-import { getRadialLayout, getFullCircularLayout } from '../utils/layoutHelpers';
+import { getHierarchyLayout } from '../utils/layoutHelpers';
 import { useTheme } from '../contexts/ThemeContext';
 import type { Entity, Relationship } from '../types';
 
@@ -35,7 +35,12 @@ const EntityGraph = () => {
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [_isFocusedView, setIsFocusedView] = useState<boolean>(false);
   const [breadcrumbTrail, setBreadcrumbTrail] = useState<Array<{ id: string, label: string }>>([]);
-  const [visibleLevels, setVisibleLevels] = useState<Set<number>>(new Set([0, 1, 2, 3]));
+  const [visibleLevels, setVisibleLevels] = useState<Set<number>>(new Set([0, 1, 2, 3, 4]));
+  const [hoveredEntityId, setHoveredEntityId] = useState<string | null>(null);
+  const [showGrid] = useState<boolean>(true);
+  const [layoutMode, setLayoutMode] = useState<'tree-tb' | 'tree-lr'>('tree-tb');
+  const [showInstructionsPanel, setShowInstructionsPanel] = useState<boolean>(true);
+  const [showSearchPanel, setShowSearchPanel] = useState<boolean>(true);
 
   // Store full dataset for switching between views
   const [fullNodes, setFullNodes] = useState<Node[]>([]);
@@ -81,13 +86,14 @@ const EntityGraph = () => {
           isHighlighted: false,
           isGrayedOut: false,
           relationshipCount,
+          onHoverEntity: setHoveredEntityId,
         },
         position: { x: 0, y: 0 }, // Will be calculated by layout
         style: { opacity: 1, transition: 'opacity 0.3s ease-in-out' }, // Smooth fade animation
       };
     });
 
-    // Create edges from relationships
+    // Create edges from relationships - subtle, light edges that don't overpower entities
     const flowEdges: Edge[] = data.edges.map((rel: Relationship) => ({
       id: rel.id,
       source: rel.sourceEntity,
@@ -95,18 +101,32 @@ const EntityGraph = () => {
       type: rel.type === 'ManyToMany' ? 'default' : 'default',
       animated: false,
       label: rel.type === 'ManyToMany' ? 'M:M' : '1:M',
-      style: { stroke: '#94a3b8', strokeWidth: 2, opacity: 1, transition: 'opacity 0.3s ease-in-out' },
+      style: {
+        stroke: '#e5e7eb',  // Very light gray - subtle, blends into background
+        strokeWidth: 1.5,    // Thinner lines
+        opacity: 0.4,        // Low opacity for subtlety
+        transition: 'all 0.2s ease-in-out'
+      },
+      labelStyle: {
+        fill: '#e5e7eb',     // Match edge color
+        fontSize: 10,        // Smaller labels
+        fontWeight: 400,     // Normal weight
+      },
+      labelBgStyle: {
+        fill: 'transparent',  // No background box
+      },
       markerEnd: {
         type: MarkerType.ArrowClosed,
-        color: '#94a3b8',
+        color: '#e5e7eb',    // Match edge color
       },
     }));
 
-    // Apply CIRCULAR layout for full view - equal space distribution!
-    // No more dragging left to right - entities arranged in concentric circles
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getFullCircularLayout(
+    // Apply selected layout mode (tree only)
+    const direction = layoutMode === 'tree-tb' ? 'TB' : 'LR';
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getHierarchyLayout(
       flowNodes,
-      flowEdges
+      flowEdges,
+      direction
     );
 
     // Store full dataset for focused view switching
@@ -125,7 +145,7 @@ const EntityGraph = () => {
         minZoom: 0.1,
       });
     }, 200);
-  }, [data, setNodes, setEdges, fitView]);
+  }, [data, setNodes, setEdges, fitView, layoutMode]);
 
   // Apply hierarchy level filtering
   useEffect(() => {
@@ -138,6 +158,65 @@ const EntityGraph = () => {
 
     setNodes(filteredNodes);
   }, [visibleLevels, fullNodes, selectedEntityId, setNodes]);
+
+  // Highlight edges on hover
+  useEffect(() => {
+    if (!hoveredEntityId || edges.length === 0) {
+      // No hover - reset all edges to subtle default or selected state
+      setEdges((eds: Edge[]) =>
+        eds.map((e: Edge) => ({
+          ...e,
+          animated: selectedEntityId ? (e.source === selectedEntityId || e.target === selectedEntityId) : false,
+          style: {
+            ...e.style,
+            stroke: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : '#e5e7eb',
+            strokeWidth: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? 3 : 1.5,
+            opacity: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? 1 : 0.4,
+            transition: 'all 0.2s ease-in-out',
+          },
+          labelStyle: {
+            fill: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : '#e5e7eb',
+            fontSize: 10,
+            fontWeight: 400,
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : '#e5e7eb',
+          },
+        }))
+      );
+      return;
+    }
+
+    // Hovering - highlight connected edges in orange
+    setEdges((eds: Edge[]) =>
+      eds.map((e: Edge) => {
+        const isConnected = e.source === hoveredEntityId || e.target === hoveredEntityId;
+        const isSelectedEdge = selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId);
+
+        return {
+          ...e,
+          animated: isConnected,
+          style: {
+            ...e.style,
+            stroke: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : '#e5e7eb'),
+            strokeWidth: isConnected ? 3.5 : (isSelectedEdge ? 3 : 1.5),
+            opacity: isConnected ? 1 : 0.15,  // Dim non-hovered edges significantly
+            transition: 'all 0.2s ease-in-out',
+          },
+          labelStyle: {
+            fill: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : '#e5e7eb'),
+            fontSize: isConnected ? 11 : 10,
+            fontWeight: isConnected ? 500 : 400,
+          },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : '#e5e7eb'),
+          },
+        };
+      })
+    );
+  }, [hoveredEntityId, selectedEntityId, setEdges, edges.length]);
 
   // Handle node click - NEW: Show focused view with only selected entity + direct neighbors
   const onNodeClick = useCallback(
@@ -207,17 +286,18 @@ const EntityGraph = () => {
           })
         );
 
-        // Phase 2: After fade animation, remove hidden nodes and apply radial layout
+        // Phase 2: After fade animation, filter nodes and maintain tree layout
         setTimeout(() => {
           const focusedNodes = fullNodes.filter(n => focusedNodeIds.has(n.id));
           const focusedEdges = fullEdges.filter(e =>
             focusedNodeIds.has(e.source) && focusedNodeIds.has(e.target)
           );
 
-          // Apply radial layout with selected entity at center
-          const layoutedFocusedNodes = getRadialLayout(focusedNodes, entityId, focusedEdges);
+          // Maintain current tree layout for focused view
+          const direction = layoutMode === 'tree-tb' ? 'TB' : 'LR';
+          const { nodes: layoutedFocusedNodes } = getHierarchyLayout(focusedNodes, focusedEdges, direction);
 
-          // Update with radial layout
+          // Update with layout
           setNodes(layoutedFocusedNodes.map(n => ({
             ...n,
             style: { ...n.style, opacity: 1 },
@@ -235,6 +315,11 @@ const EntityGraph = () => {
               opacity: 1,
               stroke: '#3b82f6',
               strokeWidth: 3,
+            },
+            labelStyle: {
+              fill: '#3b82f6',
+              fontSize: 11,
+              fontWeight: 500,
             },
             markerEnd: {
               type: MarkerType.ArrowClosed,
@@ -255,7 +340,7 @@ const EntityGraph = () => {
         }, 300); // Match CSS transition duration
       }
     },
-    [selectedEntityId, adjacencyMap, fullNodes, fullEdges, setNodes, setEdges, fitView]
+    [selectedEntityId, adjacencyMap, fullNodes, fullEdges, setNodes, setEdges, fitView, layoutMode]
   );
 
   // Handle pane click - Restore full view with auto-zoom centered on account
@@ -333,7 +418,9 @@ const EntityGraph = () => {
           focusedNodeIds.has(e.source) && focusedNodeIds.has(e.target)
         );
 
-        const layoutedFocusedNodes = getRadialLayout(focusedNodes, targetBreadcrumb.id, focusedEdges);
+        // Maintain current tree layout for breadcrumb navigation
+        const direction = layoutMode === 'tree-tb' ? 'TB' : 'LR';
+        const { nodes: layoutedFocusedNodes } = getHierarchyLayout(focusedNodes, focusedEdges, direction);
 
         setNodes(layoutedFocusedNodes.map(n => ({
           ...n,
@@ -348,6 +435,7 @@ const EntityGraph = () => {
           ...e,
           animated: true,
           style: { ...e.style, opacity: 1, stroke: '#3b82f6', strokeWidth: 3 },
+          labelStyle: { fill: '#3b82f6', fontSize: 11, fontWeight: 500 },
           markerEnd: { type: MarkerType.ArrowClosed, color: '#3b82f6' },
         })));
 
@@ -356,7 +444,7 @@ const EntityGraph = () => {
         }, 50);
       }
     }
-  }, [breadcrumbTrail, fullNodes, fullEdges, adjacencyMap, setNodes, setEdges, fitView]);
+  }, [breadcrumbTrail, fullNodes, fullEdges, adjacencyMap, setNodes, setEdges, fitView, layoutMode]);
 
   if (loading) {
     return (
@@ -401,7 +489,13 @@ const EntityGraph = () => {
           animated: false,
         }}
       >
-        <Background />
+        <Background
+          variant={BackgroundVariant.Dots}
+          gap={showGrid ? 20 : 1000}
+          size={showGrid ? 1.5 : 0}
+          color={theme === 'dark' ? '#4b5563' : '#cbd5e1'}
+          style={{ opacity: showGrid ? 0.5 : 0 }}
+        />
         <Controls />
         <MiniMap
           nodeColor={(node: Node) => {
@@ -410,134 +504,210 @@ const EntityGraph = () => {
             if (data.isGrayedOut) return '#e5e7eb';   // Gray for grayed out
             // Modern color palette matching entity cards
             switch (data.hierarchyLevel) {
+              case 0: return '#94a3b8'; // Slate for system entities (L0)
               case 1: return '#fb7185'; // Rose for account (L1)
               case 2: return '#22d3ee'; // Cyan for portfolio/project (L2)
               case 3: return '#34d399'; // Emerald for child entities (L3)
-              default: return data.isCustomEntity ? '#a78bfa' : '#94a3b8'; // Purple/Slate
+              case 4: return '#a78bfa'; // Purple for other qrt_ (L4)
+              default: return '#94a3b8'; // Slate fallback
             }
           }}
         />
-        <Panel position="top-left" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md transition-colors duration-200">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-              AOS Entity Viewer
-            </h2>
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? '☀️' : '🌙'}
-            </button>
-          </div>
-
-          {/* Search Bar */}
-          <SearchBar
-            entities={data?.nodes || []}
-            onSelectEntity={handleSearchSelect}
-            className="mb-3"
-          />
-
-          {/* Breadcrumb Navigation */}
-          {breadcrumbTrail.length > 0 && (
-            <div className="mb-3 flex items-center gap-1 text-sm overflow-x-auto">
+        {/* Sliding search panel with toggle button */}
+        <div
+          className={`fixed top-3 left-0 flex items-start transition-transform duration-300 ease-in-out z-10 ${
+            showSearchPanel ? 'translate-x-0' : 'translate-x-[-400px]'
+          }`}
+        >
+          {/* Panel content */}
+          <div className="bg-white dark:bg-gray-800 rounded-r-lg shadow-2xl p-4 max-w-md transition-colors duration-200" style={{ width: '400px' }}>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+                AOS Blueprint
+              </h2>
               <button
-                onClick={() => handleBreadcrumbClick(-1)}
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline whitespace-nowrap"
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                All Entities
+                {theme === 'dark' ? '☀️' : '🌙'}
               </button>
-              {breadcrumbTrail.map((crumb, index) => (
-                <div key={index} className="flex items-center gap-1 shrink-0">
-                  <span className="text-gray-400 dark:text-gray-500">›</span>
-                  <button
-                    onClick={() => handleBreadcrumbClick(index)}
-                    className={`hover:underline whitespace-nowrap ${index === breadcrumbTrail.length - 1
-                      ? 'text-gray-800 dark:text-gray-200 font-semibold cursor-default'
-                      : 'text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300'
-                      }`}
-                  >
-                    {crumb.label}
-                  </button>
-                </div>
-              ))}
             </div>
-          )}
 
-          <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-            <p>Entities: {data?.nodeCount || 0}</p>
-            <p>Relationships: {data?.edgeCount || 0}</p>
-            {selectedEntityId && (
-              <p className="text-blue-600 dark:text-blue-400 font-semibold">
-                Viewing: {(nodes.find((n: Node) => n.id === selectedEntityId)?.data as any)?.label}
-              </p>
+            {/* Search Bar */}
+            <SearchBar
+              entities={data?.nodes || []}
+              onSelectEntity={handleSearchSelect}
+              className="mb-3"
+            />
+
+            {/* Layout Mode Toggle */}
+            <div className="mb-3">
+              <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Layout Mode</p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setLayoutMode('tree-tb')}
+                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${layoutMode === 'tree-tb'
+                      ? 'bg-[#92C841] text-white shadow-md'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  title="Tree layout: Top to Bottom (hierarchical)"
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-lg">⬇️</span>
+                    <span className="text-xs">Tree TB</span>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setLayoutMode('tree-lr')}
+                  className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${layoutMode === 'tree-lr'
+                      ? 'bg-[#92C841] text-white shadow-md'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  title="Tree layout: Left to Right (horizontal)"
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-lg">➡️</span>
+                    <span className="text-xs">Tree LR</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Breadcrumb Navigation */}
+            {breadcrumbTrail.length > 0 && (
+              <div className="mb-3 flex items-center gap-1 text-sm overflow-x-auto">
+                <button
+                  onClick={() => handleBreadcrumbClick(-1)}
+                  className="text-[#92C841] hover:text-[#7ab534] hover:underline whitespace-nowrap"
+                >
+                  All Entities
+                </button>
+                {breadcrumbTrail.map((crumb, index) => (
+                  <div key={index} className="flex items-center gap-1 shrink-0">
+                    <span className="text-gray-400 dark:text-gray-500">›</span>
+                    <button
+                      onClick={() => handleBreadcrumbClick(index)}
+                      className={`hover:underline whitespace-nowrap ${index === breadcrumbTrail.length - 1
+                        ? 'text-gray-800 dark:text-gray-200 font-semibold cursor-default'
+                        : 'text-[#92C841] hover:text-[#7ab534]'
+                        }`}
+                    >
+                      {crumb.label}
+                    </button>
+                  </div>
+                ))}
+              </div>
             )}
-          </div>
-        </Panel>
-        <Panel position="top-right" className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg text-sm text-gray-600 dark:text-gray-300 transition-colors duration-200">
-          <p className="font-semibold mb-2 text-gray-800 dark:text-white">Instructions:</p>
-          <ul className="space-y-1 mb-3">
-            <li>• Click entity to highlight relationships</li>
-            <li>• Click background to reset view</li>
-            <li>• Scroll to zoom, drag to pan</li>
-          </ul>
 
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
-            <p className="font-semibold mb-2 text-gray-800 dark:text-white">Filter by Hierarchy:</p>
-            <div className="space-y-1.5">
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
-                <input
-                  type="checkbox"
-                  checked={visibleLevels.has(1)}
-                  onChange={() => toggleHierarchyLevel(1)}
-                  className="w-3.5 h-3.5 text-rose-500 rounded focus:ring-1 focus:ring-rose-500"
-                />
-                <div className="w-5 h-5 border-2 border-rose-400 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-900/30 dark:to-pink-900/30 rounded shadow-sm"></div>
-                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Account (L1)</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
-                <input
-                  type="checkbox"
-                  checked={visibleLevels.has(2)}
-                  onChange={() => toggleHierarchyLevel(2)}
-                  className="w-3.5 h-3.5 text-cyan-500 rounded focus:ring-1 focus:ring-cyan-500"
-                />
-                <div className="w-5 h-5 border-2 border-cyan-400 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30 rounded shadow-sm"></div>
-                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Portfolio/Project (L2)</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
-                <input
-                  type="checkbox"
-                  checked={visibleLevels.has(3)}
-                  onChange={() => toggleHierarchyLevel(3)}
-                  className="w-3.5 h-3.5 text-emerald-500 rounded focus:ring-1 focus:ring-emerald-500"
-                />
-                <div className="w-5 h-5 border-2 border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 rounded shadow-sm"></div>
-                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Child Entities (L3)</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
-                <input
-                  type="checkbox"
-                  checked={visibleLevels.has(0)}
-                  onChange={() => toggleHierarchyLevel(0)}
-                  className="w-3.5 h-3.5 text-purple-500 rounded focus:ring-1 focus:ring-purple-500"
-                />
-                <div className="w-5 h-5 border-2 border-purple-400 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 rounded shadow-sm"></div>
-                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Other qrt_ (L0)</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
-                <input
-                  type="checkbox"
-                  checked={visibleLevels.has(-1)}
-                  onChange={() => toggleHierarchyLevel(-1)}
-                  className="w-3.5 h-3.5 text-slate-500 rounded focus:ring-1 focus:ring-slate-500"
-                />
-                <div className="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded shadow-sm"></div>
-                <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">System (Contact, User)</span>
-              </label>
+            {selectedEntityId && (
+              <div className="mb-3 text-sm text-[#92C841] font-semibold">
+                Viewing: {(nodes.find((n: Node) => n.id === selectedEntityId)?.data as any)?.label}
+              </div>
+            )}
+
+            {/* Entity and Relationship Count Display - matching hover tooltip format */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-3 grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <div className="text-gray-500 dark:text-gray-500 mb-1 font-semibold">Entity</div>
+                <div className="text-gray-800 dark:text-gray-200 font-medium">{data?.nodeCount || 0}</div>
+              </div>
+              <div>
+                <div className="text-gray-500 dark:text-gray-500 mb-1 font-semibold">Relationship</div>
+                <div className="text-gray-800 dark:text-gray-200 font-medium">{data?.edgeCount || 0}</div>
+              </div>
             </div>
           </div>
-        </Panel>
+
+          {/* Toggle button on the right */}
+          <button
+            onClick={() => setShowSearchPanel(!showSearchPanel)}
+            className="mt-0 bg-white dark:bg-gray-800 p-2 rounded-r-lg shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border border-l-0 border-gray-200 dark:border-gray-700"
+            title={showSearchPanel ? 'Hide search panel' : 'Show search panel'}
+          >
+            <span className="text-lg">{showSearchPanel ? '«' : '»'}</span>
+          </button>
+        </div>
+        {/* Sliding instructions and filter panel with toggle button */}
+        <div
+          className={`fixed top-3 right-0 flex items-start transition-transform duration-300 ease-in-out z-10 ${showInstructionsPanel ? 'translate-x-0' : 'translate-x-[280px]'
+            }`}
+        >
+          {/* Toggle button on the left */}
+          <button
+            onClick={() => setShowInstructionsPanel(!showInstructionsPanel)}
+            className="mt-0 bg-white dark:bg-gray-800 p-2 rounded-l-lg shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border border-r-0 border-gray-200 dark:border-gray-700"
+            title={showInstructionsPanel ? 'Hide instructions panel' : 'Show instructions panel'}
+          >
+            <span className="text-lg">{showInstructionsPanel ? '»' : '«'}</span>
+          </button>
+
+          {/* Panel content */}
+          <div className="bg-white dark:bg-gray-800 rounded-l-lg shadow-2xl text-sm text-gray-600 dark:text-gray-300 p-3" style={{ width: '280px' }}>
+            <p className="font-semibold mb-2 text-gray-800 dark:text-white">Instructions:</p>
+            <ul className="space-y-1 mb-3">
+              <li>• Click entity to highlight relationships</li>
+              <li>• Click background to reset view</li>
+              <li>• Scroll to zoom, drag to pan</li>
+            </ul>
+
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
+              <p className="font-semibold mb-2 text-gray-800 dark:text-white">Filter by Hierarchy:</p>
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={visibleLevels.has(0)}
+                    onChange={() => toggleHierarchyLevel(0)}
+                    className="w-3.5 h-3.5 text-slate-500 rounded focus:ring-1 focus:ring-slate-500"
+                  />
+                  <div className="w-5 h-5 border-2 border-slate-400 bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-800 dark:to-gray-800 rounded shadow-sm"></div>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">System (L0)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={visibleLevels.has(1)}
+                    onChange={() => toggleHierarchyLevel(1)}
+                    className="w-3.5 h-3.5 text-rose-500 rounded focus:ring-1 focus:ring-rose-500"
+                  />
+                  <div className="w-5 h-5 border-2 border-rose-400 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-900/30 dark:to-pink-900/30 rounded shadow-sm"></div>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Account (L1)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={visibleLevels.has(2)}
+                    onChange={() => toggleHierarchyLevel(2)}
+                    className="w-3.5 h-3.5 text-cyan-500 rounded focus:ring-1 focus:ring-cyan-500"
+                  />
+                  <div className="w-5 h-5 border-2 border-cyan-400 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30 rounded shadow-sm"></div>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Portfolio/Project (L2)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={visibleLevels.has(3)}
+                    onChange={() => toggleHierarchyLevel(3)}
+                    className="w-3.5 h-3.5 text-emerald-500 rounded focus:ring-1 focus:ring-emerald-500"
+                  />
+                  <div className="w-5 h-5 border-2 border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30 rounded shadow-sm"></div>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Child Entities (L3)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 px-1 py-0.5 rounded transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={visibleLevels.has(4)}
+                    onChange={() => toggleHierarchyLevel(4)}
+                    className="w-3.5 h-3.5 text-purple-500 rounded focus:ring-1 focus:ring-purple-500"
+                  />
+                  <div className="w-5 h-5 border-2 border-purple-400 bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 rounded shadow-sm"></div>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs font-medium">Other qrt_ (L4)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
       </ReactFlow>
     </div>
   );

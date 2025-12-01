@@ -74,26 +74,33 @@ class DynamicsService:
     @staticmethod
     def get_hierarchy_level(logical_name: str) -> int:
         """
-        Determine the hierarchy level of an entity for color-coding visualization
+        Determine the hierarchy level of an entity for tree visualization
 
-        Level 1 (Red): account - Top level
-        Level 2 (Blue): qrt_portfolio, msdyn_project - Portfolio/Project level
-        Level 3 (Green): Child entities under portfolios
+        Hierarchy Levels (matching tree layout ranks 0-4):
+        Level 0: System entities (contact, systemuser) - First/Top
+        Level 1: account - Second level
+        Level 2: qrt_portfolio, msdyn_project - Third level (Portfolio/Project)
+        Level 3: Child entities - Fourth level
+        Level 4: Other qrt_ entities - Fifth/Bottom level (returned as 0, mapped to 4 in frontend)
 
         :param logical_name: The logical name of the entity
-        :return: Hierarchy level (1, 2, 3, or 0 for default)
+        :return: Hierarchy level (0, 1, 2, 3, or 4 for default/other)
         """
         logical_name = logical_name.lower()
 
-        # Level 1: Top level (Red/Orange)
+        # Level 0: System entities (contact, systemuser) - FIRST/TOP
+        if logical_name in ['contact', 'systemuser']:
+            return 0
+
+        # Level 1: Account - SECOND
         if logical_name == 'account':
             return 1
 
-        # Level 2: Portfolio/Project level (Blue)
+        # Level 2: Portfolio/Project level - THIRD
         if logical_name in ['qrt_portfolio', 'msdyn_project']:
             return 2
 
-        # Level 3: Child entities (Green)
+        # Level 3: Child entities - FOURTH
         child_entities = [
             'qrt_agreements',
             'qrt_bonds',
@@ -114,8 +121,8 @@ class DynamicsService:
         if logical_name in child_entities:
             return 3
 
-        # Default: no specific hierarchy level
-        return 0
+        # Level 4: Other qrt_ entities - FIFTH/BOTTOM (default 4)
+        return 4
 
     def get_all_entities(self) -> List[Dict[str, Any]]:
         """
