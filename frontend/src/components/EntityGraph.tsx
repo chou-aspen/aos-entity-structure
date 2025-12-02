@@ -94,6 +94,8 @@ const EntityGraph = () => {
     });
 
     // Create edges from relationships - subtle, light edges that don't overpower entities
+    // Use theme-aware colors: light gray for light mode, darker gray for dark mode
+    const edgeColor = theme === 'dark' ? '#374151' : '#e5e7eb';
     const flowEdges: Edge[] = data.edges.map((rel: Relationship) => ({
       id: rel.id,
       source: rel.sourceEntity,
@@ -102,13 +104,13 @@ const EntityGraph = () => {
       animated: false,
       label: rel.type === 'ManyToMany' ? 'M:M' : '1:M',
       style: {
-        stroke: '#e5e7eb',  // Very light gray - subtle, blends into background
+        stroke: edgeColor,   // Theme-aware: light gray (light mode) or dark gray (dark mode)
         strokeWidth: 1.5,    // Thinner lines
         opacity: 0.4,        // Low opacity for subtlety
         transition: 'all 0.2s ease-in-out'
       },
       labelStyle: {
-        fill: '#e5e7eb',     // Match edge color
+        fill: edgeColor,     // Match edge color
         fontSize: 10,        // Smaller labels
         fontWeight: 400,     // Normal weight
       },
@@ -117,7 +119,7 @@ const EntityGraph = () => {
       },
       markerEnd: {
         type: MarkerType.ArrowClosed,
-        color: '#e5e7eb',    // Match edge color
+        color: edgeColor,    // Match edge color
       },
     }));
 
@@ -161,6 +163,8 @@ const EntityGraph = () => {
 
   // Highlight edges on hover
   useEffect(() => {
+    const defaultEdgeColor = theme === 'dark' ? '#374151' : '#e5e7eb';
+
     if (!hoveredEntityId || edges.length === 0) {
       // No hover - reset all edges to subtle default or selected state
       setEdges((eds: Edge[]) =>
@@ -169,19 +173,19 @@ const EntityGraph = () => {
           animated: selectedEntityId ? (e.source === selectedEntityId || e.target === selectedEntityId) : false,
           style: {
             ...e.style,
-            stroke: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : '#e5e7eb',
+            stroke: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : defaultEdgeColor,
             strokeWidth: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? 3 : 1.5,
             opacity: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? 1 : 0.4,
             transition: 'all 0.2s ease-in-out',
           },
           labelStyle: {
-            fill: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : '#e5e7eb',
+            fill: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : defaultEdgeColor,
             fontSize: 10,
             fontWeight: 400,
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
-            color: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : '#e5e7eb',
+            color: selectedEntityId && (e.source === selectedEntityId || e.target === selectedEntityId) ? '#3b82f6' : defaultEdgeColor,
           },
         }))
       );
@@ -199,24 +203,24 @@ const EntityGraph = () => {
           animated: isConnected,
           style: {
             ...e.style,
-            stroke: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : '#e5e7eb'),
+            stroke: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : defaultEdgeColor),
             strokeWidth: isConnected ? 3.5 : (isSelectedEdge ? 3 : 1.5),
             opacity: isConnected ? 1 : 0.15,  // Dim non-hovered edges significantly
             transition: 'all 0.2s ease-in-out',
           },
           labelStyle: {
-            fill: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : '#e5e7eb'),
+            fill: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : defaultEdgeColor),
             fontSize: isConnected ? 11 : 10,
             fontWeight: isConnected ? 500 : 400,
           },
           markerEnd: {
             type: MarkerType.ArrowClosed,
-            color: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : '#e5e7eb'),
+            color: isConnected ? '#f59e0b' : (isSelectedEdge ? '#3b82f6' : defaultEdgeColor),
           },
         };
       })
     );
-  }, [hoveredEntityId, selectedEntityId, setEdges, edges.length]);
+  }, [hoveredEntityId, selectedEntityId, setEdges, edges.length, theme]);
 
   // Handle node click - NEW: Show focused view with only selected entity + direct neighbors
   const onNodeClick = useCallback(

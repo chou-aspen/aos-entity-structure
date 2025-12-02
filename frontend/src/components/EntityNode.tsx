@@ -199,12 +199,6 @@ const EntityNode = ({ data }: { data: EntityNodeData }) => {
             </span>
           )}
         </div>
-
-        {description && !isGrayedOut && (
-          <div className="text-xs text-gray-500 mt-1 line-clamp-2" title={description}>
-            {description}
-          </div>
-        )}
       </div>
 
       <Handle
