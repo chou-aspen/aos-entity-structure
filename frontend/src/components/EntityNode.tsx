@@ -94,6 +94,10 @@ const EntityNode = ({ data }: { data: EntityNodeData }) => {
     ? "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs px-2 py-1 rounded-full font-medium"
     : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs px-2 py-1 rounded-full font-medium";
 
+  // Check if entity is a system entity
+  const systemEntities = ['contact', 'systemuser', 'account', 'msdyn_project'];
+  const isSystemEntity = logicalName && systemEntities.includes(logicalName.toLowerCase());
+
   const getHierarchyLabel = () => {
     switch (hierarchyLevel) {
       case 0: return 'Level 0 - System';
@@ -181,7 +185,12 @@ const EntityNode = ({ data }: { data: EntityNodeData }) => {
         <div className={labelClasses}>{label}</div>
 
         <div className="flex gap-1 flex-wrap">
-          {isCustomEntity && (
+          {isSystemEntity && (
+            <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs px-2 py-1 rounded-full font-medium">
+              System
+            </span>
+          )}
+          {isCustomEntity && !isSystemEntity && (
             <span className={badgeClasses}>Custom</span>
           )}
           {isActivity && (
