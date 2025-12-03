@@ -10,14 +10,15 @@
 7. [Entity Filtering Strategy](#entity-filtering-strategy)
 8. [Required Fields Implementation](#required-fields-implementation)
 9. [Layout Algorithms](#layout-algorithms)
-10. [Performance Optimizations](#performance-optimizations)
-11. [Production Considerations](#production-considerations)
+10. [UI/UX Design System](#uiux-design-system)
+11. [Performance Optimizations](#performance-optimizations)
+12. [Production Considerations](#production-considerations)
 
 ---
 
 ## Overview
 
-The Dynamics 365 Entity Relationship Visualizer is a full-stack web application that provides an interactive visualization of Dynamics 365 entity relationships. The system intelligently filters 964 entities down to 38 relevant entities and displays them in a hierarchical, color-coded graph visualization.
+The AOS Blueprint (formerly Dynamics 365 Entity Relationship Visualizer) is a full-stack web application that provides an interactive visualization of Dynamics 365 entity relationships. The system intelligently filters 964 entities down to 38 relevant entities and displays them in a hierarchical tree layout with an intuitive, modern UI.
 
 ### Key Metrics
 - **Total Dynamics Entities:** 964
@@ -25,6 +26,9 @@ The Dynamics 365 Entity Relationship Visualizer is a full-stack web application 
 - **Relationships Visualized:** ~126
 - **Initial Load Time:** ~2 seconds
 - **Interaction Latency:** <100ms
+
+### Application Name
+**AOS Blueprint** - Reflects the structured, architectural nature of entity relationships
 
 ---
 
@@ -35,9 +39,11 @@ The Dynamics 365 Entity Relationship Visualizer is a full-stack web application 
 │                         User Browser                             │
 │  ┌────────────────────────────────────────────────────────────┐ │
 │  │   React Frontend (TypeScript + React Flow)                 │ │
-│  │   - Interactive Graph Visualization                        │ │
-│  │   - Search, Filters, Breadcrumbs                          │ │
-│  │   - Circular & Radial Layouts                             │ │
+│  │   - Interactive Tree Visualization (TB/LR)                 │ │
+│  │   - Sliding Panels (Search/Filters)                        │ │
+│  │   - Search, Breadcrumbs, Hierarchy Filters                 │ │
+│  │   - Aspen Power Brand Colors                               │ │
+│  │   - Light/Dark Mode Support                                │ │
 │  └────────────────────────────────────────────────────────────┘ │
 │                            ↕ HTTP/REST                           │
 └───────────────────────────────────────────────────────────────────┘
@@ -54,7 +60,7 @@ The Dynamics 365 Entity Relationship Visualizer is a full-stack web application 
 │  ┌────────────────────────────────────────────────────────────┐ │
 │  │   Business Logic                                           │ │
 │  │   - Entity Filtering (should_include_entity)              │ │
-│  │   - Hierarchy Assignment (get_hierarchy_level)            │ │
+│  │   - Hierarchy Assignment (get_hierarchy_level) 0-4        │ │
 │  │   - Required Fields Fetching (for L1/L2/L3)               │ │
 │  └────────────────────────────────────────────────────────────┘ │
 │                            ↕ MSAL + HTTPS                        │
@@ -81,7 +87,7 @@ The Dynamics 365 Entity Relationship Visualizer is a full-stack web application 
 
 ```mermaid
 sequenceDiagram
-    User->>Frontend: Navigate to http://localhost:5174
+    User->>Frontend: Navigate to http://localhost:5173
     Frontend->>Frontend: Mount App component
     Frontend->>Frontend: useGraphData hook triggers
     Frontend->>Backend: GET /api/graph?filter_mode=core_custom&prefixes=qrt_,msdyn_
@@ -91,17 +97,16 @@ sequenceDiagram
     Dynamics365->>Backend: 964 entities
     Backend->>Backend: Apply should_include_entity() filter
     Backend->>Backend: 38 entities remain
-    Backend->>Backend: Assign hierarchy levels (L0/L1/L2/L3)
+    Backend->>Backend: Assign hierarchy levels (0-4)
     Backend->>Dynamics365: GET Attributes for L1/L2/L3 entities
     Dynamics365->>Backend: Required fields with display names
     Backend->>Dynamics365: GET RelationshipDefinitions
     Dynamics365->>Backend: All relationships
     Backend->>Backend: Filter relationships (only between 38 entities)
-    Backend->>Backend: Apply core_custom filter
     Backend->>Frontend: {nodes: 38, edges: 126}
-    Frontend->>Frontend: Calculate circular layout positions
+    Frontend->>Frontend: Calculate tree layout positions (TB mode)
     Frontend->>Frontend: Render graph with React Flow
-    Frontend->>User: Interactive visualization displayed
+    Frontend->>User: Interactive tree visualization displayed
 ```
 
 ### 2. Entity Click Interaction
@@ -112,8 +117,9 @@ sequenceDiagram
     Frontend->>Frontend: Store selected entity ID
     Frontend->>Frontend: Filter nodes (selected + connected)
     Frontend->>Frontend: Filter edges (only between visible nodes)
-    Frontend->>Frontend: Calculate radial layout (selected at center)
+    Frontend->>Frontend: Maintain tree layout with focused entities
     Frontend->>Frontend: Apply 800ms pan/zoom animation
+    Frontend->>Frontend: Update breadcrumb trail
     Frontend->>User: Focused view with direct connections
 ```
 
@@ -123,16 +129,16 @@ sequenceDiagram
 sequenceDiagram
     User->>Frontend: Hover over entity node
     Frontend->>Frontend: Check hierarchyLevel
+    Frontend->>Frontend: Get viewport position via getBoundingClientRect()
+    Frontend->>Frontend: Calculate zoom level from React Flow
     alt L1/L2/L3 Entity
         Frontend->>Frontend: Display requiredFields[] with displayNames
-    else L0 Entity
-        Frontend->>Frontend: Display description text
+    else L0 Entity (No description)
+        Frontend->>Frontend: Show hierarchy and connections only
     end
-    Frontend->>User: Show interactive tooltip (scrollable)
-    User->>Frontend: Move mouse onto tooltip
-    Frontend->>Frontend: Keep tooltip visible (pointer-events-auto)
-    User->>Frontend: Scroll tooltip content
-    Frontend->>Frontend: Scroll requiredFields list
+    Frontend->>Frontend: Apply zoom scaling to tooltip
+    Frontend->>Frontend: Render via React Portal at document.body
+    Frontend->>User: Show scaled tooltip above all nodes (z-index: 99999)
 ```
 
 ---
@@ -164,7 +170,7 @@ backend/
 ├── services/
 │   ├── dynamics_service.py          # Core business logic
 │   │   ├── should_include_entity()  # Filtering logic (38 from 964)
-│   │   ├── get_hierarchy_level()    # Assigns L0/L1/L2/L3
+│   │   ├── get_hierarchy_level()    # Assigns 0-4 hierarchy levels
 │   │   └── get_all_entities()       # Fetches & processes entities
 │   │
 │   └── entity_filters.py            # Advanced filtering utilities
@@ -213,17 +219,26 @@ def should_include_entity(logical_name: str, is_custom: bool) -> bool:
 
 #### 2. Hierarchy Assignment (`get_hierarchy_level`)
 
-**Location:** `backend/services/dynamics_service.py:75-118`
+**Location:** `backend/services/dynamics_service.py:75-125`
 
-**Purpose:** Assigns visual hierarchy levels for color coding.
+**Purpose:** Assigns visual hierarchy levels for tree layout positioning and color coding.
 
-**Mapping:**
-| Level | Color | Entities | Count |
-|-------|-------|----------|-------|
-| L1 | Rose/Pink | `account` | 1 |
-| L2 | Cyan/Blue | `qrt_portfolio`, `msdyn_project` | 2 |
-| L3 | Emerald/Green | 15 child entities (bonds, permits, etc.) | 15 |
-| L0 | Purple/Slate | All other qrt_ + system entities | 20 |
+**Updated Hierarchy (0-4 System):**
+| Level | Color | Entities | Count | Badge |
+|-------|-------|----------|-------|-------|
+| **0** | Gray/Slate | `contact`, `systemuser` | 2 | System |
+| **1** | Rose/Coral | `account` | 1 | System |
+| **2** | Cyan/Ocean Blue | `qrt_portfolio`, `msdyn_project` | 2 | Custom/System |
+| **3** | Emerald/Green | 15 child entities (bonds, permits, etc.) | 15 | Custom |
+| **4** | Purple/Violet | All other qrt_ entities | 18 | Custom |
+
+**Special Badge Logic:**
+- **System Badge (Blue):** contact, systemuser, account, msdyn_project (Plan)
+- **Custom Badge (Purple):** All qrt_* entities not marked as System
+- **Priority:** System badge takes precedence over Custom if both apply
+
+**Note on msdyn_project:**
+Despite being from Microsoft's Project Service Automation solution, `msdyn_project` returns `IsCustomEntity: True` in the Dynamics API, likely because it was installed as a managed solution. We explicitly mark it with a "System" badge for business clarity.
 
 #### 3. Required Fields Fetching
 
@@ -243,7 +258,7 @@ GET /api/data/v9.2/EntityDefinitions(LogicalName='account')/Attributes
 
 **Why Only L1/L2/L3?**
 - Performance: Reduces API calls from 38 to 18 entities
-- Relevance: L0 entities use cached descriptions instead
+- Relevance: L0/L4 entities don't display required fields in tooltips
 - Load time: 2s vs 4-5s if all entities fetched
 
 ---
@@ -254,9 +269,10 @@ GET /api/data/v9.2/EntityDefinitions(LogicalName='account')/Attributes
 - **Framework:** React 18
 - **Language:** TypeScript 5.2+
 - **Graph Library:** React Flow v12
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS with dark mode support
 - **Build Tool:** Vite
-- **State Management:** React hooks (useState, useEffect, useMemo)
+- **State Management:** React hooks (useState, useEffect, useMemo, useCallback)
+- **Portals:** React createPortal for tooltips
 
 ### Directory Structure
 
@@ -265,27 +281,39 @@ frontend/src/
 ├── components/
 │   ├── EntityGraph.tsx              # Main graph component
 │   │   ├── Graph state management
-│   │   ├── Layout switching (circular ↔ radial)
-│   │   ├── Search functionality
-│   │   ├── Hierarchy filters
-│   │   └── Breadcrumb navigation
+│   │   ├── Tree layout (TB/LR modes)
+│   │   ├── Sliding panels (search + filters)
+│   │   ├── Search functionality with autocomplete
+│   │   ├── Hierarchy filters (0-4)
+│   │   ├── Breadcrumb navigation
+│   │   └── Edge hover highlighting
 │   │
-│   └── EntityNode.tsx               # Custom node component
-│       ├── Hierarchy-based colors
-│       ├── Hover tooltip logic
-│       ├── Required fields display
-│       └── Dark mode support
+│   ├── EntityNode.tsx               # Custom node component
+│   │   ├── Hierarchy-based colors
+│   │   ├── System/Custom/Activity badges
+│   │   ├── Hover tooltip with React Portal
+│   │   ├── Viewport-based positioning
+│   │   ├── Zoom-scaled tooltips
+│   │   ├── Required fields display
+│   │   └── Dark mode support
+│   │
+│   └── SearchBar.tsx                # Autocomplete search component
 │
 ├── utils/
 │   └── layoutHelpers.ts             # Layout algorithms
-│       ├── getFullCircularLayout()  # Concentric circles
-│       └── getRadialLayout()        # Focused radial view
+│       └── getHierarchyLayout()     # Manual tree layout (TB/LR)
+│           ├── Multi-row wrapping (max 6 per row)
+│           ├── Centered alignment
+│           └── Dynamic spacing
 │
 ├── hooks/
 │   └── useGraphData.ts              # API data fetching hook
 │
 ├── api/
 │   └── dynamicsApi.ts               # Axios API client
+│
+├── contexts/
+│   └── ThemeContext.tsx             # Light/Dark mode provider
 │
 └── types/
     └── index.ts                     # TypeScript interfaces
@@ -301,54 +329,112 @@ frontend/src/
 
 **Responsibilities:**
 - Fetch graph data via `useGraphData()` hook
-- Manage layout state (circular vs radial)
-- Handle user interactions (click, search, filter)
-- Apply hierarchy visibility filters
+- Manage layout state (Tree TB vs Tree LR)
+- Handle user interactions (click, search, filter, hover)
+- Apply hierarchy visibility filters (0-4)
 - Track breadcrumb navigation
+- Manage sliding panels (search + filters)
+- Theme-aware edge colors
 
 **State Management:**
 ```typescript
 const [selectedEntity, setSelectedEntity] = useState<string | null>(null);
-const [visibleLevels, setVisibleLevels] = useState(new Set([0, 1, 2, 3]));
-const [searchQuery, setSearchQuery] = useState('');
+const [visibleLevels, setVisibleLevels] = useState(new Set([0, 1, 2, 3, 4]));
+const [hoveredEntityId, setHoveredEntityId] = useState<string | null>(null);
 const [breadcrumbs, setBreadcrumbs] = useState<string[]>([]);
+const [layoutMode, setLayoutMode] = useState<'tree-tb' | 'tree-lr'>('tree-tb');
+const [showSearchPanel, setShowSearchPanel] = useState<boolean>(true);
+const [showInstructionsPanel, setShowInstructionsPanel] = useState<boolean>(true);
 ```
 
 **Layout Modes:**
-| Mode | Trigger | Layout Algorithm | Center |
-|------|---------|------------------|--------|
-| Full | Default / Background click | Circular (concentric) | Account node |
-| Focused | Entity click | Radial | Selected entity |
+| Mode | Icon | Description | Default Spacing |
+|------|------|-------------|-----------------|
+| Tree TB | ↓ | Top to Bottom hierarchical | Level: 200px, Box: 150px, Row: 100px |
+| Tree LR | → | Left to Right hierarchical | Level: 400px, Box: 150px, Col: 100px |
+
+**Sliding Panels:**
+- **Left Panel (Search):** 400px wide, slides left to hide
+- **Right Panel (Filters):** 280px wide, slides right to hide
+- Toggle buttons: « (show) / » (hide)
+- Smooth 300ms transition
 
 #### 2. Entity Node (`EntityNode.tsx`)
 
 **Responsibilities:**
 - Render custom node UI with hierarchy colors
-- Display hover tooltips with required fields or description
+- Display System/Custom/Activity badges
+- Show hover tooltips with React Portal
+- Handle viewport-based tooltip positioning
+- Apply zoom scaling to tooltips
 - Support light/dark mode
-- Handle tooltip interactivity (scrolling)
 
-**Color Scheme:**
+**Fixed Width:**
+- All entity boxes: **220px** (prevents overlapping with long names)
+
+**Color Scheme (Updated):**
 ```typescript
 const colors = {
-  L1: "border-rose-400 bg-gradient-to-br from-rose-50 to-pink-50",
-  L2: "border-cyan-400 bg-gradient-to-br from-cyan-50 to-blue-50",
-  L3: "border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50",
-  L0_custom: "border-purple-400 bg-gradient-to-br from-purple-50 to-violet-50",
-  L0_system: "border-slate-300 bg-gradient-to-br from-white to-slate-50"
+  L0: "border-slate-400 bg-gradient-to-br from-slate-50 to-gray-50",     // System (Gray)
+  L1: "border-rose-400 bg-gradient-to-br from-rose-50 to-pink-50",       // Account (Coral)
+  L2: "border-cyan-400 bg-gradient-to-br from-cyan-50 to-blue-50",       // Portfolio/Project (Ocean)
+  L3: "border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50", // Child Entities (Green)
+  L4: "border-purple-400 bg-gradient-to-br from-purple-50 to-violet-50", // Other qrt_ (Purple)
 };
 ```
 
-**Tooltip Logic:**
+**Badge System:**
 ```typescript
-if (requiredFields && requiredFields.length > 0) {
-  // L1/L2/L3: Display required fields with display names
-  return <RequiredFieldsList fields={requiredFields} />;
-} else if (description) {
-  // L0: Display description text
-  return <Description text={description} />;
+// System Badge (Blue) - Priority
+const systemEntities = ['contact', 'systemuser', 'account', 'msdyn_project'];
+if (isSystemEntity) {
+  return <Badge color="blue">System</Badge>;
+}
+
+// Custom Badge (Purple)
+if (isCustomEntity && !isSystemEntity) {
+  return <Badge color="purple">Custom</Badge>;
+}
+
+// Activity Badge (Green)
+if (isActivity) {
+  return <Badge color="emerald">Activity</Badge>;
 }
 ```
+
+**Tooltip Implementation:**
+```typescript
+// Use React Portal to render at document.body (breaks stacking context)
+const tooltipContent = showTooltip && (
+  <div
+    className="fixed ..."
+    style={{
+      left: `${tooltipPosition.x}px`,
+      top: `${tooltipPosition.y}px`,
+      transform: `translateY(-50%) scale(${getZoom()})`,  // Zoom scaling
+      transformOrigin: 'left center',
+      zIndex: 99999,  // Always on top
+    }}
+  >
+    {/* Tooltip content with requiredFields or hierarchy info */}
+  </div>
+);
+
+return (
+  <>
+    <div ref={nodeRef} onMouseEnter={...} onMouseLeave={...}>
+      {/* Node content */}
+    </div>
+    {tooltipContent && createPortal(tooltipContent, document.body)}
+  </>
+);
+```
+
+**Tooltip Positioning:**
+1. Get node position via `getBoundingClientRect()`
+2. Calculate viewport coordinates (fixed positioning)
+3. Get zoom level from `useReactFlow().getZoom()`
+4. Apply `scale(zoom)` transform to maintain proportional size
 
 ---
 
@@ -492,7 +578,18 @@ for attr in response_data.get('value', []):
 
 **Tooltip Structure:**
 ```tsx
-{requiredFields && requiredFields.length > 0 ? (
+<div className="border-t grid grid-cols-2 gap-3">
+  <div>
+    <div className="text-gray-500 font-semibold">Hierarchy</div>
+    <div className="text-gray-800">Level 1 - Account</div>
+  </div>
+  <div>
+    <div className="text-gray-500 font-semibold">Connections</div>
+    <div className="text-gray-800">{relationshipCount}</div>
+  </div>
+</div>
+
+{requiredFields && requiredFields.length > 0 && (
   <div className="scrollable-list max-h-60">
     <h4>Required Fields ({requiredFields.length})</h4>
     {requiredFields.map(field => (
@@ -502,8 +599,6 @@ for attr in response_data.get('value', []):
       </div>
     ))}
   </div>
-) : (
-  <div className="description">{description}</div>
 )}
 ```
 
@@ -511,77 +606,227 @@ for attr in response_data.get('value', []):
 
 ## Layout Algorithms
 
-### 1. Circular Layout (Full View)
+### Manual Tree Layout (Replaced Dagre)
 
-**Purpose:** Display all entities in concentric circles by hierarchy level.
+**Purpose:** Display entities in strict hierarchical tree structure with manual positioning control.
 
-**Algorithm:** `getFullCircularLayout()` in `layoutHelpers.ts`
+**Algorithm:** `getHierarchyLayout()` in `layoutHelpers.ts`
 
-**Radii Configuration:**
+**Key Design Decisions:**
+- **Replaced Dagre:** Dagre graph layout library didn't respect strict hierarchy constraints, so we implemented manual positioning
+- **Multi-row wrapping:** Max 6 entities per row (TB) or column (LR) to prevent horizontal/vertical overflow
+- **Centered alignment:** Each row/column is centered for visual symmetry
+- **Fixed box width:** 220px to prevent overlapping
+
+**Spacing Configuration:**
 ```typescript
-const radii = {
-  L1: 0,      // Center (account)
-  L2: 800,    // Inner ring (portfolio/project)
-  L3: 1200,   // Middle ring (child entities)
-  L0: 4800,   // Outer ring (other entities) - 2x increased
+const spacing = {
+  nodeWidth: 220,       // Fixed width for all entity boxes
+  nodeHeight: 120,      // Approximate height
+
+  // Top-to-Bottom (TB)
+  levelSpacingTB: 200,  // Vertical space between hierarchy levels
+  boxSpacing: 150,      // Horizontal space between boxes
+  rowSpacing: 100,      // Vertical space between rows in same level
+
+  // Left-to-Right (LR)
+  levelSpacingLR: 400,  // Horizontal space between hierarchy levels
+  // boxSpacing: 150    (same as TB)
+  // rowSpacing: 100    (becomes column spacing in LR)
+
+  maxPerRow: 6,         // Maximum entities per row/column before wrapping
 };
 ```
 
-**Positioning:**
+**Positioning Algorithm (TB Mode):**
 ```typescript
-// For each hierarchy level:
-const entitiesInLevel = nodes.filter(n => n.hierarchyLevel === level);
-const angleStep = (2 * Math.PI) / entitiesInLevel.length;
+[0, 1, 2, 3, 4].forEach((level) => {
+  const levelNodes = nodesByLevel.get(level) || [];
+  const numRows = Math.ceil(levelNodes.length / maxPerRow);
+  const levelStartY = startY + currentLevelOffsetY;
 
-entitiesInLevel.forEach((node, index) => {
-  const angle = index * angleStep;
-  node.position = {
-    x: radius * Math.cos(angle),
-    y: radius * Math.sin(angle)
-  };
+  // Process each row
+  for (let rowIndex = 0; rowIndex < numRows; rowIndex++) {
+    const rowNodes = levelNodes.slice(rowStartIdx, rowEndIdx);
+
+    // Center the row
+    const rowWidth = rowNodes.length * nodeWidth + (rowNodes.length - 1) * boxSpacing;
+    const rowStartX = startX + (3000 - rowWidth) / 2;  // Center in 3000px canvas
+    const y = levelStartY + (rowIndex * (nodeHeight + rowSpacing));
+
+    // Position each node
+    rowNodes.forEach((node, nodeIndex) => {
+      const x = rowStartX + (nodeIndex * (nodeWidth + boxSpacing));
+      layoutedNodes.push({ ...node, position: { x, y } });
+    });
+  }
+
+  // Update cumulative offset for next level
+  const levelHeight = numRows * nodeHeight + (numRows - 1) * rowSpacing;
+  currentLevelOffsetY += levelHeight + levelSpacingTB;
 });
 ```
 
-**Visual Result:**
+**Visual Result (TB Mode):**
 ```
-                    ⚪ Account (L1)
+Level 0: Contact, User (System)
+    [Contact]    [User]
 
-        🔵 Portfolio      🔵 Project
-              (L2)           (L2)
+Level 1: Account (200px below)
+         [Account]
 
-    🟢  🟢  🟢  🟢  🟢  🟢  🟢  🟢
-    Child Entities (L3) - 15 nodes
+Level 2: Portfolio, Project (200px below)
+    [Portfolio]    [Project]
 
-🟣  🟣  🟣  🟣  🟣  🟣  🟣  🟣  🟣  🟣
-Other Entities (L0) - 20 nodes
+Level 3: Child Entities (200px below)
+[Bonds] [Permits] [Studies] [EPCA] [Interconnection] [Procurement]
+[Finance] [Design] [Estimates] [ICR] [Site Control] [Incentives]
+[Agreements] [Title] [Alta]
+
+Level 4: Other qrt_ entities (200px below)
+[Entity1] [Entity2] [Entity3] [Entity4] [Entity5] [Entity6]
+[Entity7] [Entity8] [Entity9] ...
 ```
 
-### 2. Radial Layout (Focused View)
+**LR Mode Differences:**
+- Rotates layout 90 degrees
+- Levels progress left-to-right
+- Entities wrap into columns (max 6 per column)
+- Uses `levelSpacingLR: 400px` for more horizontal space
 
-**Purpose:** Show selected entity at center with connections in rings.
+---
 
-**Algorithm:** `getRadialLayout()` in `layoutHelpers.ts`
+## UI/UX Design System
 
-**Ring Assignment:**
+### Brand Identity
+
+**Application Name:** AOS Blueprint
+**Brand Color:** Aspen Power Green `#92C841`
+**Tagline:** Architectural visualization of entity relationships
+
+### Color System
+
+**Primary Branding:**
+- **Aspen Green:** `#92C841` - Layout mode selection, breadcrumbs, active states
+- **Aspen Green Hover:** `#7ab534` - Darker shade for hover effects
+
+**Hierarchy Colors (Light Mode):**
+- **Level 0 (Gray):** `#94a3b8` - System entities (contact, systemuser)
+- **Level 1 (Coral):** `#fb7185` - Account
+- **Level 2 (Ocean Blue):** `#22d3ee` - Portfolio/Project
+- **Level 3 (Emerald):** `#34d399` - Child entities
+- **Level 4 (Purple):** `#a78bfa` - Other qrt_ entities
+
+**Edge Colors (Theme-Aware):**
+- **Light Mode:** `#e5e7eb` (light gray) - subtle, blends into white background
+- **Dark Mode:** `#374151` (dark gray) - subtle, blends into dark background
+- **Hover:** `#f59e0b` (orange) - 3.5px width, animated
+- **Selected:** `#3b82f6` (blue) - 3px width, animated
+
+**Badge Colors:**
+- **System Badge:** `bg-blue-100 text-blue-700` - Blue theme
+- **Custom Badge:** `bg-purple-100 text-purple-700` - Purple theme
+- **Activity Badge:** `bg-emerald-100 text-emerald-700` - Green theme
+
+### Layout & Spacing
+
+**Entity Boxes:**
+- **Fixed Width:** 220px (prevents overlapping)
+- **Padding:** 16px (px-4 py-3)
+- **Border:** 2px solid
+- **Border Radius:** 8px (rounded-lg)
+- **Shadow:** Medium (shadow-md), grows on hover (shadow-xl)
+- **Hover Scale:** 102% (scale-102)
+
+**Spacing Standards:**
 ```typescript
-const rings = {
-  0: [selectedEntity],              // Center
-  1: directlyConnected,             // Inner ring (1 hop away)
-  2: secondDegreeConnected          // Outer ring (2 hops away)
-};
-
-const ringRadii = [0, 500, 1000];
+// Tree Layout Spacing
+TB_LEVEL_SPACING: 200px    // Vertical gap between hierarchy levels
+LR_LEVEL_SPACING: 400px    // Horizontal gap between hierarchy levels
+BOX_SPACING: 150px         // Gap between entity boxes
+ROW_SPACING: 100px         // Gap between rows/columns in same level
 ```
 
-**Animation:**
-```typescript
-fitView({
-  padding: 0.15,
-  duration: 800,    // 800ms smooth transition
-  maxZoom: 0.8,
-  minZoom: 0.1
-});
+**Panel Sizing:**
+- **Search Panel (Left):** 400px wide
+- **Filter Panel (Right):** 280px wide
+- **Panel Transition:** 300ms ease-in-out
+
+### Typography
+
+**Font Family:** System font stack (Tailwind default)
+```css
+font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+             "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 ```
+
+**Font Sizes:**
+- **H1 (Page Title):** 24px / 1.5rem (text-xl)
+- **H2 (Section Title):** 16px / 1rem (text-base)
+- **Entity Label:** 14px / 0.875rem (text-sm, font-semibold)
+- **Badge Text:** 12px / 0.75rem (text-xs)
+- **Tooltip Body:** 12px / 0.75rem (text-xs)
+- **Small Labels:** 10px / 0.625rem (text-[10px])
+
+### Dark Mode
+
+**Implementation:**
+- Uses Tailwind's `dark:` prefix
+- Context-based theme provider (`ThemeContext`)
+- Persisted in localStorage
+- Toggle button in search panel
+
+**Dark Mode Adjustments:**
+- Background: `bg-gray-900`
+- Text: `text-white`, `text-gray-200`
+- Panels: `dark:bg-gray-800`
+- Borders: `dark:border-gray-700`
+- Edge color: `#374151` (darker gray for subtlety)
+
+### Interactive Elements
+
+**Hover Effects:**
+```css
+/* Entity Node */
+.entity-node:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Edge Highlighting */
+.edge:hover {
+  stroke: #f59e0b;  /* Orange */
+  stroke-width: 3.5px;
+  opacity: 1;
+  animation: dash 1s linear infinite;
+}
+```
+
+**Animations:**
+- **Panel Slide:** 300ms ease-in-out
+- **Zoom/Pan:** 800ms smooth transition
+- **Edge Animation:** 1s linear infinite (when hovered/selected)
+- **Hover Scale:** 200ms transition
+
+### Accessibility
+
+**Keyboard Navigation:**
+- Tab through search input, filters, toggle buttons
+- Enter to select search result
+- Escape to close focused view
+
+**ARIA Labels:**
+```tsx
+<button aria-label="Toggle search panel" title="Hide search panel">
+<input aria-label="Search entities" placeholder="Search entities..." />
+<div role="tooltip" aria-describedby="entity-info">
+```
+
+**Color Contrast:**
+- All text meets WCAG AA standards (4.5:1 ratio)
+- Badge text: 7:1+ contrast ratio
+- Dark mode: Enhanced contrast for readability
 
 ---
 
@@ -623,24 +868,47 @@ const filteredNodes = useMemo(() =>
   nodes.filter(n => visibleLevels.has(n.hierarchyLevel)),
   [nodes, visibleLevels]
 );
+
+const adjacencyMap = useMemo(() => {
+  const map = new Map<string, Set<string>>();
+  data.edges.forEach((edge) => {
+    map.get(edge.sourceEntity)?.add(edge.targetEntity);
+    map.get(edge.targetEntity)?.add(edge.sourceEntity);
+  });
+  return map;
+}, [data]);
 ```
 
 **2. Layout Caching**
 - Calculate layouts once, store in state
-- Only recalculate on entity selection change
+- Only recalculate on layout mode change or data update
 - **Impact:** <10ms re-render vs 100ms recalculation
 
 **3. Virtual Rendering**
-- React Flow only renders visible nodes
+- React Flow only renders visible nodes in viewport
 - Off-screen nodes not in DOM
 - **Impact:** Smooth 60fps even with 38 nodes
 
-**4. Debounced Search**
+**4. React Portal for Tooltips**
+- Renders tooltip at `document.body` (breaks stacking context)
+- Prevents z-index issues with other nodes
+- **Impact:** Guaranteed tooltip visibility
+
+**5. useCallback for Event Handlers**
 ```typescript
-const debouncedSearch = useMemo(
-  () => debounce((query) => setSearchQuery(query), 300),
-  []
-);
+const onNodeClick = useCallback((_event, node) => {
+  setSelectedEntityId(node.id);
+  // ... focus logic
+}, [fullNodes, fullEdges, fitView, adjacencyMap]);
+```
+
+**6. Theme-Aware Edge Rendering**
+```typescript
+// Only recalculate edge colors when theme changes
+useEffect(() => {
+  const defaultEdgeColor = theme === 'dark' ? '#374151' : '#e5e7eb';
+  setEdges(edges.map(e => ({ ...e, style: { stroke: defaultEdgeColor } })));
+}, [theme, setEdges]);
 ```
 
 ---
@@ -711,6 +979,8 @@ db.insert('api_logs', session_log)
 - Active users (concurrent sessions)
 - Memory usage
 - CPU usage
+- Layout calculation time
+- Tooltip render performance
 
 ### Deployment Architecture
 
@@ -748,19 +1018,79 @@ db.insert('api_logs', session_log)
 - Front Door: $5-20
 - **Total:** ~$100-120/month
 
+### Ngrok Testing Setup
+
+For external testing via ngrok:
+
+**Backend:**
+```bash
+# Terminal 1: Start backend
+cd backend && python -m uvicorn app:app --host 0.0.0.0 --port 8000
+
+# Terminal 2: Expose backend
+ngrok http 8000
+# Save URL: https://xxxx.ngrok-free.app
+```
+
+**Frontend:**
+```bash
+# Terminal 3: Build and serve frontend
+cd frontend && npm run build && npm run preview -- --host 0.0.0.0 --port 5173
+
+# Terminal 4: Expose frontend
+ngrok http 5173
+# Save URL: https://yyyy.ngrok-free.app
+```
+
+**Configuration (when you have ngrok URLs):**
+1. Update `frontend/src/api/dynamicsApi.ts`:
+   ```typescript
+   const API_BASE_URL = 'https://your-backend.ngrok-free.app/api';
+   ```
+
+2. Update `backend/app.py` CORS:
+   ```python
+   allow_origins=[
+       "http://localhost:5173",
+       "https://your-frontend.ngrok-free.app",  # Add this
+   ]
+   ```
+
+3. Rebuild frontend: `npm run build`
+4. Restart both servers
+5. Share frontend ngrok URL with testers
+
 ---
 
 ## Conclusion
 
-This architecture provides a scalable, maintainable, and performant solution for visualizing Dynamics 365 entity relationships. The intelligent filtering strategy reduces complexity from 964 to 38 entities while maintaining all relevant business data. The system is production-ready with clear paths for scaling to support thousands of concurrent users.
+The AOS Blueprint provides a scalable, maintainable, and visually appealing solution for visualizing Dynamics 365 entity relationships. The intelligent filtering strategy reduces complexity from 964 to 38 entities while maintaining all relevant business data. The modern UI with Aspen Power branding, tree layouts, and sliding panels creates an intuitive user experience for understanding complex entity hierarchies.
 
 **Key Strengths:**
 - ✅ Intelligent filtering (96% reduction)
 - ✅ Real-time Dynamics data
 - ✅ Fast interactions (<100ms)
 - ✅ Secure authentication (MSAL)
-- ✅ Professional UI/UX
+- ✅ Professional UI/UX with brand identity
+- ✅ Strict hierarchical tree layout (TB/LR)
+- ✅ Multi-row wrapping for scalability
+- ✅ Theme-aware design (light/dark)
+- ✅ Sliding panels for space efficiency
+- ✅ Zoom-scaled tooltips
+- ✅ System/Custom badge clarity
 - ✅ Maintainable codebase
+
+**Recent Major Updates (2025):**
+1. **Tree Layout System:** Replaced circular/radial with strict hierarchical tree (TB/LR)
+2. **Manual Positioning:** Replaced Dagre with custom algorithm for precise control
+3. **Multi-row Wrapping:** Max 6 entities per row/column with centered alignment
+4. **Sliding Panels:** Hideable search and filter panels with smooth animations
+5. **Aspen Power Branding:** Green theme (#92C841) for all active states
+6. **System Badges:** Blue badges for contact, systemuser, account, msdyn_project
+7. **Fixed Box Width:** 220px prevents overlapping with long entity names
+8. **Theme-Aware Edges:** Darker edges in dark mode for better visibility
+9. **Removed Descriptions:** Cleaner entity boxes (removed from canvas, kept in tooltips)
+10. **Updated Hierarchy:** 0-4 levels (was -1,0,1,2,3) for clearer structure
 
 **Future Enhancements:**
 - Redis caching for sub-100ms response times
@@ -768,9 +1098,13 @@ This architecture provides a scalable, maintainable, and performant solution for
 - Export to PDF/PNG
 - Advanced search filters (by field values)
 - Relationship strength visualization (edge thickness)
+- Entity card expansion in-place
+- Historical relationship tracking
+- Custom color themes
 
 ---
 
-**Document Version:** 1.0.0
-**Last Updated:** November 2025
+**Document Version:** 2.0.0
+**Last Updated:** December 2025
 **Author:** AOS Development Team
+**Application:** AOS Blueprint (Dynamics 365 Entity Relationship Visualizer)
