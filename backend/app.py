@@ -24,14 +24,18 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS for local development
+# Configure CORS for local development and ngrok production
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        # Local development
         "http://localhost:5173",
         "http://localhost:5174",
         "http://localhost:5175",
         "http://localhost:3000",
+        # Ngrok production (reserved domains)
+        "https://aos-entity-map-frontend.ngrok.app",
+        "https://aos-entity-map-backend.ngrok.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

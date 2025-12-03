@@ -1,0 +1,16 @@
+version: "3"
+agent:
+  authtoken: 2jHyJ8XGyI0QWl4qDI2IFk5r0T3_26Cr3tKFSYfoetZLEC5KU
+
+tunnels:
+  aos-backend:
+    proto: http
+    addr: 8000
+    schemes:
+      - https
+
+  aos-frontend:
+    proto: http
+    addr: 5173
+    schemes:
+      - https

@@ -7,5 +7,9 @@ export default defineConfig({
   server: {
     port: 5174,
     strictPort: true, // Fail if port is already in use instead of trying another port
+    allowedHosts: [
+      'aos-entity-map-frontend.ngrok.app',  // Allow ngrok frontend domain
+      'aos-entity-map-backend.ngrok.app',   // Allow ngrok backend domain
+    ],
   },
 })
