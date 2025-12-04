@@ -8,6 +8,7 @@ import os
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 dotenv_path = Path('.env').resolve()
 load_dotenv(dotenv_path=dotenv_path)
 DYNAMICS_AUTHORITY = os.environ.get('DYNAMICS_AUTHORITY')
@@ -20,21 +21,24 @@ DYNAMICS_SCOPES = os.environ.get('DYNAMICS_SCOPES')
 class DynamicsAPI:
     """
     This class is the DynamicsAPI, which contains methods relevant to Dynamics.
+    Includes automatic token refresh for production use.
     """
 
     def __init__(self, logger=None) -> None:
         # Use provided logger or create a default one
         self.logger = logger or logging.getLogger(__name__)
         self.msal_app = self._build_msal_app()
-        self.session = self.create_http_session()
+        self.session = requests.Session()
+        self.token_cache = None
+        self.token_expiry = None
+        self._refresh_token()  # Initial token acquisition
         self.headers = {
             "OData-MaxVersion": "4.0",
             "OData-Version": "4.0",
             "Accept": "application/json",
             "Content-Type": "application/json; charset=utf-8",
         }
-        # print("DynamicsAPI Class initialized")
-        self.logger.info("DynamicsAPI Class initialized")
+        self.logger.info("DynamicsAPI Class initialized with automatic token refresh")
 
     def _build_msal_app(self) -> msal.ConfidentialClientApplication:
         """
@@ -51,27 +55,55 @@ class DynamicsAPI:
 
     def _get_access_token(self) -> str:
         """
-        Returns the access token acquired from MSAL
+        Returns the access token acquired from MSAL with caching
 
         :return: Access token string
         """
-
         scopes = [DYNAMICS_SCOPES]
-        token = self.msal_app.acquire_token_for_client(scopes)
-        return token['access_token']
+        token_response = self.msal_app.acquire_token_for_client(scopes)
+
+        if 'access_token' not in token_response:
+            self.logger.error(f"Failed to acquire token: {token_response}")
+            raise Exception(f"Failed to acquire access token: {token_response.get('error_description', 'Unknown error')}")
+
+        return token_response['access_token']
+
+    def _refresh_token(self) -> None:
+        """
+        Refreshes the access token and updates the session headers.
+        Automatically called when token is expired or about to expire.
+        """
+        try:
+            access_token = self._get_access_token()
+            self.token_cache = access_token
+            # Tokens typically expire in 1 hour, refresh 5 minutes before expiry
+            self.token_expiry = datetime.now() + timedelta(minutes=55)
+            self.session.headers.update({'Authorization': f'Bearer {access_token}'})
+            self.logger.info(f"Token refreshed successfully. Expires at: {self.token_expiry}")
+        except Exception as e:
+            self.logger.error(f"Error refreshing token: {e}")
+            raise e
+
+    def _ensure_valid_token(self) -> None:
+        """
+        Checks if the current token is valid and refreshes if necessary.
+        Called before each API request to ensure authentication.
+        """
+        if self.token_expiry is None or datetime.now() >= self.token_expiry:
+            self.logger.info("Token expired or missing, refreshing...")
+            self._refresh_token()
 
     def create_http_session(self) -> requests.Session:
         """
-        Creates a new HTTP session with the Authorization header set 
-        with the access token
+        Creates a new HTTP session with the Authorization header set
+        with the access token.
+
+        NOTE: This method is deprecated. Token refresh is now handled automatically.
 
         :return: A session instance
         """
-
-        access_token = self._get_access_token()
-        session = requests.Session()
-        session.headers.update({'Authorization': f'Bearer {access_token}'})
-        return session
+        self._ensure_valid_token()
+        return self.session
 
     def retrieve_records(self, table_name: str, guid: str = None, display_columns: List[str] = None) -> pd.DataFrame:
         """
@@ -83,6 +115,7 @@ class DynamicsAPI:
 
         :return: Dataframe of the requested information.
         """
+        self._ensure_valid_token()  # Ensure token is valid before API call
         full_url = f'{DYNAMICS_RESOURCE_URL}/api/data/v9.2/{table_name}'
         if guid:
             full_url = f'{DYNAMICS_RESOURCE_URL}/api/data/v9.2/{table_name}({guid})'
@@ -132,6 +165,7 @@ class DynamicsAPI:
         :return: Dictionary containing the query results with 'value' key and optional '@odata.count'
         """
         try:
+            self._ensure_valid_token()  # Ensure token is valid before API call
             # Build the full URL
             full_url = f'{DYNAMICS_RESOURCE_URL}/api/data/v9.2/{entity_name}'
 
@@ -352,6 +386,7 @@ class DynamicsAPI:
         :return: Dictionary containing all entity definitions
         """
         try:
+            self._ensure_valid_token()  # Ensure token is valid before API call
             url = f'{DYNAMICS_RESOURCE_URL}/api/data/v9.2/EntityDefinitions?$select=LogicalName,SchemaName,DisplayName,PrimaryIdAttribute,PrimaryNameAttribute,EntitySetName,IsCustomEntity,IsActivity,Description'
             self.logger.info(f"Fetching entity definitions from: {url}")
 
@@ -376,6 +411,7 @@ class DynamicsAPI:
         :return: Dictionary containing all relationship types
         """
         try:
+            self._ensure_valid_token()  # Ensure token is valid before API call
             url = f"{DYNAMICS_RESOURCE_URL}/api/data/v9.2/EntityDefinitions(LogicalName='{entity_logical_name}')?$expand=OneToManyRelationships,ManyToOneRelationships,ManyToManyRelationships"
             self.logger.info(f"Fetching relationships for entity: {entity_logical_name}")
 
@@ -400,6 +436,7 @@ class DynamicsAPI:
         :return: Dictionary containing relationship information
         """
         try:
+            self._ensure_valid_token()  # Ensure token is valid before API call
             # Fetch RelationshipDefinitions which includes all relationships
             url = f'{DYNAMICS_RESOURCE_URL}/api/data/v9.2/RelationshipDefinitions'
             self.logger.info(f"Fetching all relationship definitions")
@@ -426,6 +463,7 @@ class DynamicsAPI:
         :return: List of dicts with 'displayName' and 'logicalName' for required attributes
         """
         try:
+            self._ensure_valid_token()  # Ensure token is valid before API call
             url = f"{DYNAMICS_RESOURCE_URL}/api/data/v9.2/EntityDefinitions(LogicalName='{entity_logical_name}')/Attributes?$select=LogicalName,RequiredLevel,DisplayName"
 
             response = self.session.get(url, headers=self.headers)
