@@ -6,6 +6,7 @@ Interactive visualization tool for Dynamics 365 entity relationships. Filters 96
 
 ## Quick Start (If Already Set Up)
 
+### Linux / Mac
 ```bash
 # Terminal 1 - Backend
 source venv/bin/activate
@@ -17,6 +18,11 @@ source venv/bin/activate
 # Open: http://localhost:5174
 ```
 
+### Windows
+1. **Double-click** `start-backend.bat`
+2. **Double-click** `start-frontend.bat` (in a new window)
+3. **Open:** http://localhost:5174
+
 ---
 
 ## First Time Installation
@@ -26,12 +32,22 @@ source venv/bin/activate
 Install these before starting:
 
 - **Python 3.8+** - https://www.python.org/downloads/
+  - Windows: Check "Add Python to PATH" during installation
 - **Node.js 18+** - https://nodejs.org/
 - **Git** - https://git-scm.com/
 
 Verify installation:
+
+**Linux/Mac:**
 ```bash
 python3 --version  # Should be 3.8 or higher
+node --version     # Should be 18 or higher
+npm --version      # Comes with Node.js
+```
+
+**Windows:**
+```cmd
+python --version   # Should be 3.8 or higher
 node --version     # Should be 18 or higher
 npm --version      # Comes with Node.js
 ```
@@ -73,35 +89,37 @@ DYNAMICS_SCOPES=https://aos.crm.dynamics.com/.default
 
 Replace `YOUR_TENANT_ID`, `YOUR_CLIENT_ID`, `YOUR_CLIENT_SECRET` with values from Step 2.
 
-### Step 4: Install Backend
+### Step 4: Automated Setup (Recommended)
 
+**Windows:**
+1. **Double-click** `setup-windows.bat`
+2. Follow the on-screen instructions
+3. Script will install everything automatically
+
+**Linux/Mac:**
 ```bash
-# Create Python virtual environment
+# Create virtual environment
 python3 -m venv venv
+source venv/bin/activate
 
-# Activate it
-source venv/bin/activate  # Mac/Linux
-# OR
-venv\Scripts\activate     # Windows
-
-# Install Python packages
+# Install backend
 pip install -r backend/requirements.txt
-```
 
-**Installs:** fastapi, uvicorn, msal, requests, python-dotenv, pandas, pydantic
-
-### Step 5: Install Frontend
-
-```bash
+# Install frontend
 cd frontend
 npm install
 cd ..
 ```
 
-**Installs:** react, typescript, vite, @xyflow/react, tailwindcss, axios
+### Step 5: Test Connection
 
-### Step 6: Test Connection
+**Windows:**
+```cmd
+venv\Scripts\activate
+python test_connection.py
+```
 
+**Linux/Mac:**
 ```bash
 source venv/bin/activate
 python test_connection.py
@@ -109,22 +127,9 @@ python test_connection.py
 
 Expected: `✅ Successfully authenticated with Dynamics 365`
 
-### Step 7: Run Application
+### Step 6: Run Application
 
-**Terminal 1 - Backend:**
-```bash
-source venv/bin/activate
-./start-backend.sh
-# Backend runs on http://localhost:8000
-```
-
-**Terminal 2 - Frontend:**
-```bash
-./start-frontend.sh
-# Frontend runs on http://localhost:5174
-```
-
-**Open:** http://localhost:5174
+See **Quick Start** section above for your platform.
 
 ---
 
@@ -132,6 +137,11 @@ source venv/bin/activate
 
 For sharing over internet:
 
+**Windows:**
+1. Start backend and frontend first (see Quick Start)
+2. **Double-click** `start-aos-production.bat`
+
+**Linux/Mac:**
 ```bash
 # Make sure backend and frontend are running first
 ./start-aos-production.sh
@@ -169,9 +179,13 @@ aos-entity-structure/
 ├── docs/                # Documentation
 ├── venv/                # Python virtual environment
 ├── .env                 # Credentials (create this)
-├── start-backend.sh     # Start backend
-├── start-frontend.sh    # Start frontend
-└── start-aos-production.sh  # Production deploy
+├── start-backend.sh     # Start backend (Linux/Mac)
+├── start-backend.bat    # Start backend (Windows)
+├── start-frontend.sh    # Start frontend (Linux/Mac)
+├── start-frontend.bat   # Start frontend (Windows)
+├── start-aos-production.sh   # Production deploy (Linux/Mac)
+├── start-aos-production.bat  # Production deploy (Windows)
+└── setup-windows.bat    # Automated setup (Windows)
 ```
 
 ---

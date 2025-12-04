@@ -1,38 +1,42 @@
 #!/bin/bash
-# Start Backend Server
+# AOS Blueprint - Start Backend (Linux/Mac)
 
-echo "🚀 Starting Dynamics 365 Entity Visualizer - Backend"
-echo "=================================================="
+echo "========================================"
+echo "   AOS Blueprint - Backend Server"
+echo "========================================"
 echo ""
-
-# Activate virtual environment
-source venv/bin/activate
 
 # Check if .env file exists
 if [ ! -f .env ]; then
-    echo "❌ Error: .env file not found!"
+    echo "ERROR: .env file not found!"
     echo "Please create .env file with your Dynamics 365 credentials"
     exit 1
 fi
 
-# Test connection first
-echo "🔍 Testing Dynamics 365 connection..."
+# Activate virtual environment
+if [ -f venv/bin/activate ]; then
+    source venv/bin/activate
+else
+    echo "ERROR: Virtual environment not found!"
+    echo "Please run setup first or create venv manually"
+    exit 1
+fi
+
+echo "Testing Dynamics 365 connection..."
 python test_connection.py
 
 if [ $? -ne 0 ]; then
     echo ""
-    echo "❌ Connection test failed!"
-    echo "Please check your credentials in .env file"
-    exit 1
+    echo "WARNING: Connection test failed!"
+    echo "Check your credentials in .env file"
+    echo ""
 fi
 
 echo ""
-echo "✅ Connection successful!"
+echo "Starting FastAPI server on http://localhost:8000"
+echo "API docs available at http://localhost:8000/docs"
 echo ""
-echo "🌐 Starting FastAPI server..."
-echo "   API: http://localhost:8000"
-echo "   Docs: http://localhost:8000/docs"
+echo "Press Ctrl+C to stop the server"
 echo ""
 
-# Start the backend
 python backend/app.py

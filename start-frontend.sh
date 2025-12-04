@@ -1,21 +1,27 @@
 #!/bin/bash
-# Start Frontend Server
+# AOS Blueprint - Start Frontend (Linux/Mac)
 
-echo "🚀 Starting Dynamics 365 Entity Visualizer - Frontend"
-echo "======================================================"
+echo "========================================"
+echo "   AOS Blueprint - Frontend Server"
+echo "========================================"
 echo ""
 
 cd frontend
 
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then
-    echo "📦 Installing dependencies..."
+    echo "Installing dependencies..."
     npm install
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Failed to install dependencies"
+        exit 1
+    fi
 fi
 
-echo "🌐 Starting Vite dev server..."
-echo "   App: http://localhost:5174"
+echo ""
+echo "Starting Vite dev server on http://localhost:5174"
+echo ""
+echo "Press Ctrl+C to stop the server"
 echo ""
 
-# Start the frontend
 npm run dev
